@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GridGenerator
   tilePrefab: {fileID: 2722343632361428101, guid: 9266ed06fe10367419ce2a5c552012d2, type: 3}
   tilescriptObj: {fileID: 11400000, guid: de8c6bc7fe498ff4495bebb7b620092b, type: 2}
-  CenterPoint: {x: 3, y: 0}
+  CenterPoint: {x: 0, y: 0}
 --- !u!4 &1059393030
 Transform:
   m_ObjectHideFlags: 0
