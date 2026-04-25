@@ -25,7 +25,10 @@ public class plugColor : MonoBehaviour
     {
         ApplyColor();
     }
-
+    public PlugColor GetPlugColor()
+    {
+        return plugcolor;
+    }
     void ApplyColor()
     {
         if (colorPalette == null)
