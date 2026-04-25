@@ -229,16 +229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d02cd694c91ccc042937d34807406c77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::plugColor
-  plugcolor: 0
-  colorPalette:
-  - colorType: 0
-    color: {r: 0.9245283, g: 0.11774653, b: 0.4557805, a: 1}
-  - colorType: 1
-    color: {r: 0.23949803, g: 0.25901455, b: 0.735849, a: 1}
-  - colorType: 2
-    color: {r: 0.44313726, g: 0.90588236, b: 0.37254903, a: 1}
-  - colorType: 3
-    color: {r: 0.9434718, g: 0.9528302, b: 0.30113026, a: 1}
+  plugcolor: 2
+  colorPalette: {fileID: 11400000, guid: f2f011cc3bb83dc46a253014a7ccffa1, type: 2}
 --- !u!1 &5880336947176416287
 GameObject:
   m_ObjectHideFlags: 0

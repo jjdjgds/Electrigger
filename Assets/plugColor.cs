@@ -19,48 +19,31 @@ public class ColorEntry
 public class plugColor : MonoBehaviour
 {
     [SerializeField] private PlugColor plugcolor;
+    [SerializeField] private ColorPaletteSO colorPalette;  // SOを参照
 
-    [SerializeField] private List<ColorEntry> colorPalette = new List<ColorEntry>();
-
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         ApplyColor();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
     void ApplyColor()
     {
-        Color targetColor = GetColor(plugcolor);
-        Debug.Log($"適用する色: {targetColor}, plugcolor: {plugcolor}");  // 追加
-
+        if (colorPalette == null)
+        {
+            Debug.LogWarning("ColorPaletteが設定されていません");
+            return;
+        }
+        Color targetColor = colorPalette.GetColor(plugcolor);
         SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
-        Debug.Log($"見つかったSpriteRenderer数: {renderers.Length}");  // 追加
-
         foreach (SpriteRenderer sr in renderers)
         {
             sr.color = targetColor;
-            Debug.Log($"{sr.gameObject.name} に色を適用");  // 追加
         }
     }
-    Color GetColor(PlugColor type)
+
+    public void SetColor(PlugColor newColor)
     {
-        foreach (ColorEntry entry in colorPalette)
-        {
-            if (entry.colorType == type)
-                return entry.color;
-        }
-
-        Debug.LogWarning($"{type} がカラーパレットに登録されていません");
-        return Color.white;
+        plugcolor = newColor;
+        ApplyColor();
     }
-
 }
