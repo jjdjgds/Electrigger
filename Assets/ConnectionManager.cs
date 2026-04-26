@@ -14,17 +14,14 @@ public class ConnectionManager : MonoBehaviour
 
     public void Connect(PowerNode plugNode, PowerNode socketOwner)
     {
-        // 既に同じ接続が記録されていればスキップ
         if (connections.TryGetValue(plugNode, out PowerNode existing))
         {
-            if (existing == socketOwner) return; // 同じ接続なのでスキップ
-                                                 // 別のsocketに繋ぎ替えの場合は更新
+            if (existing == socketOwner) return;
             connections[plugNode] = socketOwner;
             Debug.Log($"[Connect] 繋ぎ替え: {plugNode.owner?.gameObject.name ?? "Battery"} → {socketOwner.gameObject.name}");
             Recalculate();
             return;
         }
-
         connections[plugNode] = socketOwner;
         Debug.Log($"[Connect] {plugNode.owner?.gameObject.name ?? "Battery"} → {socketOwner.gameObject.name}");
         Recalculate();
@@ -41,49 +38,64 @@ public class ConnectionManager : MonoBehaviour
     void Recalculate()
     {
         PowerNode[] allNodes = FindObjectsByType<PowerNode>(FindObjectsSortMode.None);
+        battery[] allBatteries = FindObjectsByType<battery>(FindObjectsSortMode.None);
+
+        // 全ノードをリセット
         foreach (PowerNode node in allNodes)
+        {
             node.SetPowered(false);
+            node.SetPoweredBy(null); // どのbatteryから電力をもらっているか
+        }
 
-        // batteryに直接繋がっているmonitorを有効化
+        // 各batteryから直接繋がっているmonitorを有効化
         foreach (var pair in connections)
+        {
             if (pair.Key.isBattery)
+            {
+                battery bat = pair.Key.GetComponentInParent<battery>();
                 pair.Value.SetPowered(true);
+                pair.Value.SetPoweredBy(bat);
+            }
+        }
 
-        // 変化がなくなるまで繰り返す
+        // 変化がなくなるまで伝播
         bool changed = true;
         while (changed)
         {
             changed = false;
             foreach (var pair in connections)
             {
-                PowerNode plugOwner = pair.Key.owner;   // plugが属するmonitor
-                PowerNode socketOwner = pair.Value;      // socketが属するmonitor
+                PowerNode plugOwner = pair.Key.owner;
+                PowerNode socketOwner = pair.Value;
 
-                // plugOwnerまたはsocketOwnerどちらかが電力ありなら両方有効化
                 bool plugPowered = plugOwner != null && plugOwner.IsPowered();
                 bool socketPowered = socketOwner.IsPowered();
 
                 if (plugPowered && !socketPowered)
                 {
                     socketOwner.SetPowered(true);
+                    socketOwner.SetPoweredBy(plugOwner.GetPoweredBy());
                     changed = true;
                 }
                 else if (socketPowered && plugOwner != null && !plugOwner.IsPowered())
                 {
                     plugOwner.SetPowered(true);
+                    plugOwner.SetPoweredBy(socketOwner.GetPoweredBy());
                     changed = true;
                 }
             }
         }
 
-        // battery残量更新
-        int poweredCount = 0;
-        foreach (PowerNode node in allNodes)
-            if (node.IsPowered() && !node.isBattery) poweredCount++;
+        // battery別に消費数をカウントして残量を更新
+        foreach (battery bat in allBatteries)
+        {
+            int count = 0;
+            foreach (PowerNode node in allNodes)
+                if (node.IsPowered() && !node.isBattery && node.GetPoweredBy() == bat)
+                    count++;
 
-        foreach (battery bat in FindObjectsByType<battery>(FindObjectsSortMode.None ))
-            bat.SetCharge(bat.maxCharge - poweredCount);
-
-        Debug.Log($"[Recalculate] poweredCount={poweredCount}");
+            bat.SetCharge(bat.maxCharge - count);
+            Debug.Log($"[Recalculate] {bat.gameObject.name}: {bat.currentCharge}/{bat.maxCharge} (接続数={count})");
+        }
     }
 }
