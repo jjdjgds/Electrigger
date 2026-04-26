@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 72940322}
   - component: {fileID: 72940321}
   - component: {fileID: 72940324}
+  - component: {fileID: 72940325}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -256,6 +257,21 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &72940325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72940320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea457c39f6a48ff4889158e4b56f3d20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GridGenerator
+  tilePrefab: {fileID: 2722343632361428101, guid: 9266ed06fe10367419ce2a5c552012d2, type: 3}
+  tilescriptObj: {fileID: 11400000, guid: de8c6bc7fe498ff4495bebb7b620092b, type: 2}
+  CenterPoint: {x: 0, y: 0}
 --- !u!1 &176315593
 GameObject:
   m_ObjectHideFlags: 0
