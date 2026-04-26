@@ -13,22 +13,34 @@ public class Player2DController : MonoBehaviour
     public float jumpHoldAcceleration = 35f;  // 長押し時の上昇加速度
     public float maxJumpHoldSpeed = 10f;      // 上昇速度の上限
     public float maxJumpHoldTime = 0.22f;     // 長押し可能時間
-    public float jumpCutMultiplier = 0.45f;   // 短押し時の速度カット倍率
+    public float jumpCutMultiplier = 0.45f;   // 短押し時に上昇速度を弱める倍率
 
     [Header("Gravity")]
-    public float normalGravityScale = 3f;     // 通常時の重力
-    public float jumpHoldGravityScale = 0f;   // ジャンプ長押し中の重力（ほぼ無重力）
-    public float apexGravityScale = 1.2f;     // 頂点付近の重力
-    public float fallGravityScale = 7f;       // 落下時の重力
-    public float apexVelocityThreshold = 1.2f; // 頂点判定速度
+    public float normalGravityScale = 3f;      // 通常時の重力
+    public float jumpHoldGravityScale = 0f;    // 長押しジャンプ中の重力
+    public float apexGravityScale = 1.2f;      // 頂点付近の重力
+    public float fallGravityScale = 7f;        // 落下時の重力
+    public float apexVelocityThreshold = 1.2f; // 頂点付近とみなすY速度
+
+    [Header("Wall Check")]
+    public Vector2 wallCheckOffset = new Vector2(0f, -0.2f);   // 壁判定位置の補正
+    public Vector2 wallCheckBoxSize = new Vector2(0.06f, 0.4f); // 壁判定ボックスのサイズ
 
     [Header("Ground Check")]
-    public Vector2 groundCheckSize = new Vector2(0.6f, 0.1f); // 地面判定サイズ
-    public LayerMask groundLayer; // 地面レイヤー
+    public Vector2 groundCheckSize = new Vector2(0.6f, 0.1f); // 地面判定ボックスのサイズ
+    public float groundCheckDistance = 0.05f;                 // 下方向への判定距離
+    public LayerMask groundLayer;                             // 通常地面レイヤー
+    public LayerMask oneWayPlatformLayer;                     // 一方通行足場レイヤー
+
+    [Header("Ledge Snap")]
+    public float ledgeCheckDistance = 0.15f; // 横方向に足場を探す距離
+    public float ledgeSnapOffset = 0.03f;    // 補正後に少し上へ浮かせる量
+    public float ledgeBodyRatio = 0.25f;     // 下から1/4地点が足場より上なら補正対象
+    public float ledgeTolerance = 0.1f;      // 判定の許容範囲
 
     [Header("Jump Assist")]
-    public float coyoteTime = 0.12f;      // コヨーテタイム（離地後ジャンプ可能時間）
-    public float jumpBufferTime = 0.12f;  // ジャンプバッファ（先行入力）
+    public float coyoteTime = 0.12f;     // 離地後もジャンプ可能な時間
+    public float jumpBufferTime = 0.12f; // ジャンプ先行入力時間
 
     private Rigidbody2D rb;
     private Collider2D playerCollider;
@@ -45,39 +57,43 @@ public class Player2DController : MonoBehaviour
     private bool isJumping;
     private bool isJumpHolding;
 
+    private bool touchingWallLeft;
+    private bool touchingWallRight;
+
     private float jumpHoldTimer;
     private float coyoteCounter;
     private float jumpBufferCounter;
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();     // Rigidbody取得
-        playerCollider = GetComponent<Collider2D>(); // Collider取得
+        rb = GetComponent<Rigidbody2D>();
+        playerCollider = GetComponent<Collider2D>();
     }
 
     void Update()
     {
-        ReadInput();          // 入力取得
-        UpdateJumpBuffer();   // ジャンプバッファ更新
+        ReadInput();
+        UpdateJumpBuffer();
     }
 
     void FixedUpdate()
     {
+        CheckWall();        // 壁判定
         CheckGround();        // 地面判定
         UpdateCoyoteTime();   // コヨーテタイム更新
 
         Move();               // 移動処理
+        HandleLedgeSnap();   // レッジスナップ
 
         TryStartJump();       // ジャンプ開始判定
         HandleJumpHold();     // 長押しジャンプ
         HandleJumpCut();      // 短押しジャンプ
         ApplyJumpGravity();   // 重力適用
 
-        wasGrounded = isGrounded;
         jumpReleased = false;
     }
 
-    // 入力処理
+    // 入力取得
     void ReadInput()
     {
         var keyboard = Keyboard.current;
@@ -119,8 +135,26 @@ public class Player2DController : MonoBehaviour
 
         moveRate = Mathf.Clamp01(moveRate);
 
-        float xSpeed = lastMoveDirection * maxMoveSpeed * moveRate;
-        rb.linearVelocity = new Vector2(xSpeed, rb.linearVelocity.y);
+        float targetSpeed = lastMoveDirection * maxMoveSpeed * moveRate;
+
+        // 壁に接触している方向への移動を制限
+        if ((targetSpeed < 0 && touchingWallLeft) ||
+            (targetSpeed > 0 && touchingWallRight))
+        {
+            targetSpeed = 0f;
+        }
+
+        // 空中での移動は減速させる
+        if (!isGrounded)
+        {
+            targetSpeed = Mathf.Lerp(
+                rb.linearVelocity.x,
+                targetSpeed,
+                0.3f
+            );
+        }
+
+        rb.linearVelocity = new Vector2(targetSpeed, rb.linearVelocity.y);
     }
 
     // ジャンプ開始判定
@@ -208,7 +242,7 @@ public class Player2DController : MonoBehaviour
         }
     }
 
-    // 地面判定（Colliderベース）
+    // 地面判定
     void CheckGround()
     {
         if (playerCollider == null)
@@ -222,16 +256,49 @@ public class Player2DController : MonoBehaviour
         Vector2 boxCenter = new Vector2(bounds.center.x, bounds.min.y);
         Vector2 boxSize = new Vector2(bounds.size.x * 0.85f, 0.08f);
 
+        LayerMask checkLayer = groundLayer | oneWayPlatformLayer;
+
         RaycastHit2D hit = Physics2D.BoxCast(
             boxCenter,
             boxSize,
             0f,
             Vector2.down,
             0.05f,
-            groundLayer
+            checkLayer
         );
 
         isGrounded = hit.collider != null;
+    }
+
+    // 壁判定
+    void CheckWall()
+    {
+        touchingWallLeft = false;
+        touchingWallRight = false;
+
+        if (playerCollider == null) return;
+
+        Bounds bounds = playerCollider.bounds;
+
+        float dirValue = moveInput != 0f ? moveInput : lastMoveDirection;
+        Vector2 direction = dirValue > 0f ? Vector2.right : Vector2.left;
+
+        float sideX = direction.x > 0f ? bounds.max.x : bounds.min.x;
+
+        Vector2 origin = new Vector2(sideX, bounds.center.y) + wallCheckOffset;
+        Vector2 boxCenter = origin + direction * (wallCheckBoxSize.x * 0.5f);
+
+        Collider2D hit = Physics2D.OverlapBox(
+            boxCenter,
+            wallCheckBoxSize,
+            0f,
+            groundLayer | oneWayPlatformLayer
+        );
+
+        if (hit == null) return;
+
+        if (direction.x > 0f) touchingWallRight = true;
+        else touchingWallLeft = true;
     }
 
     // コヨーテタイム更新
@@ -243,21 +310,67 @@ public class Player2DController : MonoBehaviour
             coyoteCounter -= Time.fixedDeltaTime;
     }
 
-    // デバッグ用：地面判定表示
-    void OnDrawGizmosSelected()
+    // レッジスナップ処理
+    void HandleLedgeSnap()
     {
-        Collider2D col = GetComponent<Collider2D>();
-        if (col == null) return;
+        if (isGrounded) return;
+        if (rb.linearVelocity.y > 0.2f) return;
+        if (moveInput == 0f) return;
+        if (playerCollider == null) return;
 
-        Bounds bounds = col.bounds;
+        Bounds bounds = playerCollider.bounds;
 
-        Vector2 boxCenter = new Vector2(bounds.center.x, bounds.min.y);
-        Vector2 boxSize = new Vector2(bounds.size.x * 0.85f, 0.08f);
+        Vector2 direction = moveInput > 0f ? Vector2.right : Vector2.left;
+        float sideX = direction.x > 0f ? bounds.max.x : bounds.min.x;
 
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(
-            boxCenter + Vector2.down * 0.05f,
-            boxSize
+        Vector2 boxCenter = new Vector2(
+            sideX + direction.x * (ledgeCheckDistance * 0.5f),
+            bounds.center.y
         );
+
+        boxCenter.y = bounds.min.y + bounds.size.y * 0.25f;
+
+        Vector2 boxSize = new Vector2(
+            ledgeCheckDistance,
+            bounds.size.y * 0.6f
+        );
+
+        Collider2D platform = Physics2D.OverlapBox(
+            boxCenter,
+            boxSize,
+            0f,
+            oneWayPlatformLayer | groundLayer
+        );
+
+        if (platform == null) return;
+
+        float platformTopY = platform.bounds.max.y;
+
+        float quarterPointY = bounds.min.y + bounds.size.y * ledgeBodyRatio;
+        if (quarterPointY < platformTopY - ledgeTolerance) return;
+
+        float targetY = platformTopY + bounds.extents.y + ledgeSnapOffset;
+
+        Collider2D blocked = Physics2D.OverlapBox(
+            new Vector2(rb.position.x, targetY),
+            bounds.size * 0.95f,
+            0f,
+            groundLayer | oneWayPlatformLayer
+        );
+
+        if (blocked != null) return;
+
+        rb.position = new Vector2(rb.position.x, targetY);
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+
+        isGrounded = true;
+        isJumping = false;
+        isJumpHolding = false;
+        coyoteCounter = coyoteTime;
+
+        Physics2D.IgnoreCollision(playerCollider, platform, false);
     }
+
+    // デバッグ用
+    
 }
