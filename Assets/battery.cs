@@ -1,38 +1,36 @@
 using UnityEngine;
+
 public class battery : MonoBehaviour
 {
     [SerializeField] public GameObject plugPrefab;
     [SerializeField] private PlugColor plugColor;
     [SerializeField] private float angle;
     [SerializeField] private GameObject spawnPosition;
+    [SerializeField] public int maxCharge = 3;
+    [SerializeField] private int _currentCharge;
+    public int currentCharge => _currentCharge;
 
     void Start()
     {
-        if (spawnPosition == null)
-        {
-            Debug.LogWarning("spawnPosition is not assigned in the inspector.");
-            return;
-        }
-        if (plugPrefab != null)
-        {
-            Quaternion rotation = Quaternion.Euler(0, 0, angle);
+        _currentCharge = maxCharge;
+        Debug.Log($"[Battery] {_currentCharge}/{maxCharge}");
+        //Createplug();
+    }
 
-            // 第4引数に親のTransformを渡す
-            GameObject obj = Instantiate(plugPrefab, spawnPosition.transform.position, rotation, this.transform);
+    // ConnectionManagerから呼ばれる
+    public void SetCharge(int value)
+    {
+        _currentCharge = Mathf.Clamp(value, 0, maxCharge);
+        Debug.Log($"[Battery] {_currentCharge}/{maxCharge}");
+    }
 
-            plugColor plugColorComponent = obj.GetComponent<plugColor>();
-            if (plugColorComponent != null)
-            {
-                plugColorComponent.SetColor(plugColor);
-            }
-            else
-            {
-                Debug.LogWarning("plugColorコンポーネントが見つかりません");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("plugPrefab is not assigned in the inspector.");
-        }
+    void Createplug()
+    {
+        if (spawnPosition == null || plugPrefab == null) return;
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+        GameObject obj = Instantiate(plugPrefab, spawnPosition.transform.position, rotation, this.transform);
+        plugColor c = obj.GetComponent<plugColor>();
+       
+        if (c != null) c.SetColor(plugColor);
     }
 }

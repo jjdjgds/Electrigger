@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+ï»¿using JetBrains.Annotations;
 using UnityEngine;
 
 [System.Serializable]
@@ -23,10 +23,10 @@ public enum AngleType
 [System.Serializable]
 public class PlugSocketConfig
 {
-    public AttachType attachType;         // ƒ\ƒPƒbƒg‚©ƒvƒ‰ƒO‚©
-    public PlugColor plugColor;       // F
-    public GameObject spawnPosition;  // êŠ
-    public AngleType angleType;       // Šp“x
+    public AttachType attachType;         // ã‚½ã‚±ãƒƒãƒˆã‹ãƒ—ãƒ©ã‚°ã‹
+    public PlugColor plugColor;       // è‰²
+    public GameObject spawnPosition;  // å ´æ‰€
+    public AngleType angleType;       // è§’åº¦
     public bool isEnabled;
 }
 
@@ -58,7 +58,7 @@ public class PlugSocketInitializer : MonoBehaviour
 
             if (config.spawnPosition == null)
             {
-                Debug.LogWarning("spawnPosition‚ª–¢İ’è‚ÌConfig‚ª‚ ‚è‚Ü‚·");
+                Debug.LogWarning("spawnPositionãŒæœªè¨­å®šã®ConfigãŒã‚ã‚Šã¾ã™");
                 continue;
             }
             Quaternion rotation = Quaternion.identity;
@@ -79,18 +79,26 @@ public class PlugSocketInitializer : MonoBehaviour
             }
 
 
-            if (config.attachType==AttachType.Socket)
+            if (config.attachType == AttachType.Socket)
             {
                 GameObject obj = Instantiate(socketPrefab, config.spawnPosition.transform.position, rotation, this.transform);
+
+                PowerNode socketNode = obj.GetComponent<PowerNode>();
+                PowerNode ownerNode = GetComponent<PowerNode>();
+                if (socketNode != null && ownerNode != null)
+                    socketNode.owner = ownerNode;
+
                 plugColor plugColorComponent = obj.GetComponent<plugColor>();
                 if (plugColorComponent != null)
-                {
                     plugColorComponent.SetColor(config.plugColor);
-                }
             }
             else if (config.attachType==AttachType.Plug)
             {
                 GameObject obj = Instantiate(plugPrefab, config.spawnPosition.transform.position, rotation, this.transform);
+                PowerNode plugNode = obj.GetComponent<PowerNode>();
+                PowerNode ownerNode = GetComponent<PowerNode>(); // è¦ªã®PowerNode
+                if (plugNode != null && ownerNode != null)
+                    plugNode.owner = ownerNode;
                 plugColor plugColorComponent = obj.GetComponent<plugColor>();
                 if (plugColorComponent != null)
                 {
@@ -100,7 +108,7 @@ public class PlugSocketInitializer : MonoBehaviour
            
             else
             {
-                Debug.LogWarning("plugColorƒRƒ“ƒ|[ƒlƒ“ƒg‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
+                Debug.LogWarning("plugColorã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“");
             }
         }
     }

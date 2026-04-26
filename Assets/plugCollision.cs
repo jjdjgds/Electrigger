@@ -1,29 +1,73 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class plugCollision : MonoBehaviour
 {
     private plugColor myPlugColor;
+    private PowerNode myNode;
 
+    [SerializeField] private float connectRadius = 0.3f; // æ¥ç¶šåˆ¤å®šã®åŠå¾„
+    private Quaternion lastRotation;
     void Awake()
     {
-       // Debug.Log("“¯‚¶F‚ÌƒRƒ“ƒZƒ“ƒg‚É“–‚½‚Á‚½I");
-
         myPlugColor = GetComponent<plugColor>();
-        if (myPlugColor == null)
-            Debug.LogWarning("plugColorƒRƒ“ƒ|[ƒlƒ“ƒg‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
+        myNode = GetComponent<PowerNode>();
+    }
+    void Update()
+    {
+        // å›è»¢ãŒå¤‰åŒ–ã—ãŸã‚‰æ¥ç¶šã‚’å†ãƒã‚§ãƒƒã‚¯
+        if (transform.rotation != lastRotation)
+        {
+            lastRotation = transform.rotation;
+            RecheckConnections();
+        }
+    }
+    public void RecheckConnections()
+    {
+        // ä¸€æ—¦åˆ‡æ–­ã—ã¦å†æ¥ç¶š
+        ConnectionManager.Instance?.Disconnect(myNode);
+
+        // å‘¨å›²ã®socketã‚’æ¤œç´¢ã—ã¦å†æ¥ç¶š
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, connectRadius);
+        foreach (Collider2D hit in hits)
+        {
+            TryConnect(hit);
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        TryConnect(other);
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        // å›è»¢å¾Œã«å†æ¥ç¶šã§ãã‚‹ã‚ˆã†ã«Stayã§ã‚‚åˆ¤å®š
+        TryConnect(other);
+    }
+
+    void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("electricaloutlet")) return;
+        if (other.GetComponent<socketCollision>() == null) return;
+        ConnectionManager.Instance?.Disconnect(myNode);
+    }
 
-        plugColor otherPlugColor = other.GetComponent<plugColor>();
-        if (otherPlugColor == null) return;
-        
-        if (myPlugColor.GetPlugColor() == otherPlugColor.GetPlugColor())
-        {
-            Debug.Log("“¯‚¶F‚ÌƒRƒ“ƒZƒ“ƒg‚É“–‚½‚Á‚½I");
-            // ‚±‚±‚Éˆ—‚ğ‘‚­
-        }
+    void TryConnect(Collider2D other)
+    {
+        if (!other.CompareTag("electricaloutlet")) return;
+        if (other.GetComponent<socketCollision>() == null) return;
+
+        plugColor otherColor = other.GetComponent<plugColor>();
+        if (otherColor == null) return;
+        if (myPlugColor.GetPlugColor() != otherColor.GetPlugColor()) return;
+
+        PowerNode socketNode = other.GetComponent<PowerNode>();
+        if (socketNode == null || myNode == null) return;
+
+        PowerNode socketOwner = socketNode.owner != null ? socketNode.owner : socketNode;
+
+        // æ—¢ã«åŒã˜æ¥ç¶šãŒè¨˜éŒ²ã•ã‚Œã¦ã„ã‚Œã°ã‚¹ã‚­ãƒƒãƒ—
+        ConnectionManager.Instance?.Connect(myNode, socketOwner);
     }
 }
