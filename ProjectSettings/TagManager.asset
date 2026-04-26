@@ -2,8 +2,9 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
-  tags: []
+  serializedVersion: 3
+  tags:
+  - backdrop
   layers:
   - Default
   - TransparentFX
@@ -15,6 +16,9 @@ TagManager:
   - 
   - 
   - 
+  - Player
+  - 
+  - Ground
   - 
   - 
   - 
@@ -24,10 +28,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Backdrop
   - 
   - 
   - 
@@ -41,3 +42,29 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: 
+    uniqueID: 4252773469
+    locked: 0
+  - name: Backdrop
+    uniqueID: 573656525
+    locked: 0
+  - name: 
+    uniqueID: 862026625
+    locked: 0
+  - name: Ground
+    uniqueID: 808223479
+    locked: 0
+  - name: 
+    uniqueID: 2108552207
+    locked: 0
+  - name: 
+    uniqueID: 2664915075
+    locked: 0
+  - name: 
+    uniqueID: 4281346163
+    locked: 0
+  - name: Player
+    uniqueID: 2771231005
+    locked: 0
+  m_RenderingLayers:
+  - Default
