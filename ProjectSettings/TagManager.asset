@@ -4,7 +4,12 @@
 TagManager:
   serializedVersion: 3
   tags:
+<<<<<<< a
+  - Plug
+  - electricaloutlet
+=======
   - backdrop
+>>>>>>> devlop
   layers:
   - Default
   - TransparentFX
@@ -42,6 +47,8 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+<<<<<<< a
+=======
   - name: 
     uniqueID: 4252773469
     locked: 0
@@ -66,5 +73,6 @@ TagManager:
   - name: Player
     uniqueID: 2771231005
     locked: 0
+>>>>>>> devlop
   m_RenderingLayers:
   - Default
