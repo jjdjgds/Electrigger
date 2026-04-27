@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class Monitor_Drag : MonoBehaviour
 {
+
     public bool canDrag = true;
 
     private bool isDragging = false;
@@ -14,6 +15,9 @@ public class Monitor_Drag : MonoBehaviour
 
     private bool playerInside = false;
     private bool playerWasInsideAtDragStart = false;
+
+    [Header("PowerOff")]
+    public GameObject overlay;
 
     void Start()
     {
@@ -50,6 +54,9 @@ public class Monitor_Drag : MonoBehaviour
 
                 if (playerMovement != null)
                     playerMovement.allowMovement = false;
+
+                if (overlay != null)
+                    overlay.SetActive(true);
             }
         }
 
@@ -59,10 +66,14 @@ public class Monitor_Drag : MonoBehaviour
 
             if (playerMovement != null)
                 playerMovement.allowMovement = true;
+
+            if (overlay != null)
+                overlay.SetActive(false);
         }
 
         if (isDragging)
         {
+
             Vector2 mousePos = Mouse.current.position.ReadValue();
 
             Vector3 worldPos = cam.ScreenToWorldPoint(
