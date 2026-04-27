@@ -3,6 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
+  tags: []
   tags:
   - Plug
   - electricaloutlet
@@ -41,8 +42,17 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BG
+    uniqueID: 2221463621
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Obj
+    uniqueID: 1805466931
+    locked: 0
+  - name: UI
+    uniqueID: 2543978311
     locked: 0
   m_RenderingLayers:
   - Default
