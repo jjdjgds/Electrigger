@@ -1121,8 +1121,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::battery
   plugPrefab: {fileID: 4684737374451977217, guid: 3f159c50de2e7d644b0097451c413270, type: 3}
   plugColor: 1
-  angle: -90
-  spawnOffset: {x: 1, y: 0}
+  angleType: 0
+  frameRenderer: {fileID: 2017093893}
+  spawnOffset: 0
   maxCharge: 5
   _currentCharge: 0
 --- !u!114 &1240382512
