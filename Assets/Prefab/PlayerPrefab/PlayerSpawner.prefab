@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f514b42e9059409481f2b6b7f685e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  playerPrefab: {fileID: 7216859335211572489, guid: c45f7333cbc86334a8b1f98da13a1c94, type: 3}
+  playerPrefab: {fileID: 7216859335211572489, guid: cd298dda5ff997748851ff4f80a538e8, type: 3}
   resetKey: 32
