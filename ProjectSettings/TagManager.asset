@@ -4,8 +4,12 @@
 TagManager:
   serializedVersion: 3
   tags:
+<<<<<<< a
   - Plug
   - electricaloutlet
+=======
+  - backdrop
+>>>>>>> devlop
   layers:
   - Default
   - TransparentFX
@@ -17,6 +21,9 @@ TagManager:
   - 
   - 
   - 
+  - Player
+  - OneWayPlatform
+  - Ground
   - 
   - 
   - 
@@ -26,10 +33,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Backdrop
   - 
   - 
   - 
@@ -43,5 +47,32 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+<<<<<<< a
+=======
+  - name: 
+    uniqueID: 4252773469
+    locked: 0
+  - name: Backdrop
+    uniqueID: 573656525
+    locked: 0
+  - name: 
+    uniqueID: 862026625
+    locked: 0
+  - name: Ground
+    uniqueID: 808223479
+    locked: 0
+  - name: 
+    uniqueID: 2108552207
+    locked: 0
+  - name: 
+    uniqueID: 2664915075
+    locked: 0
+  - name: 
+    uniqueID: 4281346163
+    locked: 0
+  - name: Player
+    uniqueID: 2771231005
+    locked: 0
+>>>>>>> devlop
   m_RenderingLayers:
   - Default
