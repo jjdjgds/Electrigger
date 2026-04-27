@@ -4,12 +4,9 @@
 TagManager:
   serializedVersion: 3
   tags:
-<<<<<<< a
-  - Plug
-  - electricaloutlet
-=======
+
   - backdrop
->>>>>>> devlop
+
   layers:
   - Default
   - TransparentFX
