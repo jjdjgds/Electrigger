@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 6942457470279185073}
   m_Layer: 0
   m_Name: plug
-  m_TagString: Plug
+  m_TagString: plug
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -293,6 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c61525718a72ba479e6ac9c3e945490, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::plugCollision
+  connectRadius: 0.3
 --- !u!50 &4227292492243427299
 Rigidbody2D:
   serializedVersion: 5
@@ -333,6 +334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerNode
   isBattery: 0
+  owner: {fileID: 0}
 --- !u!1 &5880336947176416287
 GameObject:
   m_ObjectHideFlags: 0
