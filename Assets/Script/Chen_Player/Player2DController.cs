@@ -53,9 +53,10 @@ public class Player2DController : MonoBehaviour
     private bool jumpReleased;
 
     private bool isGrounded;
-    private bool wasGrounded;
     private bool isJumping;
     private bool isJumpHolding;
+
+    private bool canJump = true;
 
     private bool touchingWallLeft;
     private bool touchingWallRight;
@@ -109,13 +110,22 @@ public class Player2DController : MonoBehaviour
         if (moveInput != 0f)
             lastMoveDirection = moveInput;
 
-        jumpHeld = keyboard.wKey.isPressed;
+        if (canJump)
+        {
+            jumpHeld = keyboard.wKey.isPressed;
 
-        if (keyboard.wKey.wasReleasedThisFrame)
-            jumpReleased = true;
+            if (keyboard.wKey.wasReleasedThisFrame)
+                jumpReleased = true;
 
-        if (keyboard.wKey.wasPressedThisFrame)
-            jumpBufferCounter = jumpBufferTime;
+            if (keyboard.wKey.wasPressedThisFrame)
+                jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpHeld = false;
+            jumpReleased = false;
+            jumpBufferCounter = 0f;
+        }
     }
 
     // ジャンプバッファ更新
@@ -160,9 +170,11 @@ public class Player2DController : MonoBehaviour
     // ジャンプ開始判定
     void TryStartJump()
     {
-        bool canJump = !isJumping && (isGrounded || coyoteCounter > 0f);
+        if (!canJump) return;
 
-        if (jumpBufferCounter > 0f && canJump)
+        bool canStartJump = !isJumping && (isGrounded || coyoteCounter > 0f);
+
+        if (jumpBufferCounter > 0f && canStartJump)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpStartSpeed);
 
@@ -371,6 +383,19 @@ public class Player2DController : MonoBehaviour
         Physics2D.IgnoreCollision(playerCollider, platform, false);
     }
 
+    public void SetJumpEnabled(bool enabled)
+    {
+        canJump = enabled;
+
+        if (!canJump)
+        {
+            jumpHeld = false;
+            jumpReleased = false;
+            jumpBufferCounter = 0f;
+            isJumpHolding = false;
+        }
+    }
+
     // デバッグ用
-    
+
 }
