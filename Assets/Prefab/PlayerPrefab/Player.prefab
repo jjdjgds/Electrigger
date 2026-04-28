@@ -81,7 +81,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1523736291
-  m_SortingLayer: 8
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 284e2f3b5bcc97149bba2727c6047948, type: 3}
@@ -195,12 +195,13 @@ MonoBehaviour:
   wallCheckOffset: {x: 0, y: 0}
   wallCheckBoxSize: {x: 0.06, y: 1.2}
   groundCheckSize: {x: 0.7, y: 1.5}
+  groundCheckDistance: 0.05
   groundLayer:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 0
   oneWayPlatformLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 0
   ledgeCheckDistance: 0.25
   ledgeSnapOffset: 0.03
   ledgeBodyRatio: 0.25

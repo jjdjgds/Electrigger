@@ -23,12 +23,12 @@ public class Monitor_Collision : MonoBehaviour
         // You can expand this later (room switching, etc.)
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            other.GetComponent<PlayerMovement_Test>()
-                 .SetBounds(GetComponent<Collider2D>().bounds);
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        other.GetComponent<PlayerMovement_Test>()
+    //             .SetBounds(GetComponent<Collider2D>().bounds);
+    //    }
+    //}
 }
