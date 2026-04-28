@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 843048691182991743}
   - component: {fileID: 3307031202241227279}
   - component: {fileID: 4863200332450059307}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -198,10 +198,10 @@ MonoBehaviour:
   groundCheckDistance: 0.05
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   oneWayPlatformLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   ledgeCheckDistance: 0.25
   ledgeSnapOffset: 0.03
   ledgeBodyRatio: 0.25
