@@ -71,7 +71,7 @@ public class PlugSocketInitializer : MonoBehaviour
                 case AngleType.Left: rotation = Quaternion.Euler(0, 0, 90); break;
             }
 
-            // ✅ 向きに応じたスケール+オフセットで位置計算
+            //向きに応じたスケール+オフセットで位置計算
             Vector3 spawnWorldPos = GetSpawnWorldPos(config.spawnOffset, config.angleType);
 
             if (config.attachType == AttachType.Socket)
