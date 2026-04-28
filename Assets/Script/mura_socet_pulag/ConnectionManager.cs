@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
+using System.Net.Sockets;
+using UnityEngine;
 
 public class ConnectionManager : MonoBehaviour
 {
@@ -14,6 +15,26 @@ public class ConnectionManager : MonoBehaviour
 
     public void Connect(PowerNode plugNode, PowerNode socketOwner)
     {
+
+        if (plugNode.isBattery)
+        {
+            battery bat = plugNode.GetComponentInParent<battery>();
+            if (bat == null || bat.currentCharge <= 0)
+            {
+                Debug.Log("接続失敗: バッテリー残量なし");
+                return;
+            }
+        }
+
+        if (socketOwner.isBattery)
+        {
+            battery bat = socketOwner.GetComponentInParent<battery>();
+            if (bat == null || bat.currentCharge <= 0)
+            {
+                Debug.Log("接続失敗: バッテリー残量なし");
+                return;
+            }
+        }
         if (connections.TryGetValue(plugNode, out PowerNode existing))
         {
             if (existing == socketOwner) return;
