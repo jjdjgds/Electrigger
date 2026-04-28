@@ -18,6 +18,8 @@ public class Monitor_Drag : MonoBehaviour
 
     [Header("PowerOff")]
     public GameObject overlay;
+    private PowerNode myPowerNode;
+
 
     void Start()
     {
@@ -27,12 +29,14 @@ public class Monitor_Drag : MonoBehaviour
 
         if (player != null)
             playerMovement = player.GetComponent<PlayerMovement_Test>();
+
+        myPowerNode = GetComponent<PowerNode>();
     }
 
     void Update()
     {
         CheckIfPlayerInside();
-
+        UpdateOverlay();
         if (!canDrag) return;
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
@@ -55,8 +59,8 @@ public class Monitor_Drag : MonoBehaviour
                 if (playerMovement != null)
                     playerMovement.allowMovement = false;
 
-                if (overlay != null)
-                    overlay.SetActive(true);
+                //if (overlay != null)
+                //    overlay.SetActive(true);
             }
         }
 
@@ -67,8 +71,8 @@ public class Monitor_Drag : MonoBehaviour
             if (playerMovement != null)
                 playerMovement.allowMovement = true;
 
-            if (overlay != null)
-                overlay.SetActive(false);
+            //if (overlay != null)
+            //    overlay.SetActive(false);
         }
 
         if (isDragging)
@@ -95,6 +99,15 @@ public class Monitor_Drag : MonoBehaviour
                 player.position += delta;
             }
         }
+    }
+
+    void UpdateOverlay()
+    {
+        if (overlay == null) return;
+
+        // ドラッグ中 または 電力なし → overlay表示
+        bool isPowered = myPowerNode != null && myPowerNode.IsPowered();
+        overlay.SetActive(isDragging || !isPowered);
     }
 
     void CheckIfPlayerInside()

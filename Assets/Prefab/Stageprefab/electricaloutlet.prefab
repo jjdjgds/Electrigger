@@ -425,7 +425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerNode
   isBattery: 0
-  ownerNode: {fileID: 0}
+  owner: {fileID: 0}
 --- !u!1 &6388656767447629671
 GameObject:
   m_ObjectHideFlags: 0
