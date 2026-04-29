@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Net.Sockets;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 public class ConnectionManager : MonoBehaviour
@@ -15,43 +14,23 @@ public class ConnectionManager : MonoBehaviour
 
     public void Connect(PowerNode plugNode, PowerNode socketOwner)
     {
-
-        if (plugNode.isBattery)
-        {
-            battery bat = plugNode.GetComponentInParent<battery>();
-            if (bat == null || bat.currentCharge <= 0)
-            {
-                Debug.Log("Ú‘±¸”s: ƒoƒbƒeƒŠ[c—Ê‚È‚µ");
-                return;
-            }
-        }
-
-        if (socketOwner.isBattery)
-        {
-            battery bat = socketOwner.GetComponentInParent<battery>();
-            if (bat == null || bat.currentCharge <= 0)
-            {
-                Debug.Log("Ú‘±¸”s: ƒoƒbƒeƒŠ[c—Ê‚È‚µ");
-                return;
-            }
-        }
         if (connections.TryGetValue(plugNode, out PowerNode existing))
         {
             if (existing == socketOwner) return;
             connections[plugNode] = socketOwner;
-            Debug.Log($"[Connect] Œq‚¬‘Ö‚¦: {plugNode.owner?.gameObject.name ?? "Battery"} ¨ {socketOwner.gameObject.name}");
+            Debug.Log($"[Connect] ç¹‹ãæ›¿ãˆ: {plugNode.owner?.gameObject.name ?? "Battery"} â†’ {socketOwner.gameObject.name}");
             Recalculate();
             return;
         }
         connections[plugNode] = socketOwner;
-        Debug.Log($"[Connect] {plugNode.owner?.gameObject.name ?? "Battery"} ¨ {socketOwner.gameObject.name}");
+        Debug.Log($"[Connect] {plugNode.owner?.gameObject.name ?? "Battery"} â†’ {socketOwner.gameObject.name}");
         Recalculate();
     }
 
     public void Disconnect(PowerNode plugNode)
     {
         if (!connections.ContainsKey(plugNode)) return;
-        Debug.Log($"[Disconnect] {plugNode.owner?.gameObject.name ?? "Battery"} Ø’f");
+        Debug.Log($"[Disconnect] {plugNode.owner?.gameObject.name ?? "Battery"} åˆ‡æ–­");
         connections.Remove(plugNode);
         Recalculate();
     }
@@ -61,25 +40,30 @@ public class ConnectionManager : MonoBehaviour
         PowerNode[] allNodes = FindObjectsByType<PowerNode>(FindObjectsSortMode.None);
         battery[] allBatteries = FindObjectsByType<battery>(FindObjectsSortMode.None);
 
-        // ‘Sƒm[ƒh‚ğƒŠƒZƒbƒg
+        // å…¨ãƒãƒ¼ãƒ‰ã‚’ãƒªã‚»ãƒƒãƒˆ
         foreach (PowerNode node in allNodes)
         {
             node.SetPowered(false);
-            node.SetPoweredBy(null); // ‚Ç‚Ìbattery‚©‚ç“d—Í‚ğ‚à‚ç‚Á‚Ä‚¢‚é‚©
+            node.SetPoweredBy(null);
+            node.SetDepth(int.MaxValue); // ãƒãƒƒãƒ†ãƒªãƒ¼ã‹ã‚‰ã®è·é›¢
         }
 
-        // Šebattery‚©‚ç’¼ÚŒq‚ª‚Á‚Ä‚¢‚émonitor‚ğ—LŒø‰»
+        // â‘  batteryã‹ã‚‰ç›´æ¥ç¹‹ãŒã£ã¦ã„ã‚‹monitorã‚’æ·±ã•1ã§æœ‰åŠ¹åŒ–
         foreach (var pair in connections)
         {
             if (pair.Key.isBattery)
             {
                 battery bat = pair.Key.GetComponentInParent<battery>();
-                pair.Value.SetPowered(true);
-                pair.Value.SetPoweredBy(bat);
+                if (bat != null)
+                {
+                    pair.Value.SetPowered(true);
+                    pair.Value.SetPoweredBy(bat);
+                    pair.Value.SetDepth(1);
+                }
             }
         }
 
-        // •Ï‰»‚ª‚È‚­‚È‚é‚Ü‚Å“`”d
+        // â‘¡ å¤‰åŒ–ãŒãªããªã‚‹ã¾ã§ä¼æ’­ï¼ˆæ·±ã•ã‚‚è¨˜éŒ²ï¼‰
         bool changed = true;
         while (changed)
         {
@@ -88,7 +72,6 @@ public class ConnectionManager : MonoBehaviour
             {
                 PowerNode plugOwner = pair.Key.owner;
                 PowerNode socketOwner = pair.Value;
-
                 bool plugPowered = plugOwner != null && plugOwner.IsPowered();
                 bool socketPowered = socketOwner.IsPowered();
 
@@ -96,27 +79,47 @@ public class ConnectionManager : MonoBehaviour
                 {
                     socketOwner.SetPowered(true);
                     socketOwner.SetPoweredBy(plugOwner.GetPoweredBy());
+                    socketOwner.SetDepth(plugOwner.GetDepth() + 1);
                     changed = true;
                 }
                 else if (socketPowered && plugOwner != null && !plugOwner.IsPowered())
                 {
                     plugOwner.SetPowered(true);
                     plugOwner.SetPoweredBy(socketOwner.GetPoweredBy());
+                    plugOwner.SetDepth(socketOwner.GetDepth() + 1);
                     changed = true;
                 }
             }
         }
 
-        // battery•Ê‚ÉÁ”ï”‚ğƒJƒEƒ“ƒg‚µ‚Äc—Ê‚ğXV
+        // â‘¢ batteryåˆ¥ã«æ·±ã•é †ã§ã‚½ãƒ¼ãƒˆã—ã¦å®¹é‡å†…ã ã‘ONã«ã™ã‚‹
         foreach (battery bat in allBatteries)
         {
-            int count = 0;
+            // ã“ã®batteryã‹ã‚‰é›»åŠ›ã‚’ã‚‚ã‚‰ã£ã¦ã„ã‚‹ãƒãƒ¼ãƒ‰ã‚’åé›†
+            List<PowerNode> poweredNodes = new List<PowerNode>();
             foreach (PowerNode node in allNodes)
                 if (node.IsPowered() && !node.isBattery && node.GetPoweredBy() == bat)
-                    count++;
+                    poweredNodes.Add(node);
+
+            // âœ… ãƒãƒƒãƒ†ãƒªãƒ¼ã«è¿‘ã„é †ï¼ˆdepthæ˜‡é †ï¼‰ã§ã‚½ãƒ¼ãƒˆ
+            poweredNodes.Sort((a, b) => a.GetDepth().CompareTo(b.GetDepth()));
+
+            int count = poweredNodes.Count;
+
+            if (count > bat.maxCharge)
+            {
+                // å®¹é‡è¶…éåˆ†ï¼ˆé ã„æ–¹ã‹ã‚‰ï¼‰ã‚’OFF
+                for (int i = bat.maxCharge; i < count; i++)
+                {
+                    poweredNodes[i].SetPowered(false);
+                    poweredNodes[i].SetPoweredBy(null);
+                    Debug.Log($"[Recalculate] {poweredNodes[i].gameObject.name} å®¹é‡è¶…éã§OFF (depth={poweredNodes[i].GetDepth()})");
+                }
+                count = bat.maxCharge;
+            }
 
             bat.SetCharge(bat.maxCharge - count);
-            Debug.Log($"[Recalculate] {bat.gameObject.name}: {bat.currentCharge}/{bat.maxCharge} (Ú‘±”={count})");
+            Debug.Log($"[Recalculate] {bat.gameObject.name}: {bat.currentCharge}/{bat.maxCharge} (æ¥ç¶šæ•°={count})");
         }
     }
 }
