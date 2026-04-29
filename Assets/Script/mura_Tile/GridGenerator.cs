@@ -67,11 +67,11 @@ public class GridGenerator : MonoBehaviour
             // タイル1枚分の範囲内なら盤面内
             if (distX < tileWidth && distY < tileHeight)
             {
-                Debug.Log($"盤面内タイル: {tile.name} pos:{tile.transform.position}");
+                //Debug.Log($"盤面内タイル: {tile.name} pos:{tile.transform.position}");
                 return true;
             }
         }
-        Debug.Log($"盤面外 worldPos:{worldPos}");
+        //Debug.Log($"盤面外 worldPos:{worldPos}");
         return false;
     }
 

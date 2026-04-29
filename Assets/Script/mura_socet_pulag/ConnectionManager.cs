@@ -18,19 +18,19 @@ public class ConnectionManager : MonoBehaviour
         {
             if (existing == socketOwner) return;
             connections[plugNode] = socketOwner;
-            Debug.Log($"[Connect] 繋ぎ替え: {plugNode.owner?.gameObject.name ?? "Battery"} → {socketOwner.gameObject.name}");
+           // Debug.Log($"[Connect] 繋ぎ替え: {plugNode.owner?.gameObject.name ?? "Battery"} → {socketOwner.gameObject.name}");
             Recalculate();
             return;
         }
         connections[plugNode] = socketOwner;
-        Debug.Log($"[Connect] {plugNode.owner?.gameObject.name ?? "Battery"} → {socketOwner.gameObject.name}");
+       // Debug.Log($"[Connect] {plugNode.owner?.gameObject.name ?? "Battery"} → {socketOwner.gameObject.name}");
         Recalculate();
     }
 
     public void Disconnect(PowerNode plugNode)
     {
         if (!connections.ContainsKey(plugNode)) return;
-        Debug.Log($"[Disconnect] {plugNode.owner?.gameObject.name ?? "Battery"} 切断");
+        //Debug.Log($"[Disconnect] {plugNode.owner?.gameObject.name ?? "Battery"} 切断");
         connections.Remove(plugNode);
         Recalculate();
     }
@@ -101,7 +101,7 @@ public class ConnectionManager : MonoBehaviour
                 if (node.IsPowered() && !node.isBattery && node.GetPoweredBy() == bat)
                     poweredNodes.Add(node);
 
-            // ✅ バッテリーに近い順（depth昇順）でソート
+            //バッテリーに近い順（depth昇順）でソート
             poweredNodes.Sort((a, b) => a.GetDepth().CompareTo(b.GetDepth()));
 
             int count = poweredNodes.Count;
@@ -113,13 +113,13 @@ public class ConnectionManager : MonoBehaviour
                 {
                     poweredNodes[i].SetPowered(false);
                     poweredNodes[i].SetPoweredBy(null);
-                    Debug.Log($"[Recalculate] {poweredNodes[i].gameObject.name} 容量超過でOFF (depth={poweredNodes[i].GetDepth()})");
+                    //Debug.Log($"[Recalculate] {poweredNodes[i].gameObject.name} 容量超過でOFF (depth={poweredNodes[i].GetDepth()})");
                 }
                 count = bat.maxCharge;
             }
 
             bat.SetCharge(bat.maxCharge - count);
-            Debug.Log($"[Recalculate] {bat.gameObject.name}: {bat.currentCharge}/{bat.maxCharge} (接続数={count})");
+            //Debug.Log($"[Recalculate] {bat.gameObject.name}: {bat.currentCharge}/{bat.maxCharge} (接続数={count})");
         }
     }
 }

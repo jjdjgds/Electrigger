@@ -19,14 +19,14 @@ public class battery : MonoBehaviour
     void Start()
     {
         _currentCharge = maxCharge;
-        Debug.Log($"[Battery] {_currentCharge}/{maxCharge}");
-        // ✅ BatteryDisplayに枠のリサイズを先に行わせてからプラグ生成
+        //Debug.Log($"[Battery] {_currentCharge}/{maxCharge}");
+        //BatteryDisplayに枠のリサイズを先に行わせてからプラグ生成
         BatteryDisplay display = GetComponentInChildren<BatteryDisplay>();
         if (display != null)
             display.Initialize();
 
         Createplug();
-        // ✅ 生成後にキャッシュ
+        //生成後にキャッシュ
         plugCollisions = GetComponentsInChildren<plugCollision>();
         socketCollisions = GetComponentsInChildren<socketCollision>();
     }
@@ -34,7 +34,7 @@ public class battery : MonoBehaviour
     public void SetCharge(int value)
     {
         _currentCharge = Mathf.Clamp(value, 0, maxCharge);
-        Debug.Log($"[Battery] {_currentCharge}/{maxCharge}");
+        //Debug.Log($"[Battery] {_currentCharge}/{maxCharge}");
     }
     public void RecheckAllConnections()
     {
@@ -45,7 +45,7 @@ public class battery : MonoBehaviour
     {
         yield return null;
 
-        // ✅ plugCollisionだけ再チェック
+        //plugCollisionだけ再チェック
         Collider2D[] nearbyColliders = Physics2D.OverlapCircleAll(transform.position, 2f);
         foreach (Collider2D col in nearbyColliders)
         {

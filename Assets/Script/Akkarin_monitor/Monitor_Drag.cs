@@ -81,9 +81,9 @@ public class Monitor_Drag : MonoBehaviour
             if (gridGenerator != null)
             {
                 var nearest = gridGenerator.GetNearestTile(worldPos);
-                Debug.Log($"マウス離した位置: {worldPos}");
-                Debug.Log($"最近傍タイル: {nearest?.transform.position}");
-                Debug.Log($"盤面内判定: {gridGenerator.IsInsideGrid(worldPos)}");
+                //Debug.Log($"マウス離した位置: {worldPos}");
+                //Debug.Log($"最近傍タイル: {nearest?.transform.position}");
+                //Debug.Log($"盤面内判定: {gridGenerator.IsInsideGrid(worldPos)}");
 
                 if (nearest != null && gridGenerator.IsInsideGrid(worldPos))
                 {
@@ -93,16 +93,16 @@ public class Monitor_Drag : MonoBehaviour
                         transform.position.z
                     );
                     lastValidPosition = transform.position;
-                    Debug.Log($"スナップ先: {transform.position}");
+                    //Debug.Log($"スナップ先: {transform.position}");
                 }
                 else
                 {
-                    Debug.Log($"戻す位置: {lastValidPosition}");
+                    //Debug.Log($"戻す位置: {lastValidPosition}");
                     transform.position = lastValidPosition;
                 }
             }
 
-            // ✅ ドロップ後に接続を再チェック
+            //ドロップ後に接続を再チェック
             RecheckAllConnections();
         }
 
