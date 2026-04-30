@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class battery : MonoBehaviour
 {
@@ -12,24 +13,47 @@ public class battery : MonoBehaviour
     public int currentCharge => _currentCharge;
     public PlugColor GetPlugColor() => plugColor;
 
+
+    private plugCollision[] plugCollisions;
+    private socketCollision[] socketCollisions;
     void Start()
     {
         _currentCharge = maxCharge;
-        Debug.Log($"[Battery] {_currentCharge}/{maxCharge}");
-        // ✅ BatteryDisplayに枠のリサイズを先に行わせてからプラグ生成
+        //Debug.Log($"[Battery] {_currentCharge}/{maxCharge}");
+        //BatteryDisplayに枠のリサイズを先に行わせてからプラグ生成
         BatteryDisplay display = GetComponentInChildren<BatteryDisplay>();
         if (display != null)
             display.Initialize();
 
         Createplug();
+        //生成後にキャッシュ
+        plugCollisions = GetComponentsInChildren<plugCollision>();
+        socketCollisions = GetComponentsInChildren<socketCollision>();
     }
 
     public void SetCharge(int value)
     {
         _currentCharge = Mathf.Clamp(value, 0, maxCharge);
-        Debug.Log($"[Battery] {_currentCharge}/{maxCharge}");
+        //Debug.Log($"[Battery] {_currentCharge}/{maxCharge}");
     }
+    public void RecheckAllConnections()
+    {
+        StartCoroutine(RecheckAfterFrame());
+    }
+    // battery.cs の RecheckAfterFrame
+    IEnumerator RecheckAfterFrame()
+    {
+        yield return null;
 
+        //plugCollisionだけ再チェック
+        Collider2D[] nearbyColliders = Physics2D.OverlapCircleAll(transform.position, 2f);
+        foreach (Collider2D col in nearbyColliders)
+        {
+            plugCollision nearbyPlug = col.GetComponent<plugCollision>();
+            if (nearbyPlug != null)
+                nearbyPlug.RecheckConnections();
+        }
+    }
     public void Createplug()
     {
         if (plugPrefab == null) return;
