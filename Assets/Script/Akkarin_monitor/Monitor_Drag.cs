@@ -20,8 +20,10 @@ public class Monitor_Drag : MonoBehaviour
     public Vector3 lastValidPosition;
 
     [Header("Sound")]
-    public AudioClip placeSE;         // Inspectorで効果音を設定
+    public AudioClip pickupSE;        // 持ったときの効果音
+    public AudioClip placeSE;         // 置いたときの効果音
     private AudioSource audioSource;
+
 
     // 子オブジェクトのplugとsocketをキャッシュ
     private plugCollision[] plugCollisions;
@@ -68,7 +70,7 @@ public class Monitor_Drag : MonoBehaviour
 
                 if (playerMovement != null)
                     playerMovement.allowMovement = false;
-
+                PlayPickupSE();
                 RecheckAllConnections();
             }
         }
@@ -137,6 +139,12 @@ public class Monitor_Drag : MonoBehaviour
             if (playerWasInsideAtDragStart && player != null)
                 player.position += delta;
         }
+    }
+
+    void PlayPickupSE()
+    {
+        if (pickupSE != null && audioSource != null)
+            audioSource.PlayOneShot(pickupSE);
     }
 
     void PlayPlaceSE()
