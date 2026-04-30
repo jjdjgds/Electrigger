@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,7 +15,7 @@ public class Monitor_Drag : MonoBehaviour
 
     [Header("PowerOff")]
     public GameObject overlay;
-    private PowerNode myPowerNode;
+    public PowerNode myPowerNode;
     public GridGenerator gridGenerator;
     public Vector3 lastValidPosition;
 
@@ -23,11 +23,13 @@ public class Monitor_Drag : MonoBehaviour
     public AudioClip pickupSE;        // 持ったときの効果音
     public AudioClip placeSE;         // 置いたときの効果音
     private AudioSource audioSource;
-
+    public bool isPlaced = false;
 
     // 子オブジェクトのplugとsocketをキャッシュ
     private plugCollision[] plugCollisions;
     private socketCollision[] socketCollisions;
+
+    private bool wasScreenOn = false;
 
     void Start()
     {
@@ -112,11 +114,12 @@ public class Monitor_Drag : MonoBehaviour
                     );
                     lastValidPosition = transform.position;
 
-                    // ★ タイルへのスナップ成功時に効果音を再生
+                    isPlaced = true;
                     PlayPlaceSE();
                 }
                 else
                 {
+                    isPlaced = false;
                     transform.position = lastValidPosition;
                 }
             }
@@ -175,7 +178,17 @@ public class Monitor_Drag : MonoBehaviour
     {
         if (overlay == null) return;
         bool isPowered = myPowerNode != null && myPowerNode.IsPowered();
-        overlay.SetActive(isDragging || !isPowered);
+        bool isScreenOn = !isDragging && isPowered;
+        
+        overlay.SetActive(!isScreenOn);
+
+        if (isScreenOn && !wasScreenOn)
+        {
+            if (myPowerNode != null)
+                myPowerNode.PlayPowerOnSE();
+        }
+
+        wasScreenOn = isScreenOn;
     }
 
     void CheckIfPlayerInside()
