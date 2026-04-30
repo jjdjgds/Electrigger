@@ -75,4 +75,21 @@ public class GridGenerator : MonoBehaviour
         return false;
     }
 
+    // タイルにいるモニターを取得
+    // ドラッグ中のモニターを除外できるように引数追加
+    public Monitor_Drag GetMonitorOnTile(GameObject tile, Monitor_Drag exclude = null)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(tile.transform.position, tile.transform.localScale.x * 0.4f);
+        foreach (var hit in hits)
+        {
+            var monitor = hit.GetComponent<Monitor_Drag>();
+            if (monitor != null && monitor != exclude)
+            {
+                Debug.Log($"タイル上のモニター発見: {monitor.gameObject.name}");
+                return monitor;
+            }
+        }
+        return null;
+    }
+
 }

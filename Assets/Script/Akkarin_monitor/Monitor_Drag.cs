@@ -17,7 +17,7 @@ public class Monitor_Drag : MonoBehaviour
     public GameObject overlay;
     private PowerNode myPowerNode;
     public GridGenerator gridGenerator;
-    private Vector3 lastValidPosition;
+    public Vector3 lastValidPosition;
 
     // 子オブジェクトのplugとsocketをキャッシュ
     private plugCollision[] plugCollisions;
@@ -87,17 +87,30 @@ public class Monitor_Drag : MonoBehaviour
 
                 if (nearest != null && gridGenerator.IsInsideGrid(worldPos))
                 {
+                    // スナップ先にモニターがいるか確認
+                    // 自分自身をexcludeに渡す
+                    var otherMonitor = gridGenerator.GetMonitorOnTile(nearest, this);
+                    if (otherMonitor != null && otherMonitor.gameObject != gameObject)
+                    {
+                        // スワップ：相手を自分の元いた位置に移動
+                        Debug.Log($"スワップ: {gameObject.name} ↔ {otherMonitor.gameObject.name}");
+                        otherMonitor.transform.position = new Vector3(
+                            lastValidPosition.x,
+                            lastValidPosition.y,
+                            otherMonitor.transform.position.z
+                        );
+                        otherMonitor.lastValidPosition = otherMonitor.transform.position;
+                    }
+
                     transform.position = new Vector3(
                         nearest.transform.position.x,
                         nearest.transform.position.y,
                         transform.position.z
                     );
                     lastValidPosition = transform.position;
-                    //Debug.Log($"スナップ先: {transform.position}");
                 }
                 else
                 {
-                    //Debug.Log($"戻す位置: {lastValidPosition}");
                     transform.position = lastValidPosition;
                 }
             }
