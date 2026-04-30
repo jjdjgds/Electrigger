@@ -3,7 +3,7 @@ using System.Collections;
 
 public class socketCollision : MonoBehaviour
 {
-    private bool isRechecking = false;
+    //private bool isRechecking = false;
     private Quaternion lastRotation;
 
     void Awake()
