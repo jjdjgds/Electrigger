@@ -71,6 +71,12 @@ public class Monitor_Rotate : MonoBehaviour
 
         transform.rotation = end;
 
+        Monitor_Drag drag = GetComponent<Monitor_Drag>();
+        if (drag != null)
+        {
+            drag.RecheckAllConnections();
+        }
+
         yield return new WaitForSeconds(scrollCooldown);
 
         canScroll = true;

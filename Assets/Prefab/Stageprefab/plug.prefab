@@ -294,6 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::plugCollision
   connectRadius: 0.3
+  connectSE: {fileID: 8300000, guid: 0c5b24f366f772a4fa61e38c7dcf2dc6, type: 3}
 --- !u!50 &4227292492243427299
 Rigidbody2D:
   serializedVersion: 5
