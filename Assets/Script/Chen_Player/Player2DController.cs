@@ -65,6 +65,11 @@ public class Player2DController : MonoBehaviour
     private float coyoteCounter;
     private float jumpBufferCounter;
 
+    private bool isFrozen = false;
+    private Vector2 storedVelocity;
+    private float storedGravity;
+    private bool colliderStateBeforeFreeze;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -73,12 +78,21 @@ public class Player2DController : MonoBehaviour
 
     void Update()
     {
+        if (isFrozen) return;
+
         ReadInput();
         UpdateJumpBuffer();
     }
 
     void FixedUpdate()
     {
+        if (isFrozen)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.MovePosition(rb.position);
+            return;
+        }
+
         CheckWall();        // 壁判定
         CheckGround();        // 地面判定
         UpdateCoyoteTime();   // コヨーテタイム更新
@@ -397,5 +411,36 @@ public class Player2DController : MonoBehaviour
     }
 
     // デバッグ用
+
+    public void SetFrozen(bool frozen)
+    {
+        isFrozen = frozen;
+
+        if (frozen)
+        {
+            storedVelocity = rb.linearVelocity;
+            storedGravity = rb.gravityScale;
+
+            rb.linearVelocity = Vector2.zero;
+            rb.gravityScale = 0f;
+
+            if (playerCollider != null)
+            {
+                colliderStateBeforeFreeze = playerCollider.enabled;
+                playerCollider.enabled = false;
+            }
+
+        }
+        else
+        {
+            rb.linearVelocity = storedVelocity;
+            rb.gravityScale = storedGravity;
+
+            if (playerCollider != null)
+            {
+                playerCollider.enabled = colliderStateBeforeFreeze;
+            }
+        }
+    }
 
 }

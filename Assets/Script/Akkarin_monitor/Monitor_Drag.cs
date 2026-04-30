@@ -9,9 +9,10 @@ public class Monitor_Drag : MonoBehaviour
     private Vector3 offset;
     private Camera cam;
     private Transform player;
-    private PlayerMovement_Test playerMovement;
+    private Player2DController playerMovement;
     private bool playerInside = false;
     private bool playerWasInsideAtDragStart = false;
+    private bool lastFrozenState = false;
 
     [Header("PowerOff")]
     public GameObject overlay;
@@ -32,7 +33,7 @@ public class Monitor_Drag : MonoBehaviour
         cam = Camera.main;
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         if (player != null)
-            playerMovement = player.GetComponent<PlayerMovement_Test>();
+            playerMovement = player.GetComponent<Player2DController>();
 
         myPowerNode = GetComponent<PowerNode>();
 
@@ -49,6 +50,14 @@ public class Monitor_Drag : MonoBehaviour
     {
         CheckIfPlayerInside();
         UpdateOverlay();
+        bool isPowered = myPowerNode != null && myPowerNode.IsPowered();
+        bool shouldFreeze = isDragging || !isPowered || Monitor_Rotate.isRotatingAnyMonitor;
+
+        if (playerMovement != null && shouldFreeze != lastFrozenState)
+        {
+            playerMovement.SetFrozen(shouldFreeze);
+            lastFrozenState = shouldFreeze;
+        }
         if (!canDrag) return;
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
@@ -66,9 +75,6 @@ public class Monitor_Drag : MonoBehaviour
                 playerWasInsideAtDragStart = playerInside;
                 lastValidPosition = transform.position;
 
-                if (playerMovement != null)
-                    playerMovement.allowMovement = false;
-
                 RecheckAllConnections();
             }
         }
@@ -76,8 +82,6 @@ public class Monitor_Drag : MonoBehaviour
         if (Mouse.current.leftButton.wasReleasedThisFrame && isDragging)
         {
             isDragging = false;
-            if (playerMovement != null)
-                playerMovement.allowMovement = true;
 
             Vector2 mousePos = Mouse.current.position.ReadValue();
             Vector3 worldPos = cam.ScreenToWorldPoint(
