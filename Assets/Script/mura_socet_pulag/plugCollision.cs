@@ -35,7 +35,7 @@ public class plugCollision : MonoBehaviour
 
     public void RecheckConnections()
     {
-        // ✅ 多重呼び出し防止
+        //多重呼び出し防止
         if (isRechecking) return;
         isRechecking = true;
 
