@@ -19,6 +19,10 @@ public class Monitor_Drag : MonoBehaviour
     public GridGenerator gridGenerator;
     public Vector3 lastValidPosition;
 
+    [Header("Sound")]
+    public AudioClip placeSE;         // Inspectorで効果音を設定
+    private AudioSource audioSource;
+
     // 子オブジェクトのplugとsocketをキャッシュ
     private plugCollision[] plugCollisions;
     private socketCollision[] socketCollisions;
@@ -32,9 +36,13 @@ public class Monitor_Drag : MonoBehaviour
 
         myPowerNode = GetComponent<PowerNode>();
 
-        // 子オブジェクトのplug/socketをキャッシュ
         plugCollisions = GetComponentsInChildren<plugCollision>();
         socketCollisions = GetComponentsInChildren<socketCollision>();
+
+        // AudioSourceを自動取得 or 追加
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     void Update()
@@ -61,7 +69,6 @@ public class Monitor_Drag : MonoBehaviour
                 if (playerMovement != null)
                     playerMovement.allowMovement = false;
 
-                // ✅ ドラッグ開始時に全接続を切断
                 RecheckAllConnections();
             }
         }
@@ -81,18 +88,12 @@ public class Monitor_Drag : MonoBehaviour
             if (gridGenerator != null)
             {
                 var nearest = gridGenerator.GetNearestTile(worldPos);
-                //Debug.Log($"マウス離した位置: {worldPos}");
-                //Debug.Log($"最近傍タイル: {nearest?.transform.position}");
-                //Debug.Log($"盤面内判定: {gridGenerator.IsInsideGrid(worldPos)}");
 
                 if (nearest != null && gridGenerator.IsInsideGrid(worldPos))
                 {
-                    // スナップ先にモニターがいるか確認
-                    // 自分自身をexcludeに渡す
                     var otherMonitor = gridGenerator.GetMonitorOnTile(nearest, this);
                     if (otherMonitor != null && otherMonitor.gameObject != gameObject)
                     {
-                        // スワップ：相手を自分の元いた位置に移動
                         Debug.Log($"スワップ: {gameObject.name} ↔ {otherMonitor.gameObject.name}");
                         otherMonitor.transform.position = new Vector3(
                             lastValidPosition.x,
@@ -108,6 +109,9 @@ public class Monitor_Drag : MonoBehaviour
                         transform.position.z
                     );
                     lastValidPosition = transform.position;
+
+                    // ★ タイルへのスナップ成功時に効果音を再生
+                    PlayPlaceSE();
                 }
                 else
                 {
@@ -115,7 +119,6 @@ public class Monitor_Drag : MonoBehaviour
                 }
             }
 
-            //ドロップ後に接続を再チェック
             RecheckAllConnections();
         }
 
@@ -136,7 +139,12 @@ public class Monitor_Drag : MonoBehaviour
         }
     }
 
-    // Monitor_Drag.cs の RecheckAllConnections
+    void PlayPlaceSE()
+    {
+        if (placeSE != null && audioSource != null)
+            audioSource.PlayOneShot(placeSE);
+    }
+
     public void RecheckAllConnections()
     {
         StartCoroutine(RecheckAfterFrame());
@@ -146,7 +154,6 @@ public class Monitor_Drag : MonoBehaviour
     {
         yield return null;
 
-        // ✅ plugCollisionだけ再チェック（socketは呼ばない）
         Collider2D[] nearbyColliders = Physics2D.OverlapCircleAll(transform.position, 2f);
         foreach (Collider2D col in nearbyColliders)
         {
