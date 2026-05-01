@@ -82,7 +82,10 @@ public class plugCollision : MonoBehaviour
             ConnectionManager.Instance?.Disconnect(myNode);
 
             PowerNode myOwner = myNode.owner != null ? myNode.owner : myNode;
-            ClearPortals(myOwner, socketOwner);
+            if (connectedSocket != null)
+            {
+                ClearPortals(myOwner, connectedSocket);
+            }
 
             connectedSocket = null;
         }

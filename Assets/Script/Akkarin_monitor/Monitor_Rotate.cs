@@ -14,10 +14,15 @@ public class Monitor_Rotate : MonoBehaviour
 
     private Collider2D col;
 
-    void Start()
+    void Awake()
     {
         col = GetComponent<Collider2D>();
-        player = FindObjectOfType<Player2DController>();
+
+        player = FindFirstObjectByType<Player2DController>();
+
+        if (player == null)
+            Debug.LogError("Player‚ªŒ©‚Â‚©‚ç‚È‚¢");
+
         targetRotation = Mathf.Round(transform.eulerAngles.z / 90f) * 90f;
     }
 
