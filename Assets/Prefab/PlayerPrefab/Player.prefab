@@ -208,3 +208,4 @@ MonoBehaviour:
   ledgeTolerance: 0.2
   coyoteTime: 0.12
   jumpBufferTime: 0.15
+  showDebug: 1

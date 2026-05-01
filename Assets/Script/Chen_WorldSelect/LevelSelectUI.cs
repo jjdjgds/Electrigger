@@ -3,8 +3,12 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 
+/// <summary>
+/// レベル選択UI
+/// </summary>
 public class LevelSelectUI : MonoBehaviour
 {
+    // UI参照
     [Header("UI")]
     [SerializeField] private Button prevButton;
     [SerializeField] private Button nextButton;
@@ -14,6 +18,7 @@ public class LevelSelectUI : MonoBehaviour
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private Image previewImage;
 
+    // データ
     [Header("Data")]
     [SerializeField] private SelectItemData[] items;
 
@@ -26,8 +31,7 @@ public class LevelSelectUI : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log($"{gameObject.name} LevelSelectUI Awake");
-
+        // ボタン登録
         prevButton.onClick.AddListener(Prev);
         nextButton.onClick.AddListener(Next);
         imageButton.onClick.AddListener(Confirm);
@@ -38,9 +42,10 @@ public class LevelSelectUI : MonoBehaviour
         UpdateView();
     }
 
+    // 前へ
     private void Prev()
     {
-        if (items == null || items.Length == 0) return;
+        if (!HasItems()) return;
 
         currentIndex--;
 
@@ -50,11 +55,10 @@ public class LevelSelectUI : MonoBehaviour
         UpdateView();
     }
 
+    // 次へ
     private void Next()
     {
-        Debug.Log($"{gameObject.name} Next Clicked");
-
-        if (items == null || items.Length == 0) return;
+        if (!HasItems()) return;
 
         currentIndex++;
 
@@ -64,9 +68,10 @@ public class LevelSelectUI : MonoBehaviour
         UpdateView();
     }
 
+    // UI更新
     private void UpdateView()
     {
-        if (items == null || items.Length == 0) return;
+        if (!HasItems()) return;
 
         SelectItemData item = items[currentIndex];
 
@@ -75,17 +80,31 @@ public class LevelSelectUI : MonoBehaviour
         previewImage.sprite = item.previewImage;
     }
 
+    // 確定
     private void Confirm()
     {
-        if (items == null || items.Length == 0) return;
+        if (!HasItems()) return;
 
         onSelected?.Invoke(currentIndex, items[currentIndex]);
+    }
+
+    private bool HasItems()
+    {
+        return items != null && items.Length > 0;
     }
 
     public void SetItems(SelectItemData[] newItems)
     {
         items = newItems;
         currentIndex = 0;
+        UpdateView();
+    }
+
+    public void SetIndex(int index)
+    {
+        if (items == null || items.Length == 0) return;
+
+        currentIndex = Mathf.Clamp(index, 0, items.Length - 1);
         UpdateView();
     }
 }

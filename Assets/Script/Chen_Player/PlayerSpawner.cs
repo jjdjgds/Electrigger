@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
+
+/// <summary>
+/// プレイヤーを生成し、指定キーでリセットするスクリプト
+/// </summary>
 public class PlayerSpawner : MonoBehaviour
 {
     [Header("Player")]
@@ -19,6 +23,8 @@ public class PlayerSpawner : MonoBehaviour
 
     void Update()
     {
+        if (!PauseMenuManager.CanGameInput()) return;// ポーズ中は入力を受け付けない
+
         var keyboard = Keyboard.current;
         if (keyboard == null) return;
 

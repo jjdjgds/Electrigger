@@ -1,14 +1,20 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// ゴール判定クラス
+/// </summary>
 public class ExitGoal : MonoBehaviour
 {
+    // UI参照
     [Header("UI")]
     [SerializeField] private GameObject interactIcon;
 
+    // アイコンオフセット
     [Header("Follow Target")]
     [SerializeField] private Vector3 iconOffset = new Vector3(0f, 1.5f, 0f);
 
+    // 入力設定
     [Header("Input")]
     [SerializeField] public Key resetKey = Key.W;
 
@@ -44,6 +50,7 @@ public class ExitGoal : MonoBehaviour
         }
     }
 
+    // プレイヤーがゴールエリアに入ったときの処理
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isCleared) return;
@@ -57,20 +64,19 @@ public class ExitGoal : MonoBehaviour
 
             if (interactIcon != null)
             {
+                // アイコン表示
                 interactIcon.SetActive(true);
             }
 
             if (playerController != null)
             {
+                // ジャンプ無効化
                 playerController.SetJumpEnabled(false);
-            }
-            else
-            {
-                Debug.LogWarning("Player2DController not found.");
             }
         }
     }
 
+    // プレイヤーがゴールエリアから出たときの処理
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player")) return;
