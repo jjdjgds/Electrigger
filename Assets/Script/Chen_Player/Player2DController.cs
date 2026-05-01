@@ -453,6 +453,7 @@ public class Player2DController : MonoBehaviour
 
         Collider2D col = GetComponent<Collider2D>();
         if (col == null) return;
+    }
 
     public void SetFrozen(bool frozen)
     {

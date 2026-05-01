@@ -110,8 +110,8 @@ public class Monitor_Drag : MonoBehaviour
                         playerCol.enabled = false;
                 }
 
-                if (playerMovement != null)
-                    playerMovement.allowMovement = false;
+                //if (playerMovement != null)
+                //    playerMovement.allowMovement = false;
                 PlayPickupSE();
                 RecheckAllConnections();
             }
@@ -219,6 +219,7 @@ public class Monitor_Drag : MonoBehaviour
     void OnDestroy()
     {
         freezeRequesters.Remove(this);
+    }
     void PlayPickupSE()
     {
         if (pickupSE != null && audioSource != null)
