@@ -43,17 +43,14 @@ public class PlayerSpawner : MonoBehaviour
     // プレイヤー生成処理
     void SpawnPlayer()
     {
-        if (playerPrefab == null)
-        {
-            Debug.LogWarning("PlayerPrefab が設定されていません。");
-            return;
-        }
+        if (playerPrefab == null) return;
 
-        // このオブジェクトの位置・回転で生成
-        currentPlayer = Instantiate(
-            playerPrefab,
-            transform.position,
-            transform.rotation
-        );
+        currentPlayer = Instantiate(playerPrefab, transform.position, transform.rotation);
+
+        // Notify all monitors of new player
+        foreach (var monitor in FindObjectsByType<Monitor_Drag>(FindObjectsSortMode.None))
+        {
+            monitor.SetPlayer(currentPlayer.transform);
+        }
     }
 }

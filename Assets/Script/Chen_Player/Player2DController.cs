@@ -69,6 +69,7 @@ public class Player2DController : MonoBehaviour
     private Vector2 storedVelocity;
     private float storedGravity;
     private bool colliderStateBeforeFreeze;
+    private Vector2 frozenPositionDelta;
 
     void Awake()
     {
@@ -89,7 +90,11 @@ public class Player2DController : MonoBehaviour
         if (isFrozen)
         {
             rb.linearVelocity = Vector2.zero;
-            rb.MovePosition(rb.position);
+            if (frozenPositionDelta != Vector2.zero)
+            {
+                rb.position += frozenPositionDelta;
+                frozenPositionDelta = Vector2.zero;
+            }
             return;
         }
 
@@ -420,27 +425,22 @@ public class Player2DController : MonoBehaviour
         {
             storedVelocity = rb.linearVelocity;
             storedGravity = rb.gravityScale;
-
             rb.linearVelocity = Vector2.zero;
             rb.gravityScale = 0f;
-
-            if (playerCollider != null)
-            {
-                colliderStateBeforeFreeze = playerCollider.enabled;
-                playerCollider.enabled = false;
-            }
-
+            rb.simulated = false; // completely disable physics
         }
         else
         {
+            rb.simulated = true;
             rb.linearVelocity = storedVelocity;
             rb.gravityScale = storedGravity;
-
-            if (playerCollider != null)
-            {
-                playerCollider.enabled = colliderStateBeforeFreeze;
-            }
         }
+    }
+
+    public void MoveWhileFrozen(Vector3 delta)
+    {
+        if (isFrozen)
+            frozenPositionDelta += (Vector2)delta;
     }
 
 }
