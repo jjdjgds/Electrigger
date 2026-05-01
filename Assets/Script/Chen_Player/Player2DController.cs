@@ -65,6 +65,12 @@ public class Player2DController : MonoBehaviour
     private float coyoteCounter;
     private float jumpBufferCounter;
 
+    private bool isFrozen = false;
+    private Vector2 storedVelocity;
+    private float storedGravity;
+    private bool colliderStateBeforeFreeze;
+    private Vector2 frozenPositionDelta;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -73,12 +79,25 @@ public class Player2DController : MonoBehaviour
 
     void Update()
     {
+        if (isFrozen) return;
+
         ReadInput();
         UpdateJumpBuffer();
     }
 
     void FixedUpdate()
     {
+        if (isFrozen)
+        {
+            rb.linearVelocity = Vector2.zero;
+            if (frozenPositionDelta != Vector2.zero)
+            {
+                rb.position += frozenPositionDelta;
+                frozenPositionDelta = Vector2.zero;
+            }
+            return;
+        }
+
         CheckWall();        // 壁判定
         CheckGround();        // 地面判定
         UpdateCoyoteTime();   // コヨーテタイム更新
@@ -397,5 +416,31 @@ public class Player2DController : MonoBehaviour
     }
 
     // デバッグ用
+
+    public void SetFrozen(bool frozen)
+    {
+        isFrozen = frozen;
+
+        if (frozen)
+        {
+            storedVelocity = rb.linearVelocity;
+            storedGravity = rb.gravityScale;
+            rb.linearVelocity = Vector2.zero;
+            rb.gravityScale = 0f;
+            rb.simulated = false; // completely disable physics
+        }
+        else
+        {
+            rb.simulated = true;
+            rb.linearVelocity = storedVelocity;
+            rb.gravityScale = storedGravity;
+        }
+    }
+
+    public void MoveWhileFrozen(Vector3 delta)
+    {
+        if (isFrozen)
+            frozenPositionDelta += (Vector2)delta;
+    }
 
 }

@@ -8,6 +8,9 @@ public class PowerNode : MonoBehaviour
     private battery poweredBy;
     private int depth;
 
+    public AngleType? connectedSide = null;
+    public PowerNode connectedNode = null;
+
     public bool IsPowered() => powered;
     public void SetPowered(bool value) => powered = value;
 

@@ -43,17 +43,17 @@ public class PlayerSpawner : MonoBehaviour
     // プレイヤー生成処理
     void SpawnPlayer()
     {
-        if (playerPrefab == null)
+        if (playerPrefab == null) return;
+
+        currentPlayer = Instantiate(playerPrefab, transform.position, transform.rotation);
+
+        // Notify all monitors of new player
+        foreach (var monitor in FindObjectsByType<Monitor_Drag>(FindObjectsSortMode.None))
         {
-            Debug.LogWarning("PlayerPrefab が設定されていません。");
-            return;
+            monitor.SetPlayer(currentPlayer.transform);
         }
 
-        // このオブジェクトの位置・回転で生成
-        currentPlayer = Instantiate(
-            playerPrefab,
-            transform.position,
-            transform.rotation
-        );
+        foreach (var monitor in FindObjectsByType<Monitor_Collision>(FindObjectsSortMode.None))
+            monitor.SetPlayer(currentPlayer.transform);
     }
 }
