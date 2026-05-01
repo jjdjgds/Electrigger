@@ -26,10 +26,9 @@ public class Monitor_Drag : MonoBehaviour
     public Vector3 lastValidPosition;
 
     [Header("Sound")]
-    public AudioClip placeSE;         // Inspectorで効果音を設定
+    public AudioClip placeSE;
     private AudioSource audioSource;
 
-    // 子オブジェクトのplugとsocketをキャッシュ
     private plugCollision[] plugCollisions;
     private socketCollision[] socketCollisions;
 
@@ -48,7 +47,6 @@ public class Monitor_Drag : MonoBehaviour
         plugCollisions = GetComponentsInChildren<plugCollision>();
         socketCollisions = GetComponentsInChildren<socketCollision>();
 
-        // AudioSourceを自動取得 or 追加
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
@@ -90,19 +88,22 @@ public class Monitor_Drag : MonoBehaviour
                 offset = transform.position - worldPos;
                 lastValidPosition = transform.position;
 
-                // Fresh live check right here, don't rely on cached playerInside
                 if (sharedPlayer != null)
                 {
                     Collider2D monitorCol = GetComponent<Collider2D>();
                     Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
                     Bounds expanded = monitorCol.bounds;
-                    expanded.Expand(new Vector3(3f, 3f, 100f));
+                    expanded.Expand(new Vector3(0f, 0f, 100f));
 
                     playerShouldFollowDrag = playerCol != null
                         ? expanded.Intersects(playerCol.bounds)
                         : expanded.Contains(sharedPlayer.position);
 
                     Debug.Log($"{gameObject.name} drag start, playerShouldFollowDrag={playerShouldFollowDrag}");
+
+                    // ★ Disable player collider to prevent physics conflict with overlapping monitors
+                    if (playerShouldFollowDrag && playerCol != null)
+                        playerCol.enabled = false;
                 }
 
                 RecheckAllConnections();
@@ -113,6 +114,24 @@ public class Monitor_Drag : MonoBehaviour
         {
             isDragging = false;
             currentlyDragging = null;
+
+            // ★ Re-enable player collider and clamp player inside monitor on drop
+            if (sharedPlayer != null)
+            {
+                Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
+                if (playerCol != null) playerCol.enabled = true;
+
+                if (playerShouldFollowDrag)
+                {
+                    Collider2D monitorCol = GetComponent<Collider2D>();
+                    Bounds b = monitorCol.bounds;
+                    float push = 0.6f;
+                    Vector3 playerPos = sharedPlayer.position;
+                    playerPos.x = Mathf.Clamp(playerPos.x, b.min.x + push, b.max.x - push);
+                    playerPos.y = Mathf.Clamp(playerPos.y, b.min.y + push, b.max.y - push);
+                    sharedPlayer.position = playerPos;
+                }
+            }
 
             Vector2 mousePos = Mouse.current.position.ReadValue();
             Vector3 worldPos = cam.ScreenToWorldPoint(
@@ -145,7 +164,6 @@ public class Monitor_Drag : MonoBehaviour
                     );
                     lastValidPosition = transform.position;
 
-                    // ★ タイルへのスナップ成功時に効果音を再生
                     PlayPlaceSE();
                 }
                 else
@@ -154,6 +172,7 @@ public class Monitor_Drag : MonoBehaviour
                 }
             }
 
+            playerShouldFollowDrag = false;
             RecheckAllConnections();
         }
 
@@ -169,7 +188,22 @@ public class Monitor_Drag : MonoBehaviour
             transform.position = clampedPos;
 
             if (playerShouldFollowDrag && sharedPlayer != null)
+            {
                 sharedPlayer.transform.position += delta;
+
+                // ★ Clamp player strictly inside this monitor every frame during drag
+                Collider2D monitorCol = GetComponent<Collider2D>();
+                Bounds b = monitorCol.bounds;
+                float push = 0.6f;
+                Vector3 playerPos = sharedPlayer.position;
+                playerPos.x = Mathf.Clamp(playerPos.x, b.min.x + push, b.max.x - push);
+                playerPos.y = Mathf.Clamp(playerPos.y, b.min.y + push, b.max.y - push);
+                sharedPlayer.position = playerPos;
+
+                // ★ Kill velocity so physics doesn't fight the clamp
+                Rigidbody2D rb = sharedPlayer.GetComponent<Rigidbody2D>();
+                if (rb != null) rb.linearVelocity = Vector2.zero;
+            }
         }
     }
 
@@ -216,7 +250,6 @@ public class Monitor_Drag : MonoBehaviour
         Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
 
         Bounds monitorBounds = monitorCol.bounds;
-        // Expand bounds generously in all directions
         monitorBounds.Expand(new Vector3(1.5f, 1.5f, 100f));
 
         if (playerCol != null)

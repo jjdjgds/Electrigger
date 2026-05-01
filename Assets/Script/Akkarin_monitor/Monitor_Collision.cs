@@ -6,10 +6,10 @@ public class Monitor_Collision : MonoBehaviour
     private Collider2D playerCollider;
     private PowerNode powerNode;
 
-    private Collider2D wallRight;
-    private Collider2D wallLeft;
-    private Collider2D wallTop;
-    private Collider2D wallBottom;
+    [HideInInspector] public Collider2D wallRight;
+    [HideInInspector] public Collider2D wallLeft;
+    [HideInInspector] public Collider2D wallTop;
+    [HideInInspector] public Collider2D wallBottom;
 
     public float teleportCooldown = 0f;
 
@@ -115,58 +115,57 @@ public class Monitor_Collision : MonoBehaviour
         teleportCooldown = 0.5f;
         targetMC.teleportCooldown = 0.5f;
 
-        // 1. Find which side of the TARGET monitor connects back to THIS monitor
-        PortalSide exitSide = PortalSide.Left; // default fallback
+        PortalSide exitSide = PortalSide.Left;
         if (targetMC.portalRightTarget == transform) exitSide = PortalSide.Right;
         else if (targetMC.portalLeftTarget == transform) exitSide = PortalSide.Left;
         else if (targetMC.portalUpTarget == transform) exitSide = PortalSide.Top;
         else if (targetMC.portalDownTarget == transform) exitSide = PortalSide.Bottom;
 
-        // 2. Find the exact offset relative to the CENTER of the current monitor
-        float parallelOffset = 0f;
-        if (sideTouched == PortalSide.Right || sideTouched == PortalSide.Left)
-            parallelOffset = playerTransform.position.y - transform.position.y;
-        else
-            parallelOffset = playerTransform.position.x - transform.position.x;
-
-        // 3. Calculate target monitor edges using localScale (No bounds needed)
-        float targetHalfWidth = targetMonitor.localScale.x / 2f;
-        float targetHalfHeight = targetMonitor.localScale.y / 2f;
-
-        float push = 0.6f; // Distance to push player inside the room so they don't hit the trigger
-        Vector2 newPosition = targetMonitor.position;
-
-        // 4. Apply the exact same offset to the target monitor
+        Collider2D exitWall = null;
         switch (exitSide)
         {
-            case PortalSide.Right:
-                newPosition.x = targetMonitor.position.x + targetHalfWidth - push;
-                newPosition.y = targetMonitor.position.y + parallelOffset;
-                break;
-            case PortalSide.Left:
-                newPosition.x = targetMonitor.position.x - targetHalfWidth + push;
-                newPosition.y = targetMonitor.position.y + parallelOffset;
-                break;
-            case PortalSide.Top:
-                newPosition.x = targetMonitor.position.x + parallelOffset;
-                newPosition.y = targetMonitor.position.y + targetHalfHeight - push;
-                break;
-            case PortalSide.Bottom:
-                newPosition.x = targetMonitor.position.x + parallelOffset;
-                newPosition.y = targetMonitor.position.y - targetHalfHeight + push;
-                break;
+            case PortalSide.Right: exitWall = targetMC.wallRight; break;
+            case PortalSide.Left: exitWall = targetMC.wallLeft; break;
+            case PortalSide.Top: exitWall = targetMC.wallTop; break;
+            case PortalSide.Bottom: exitWall = targetMC.wallBottom; break;
         }
 
-        // 5. Move the player (maintains exact velocity because we don't reset rb.velocity)
+        if (exitWall == null) return;
+
         Rigidbody2D rb = playerTransform.GetComponent<Rigidbody2D>();
-        if (rb != null)
+        Vector2 oldVelocity = rb != null ? rb.linearVelocity : Vector2.zero;
+
+        float push = 0.6f;
+        Vector2 exitWallCenter = exitWall.bounds.center;
+        Vector2 inwardDir = ((Vector2)targetMonitor.position - exitWallCenter).normalized;
+        Vector2 newPosition;
+
+
+        if (Mathf.Abs(inwardDir.x) > Mathf.Abs(inwardDir.y))
         {
-            rb.position = newPosition;
+
+            newPosition.x = exitWallCenter.x + inwardDir.x * push;
+            newPosition.y = playerTransform.position.y;
         }
         else
         {
-            playerTransform.position = newPosition;
+
+            newPosition.x = playerTransform.position.x;
+            newPosition.y = exitWallCenter.y + inwardDir.y * push;
         }
+
+        Bounds targetBounds = targetMonitor.GetComponent<Collider2D>().bounds;
+        newPosition.x = Mathf.Clamp(newPosition.x, targetBounds.min.x + push, targetBounds.max.x - push);
+        newPosition.y = Mathf.Clamp(newPosition.y, targetBounds.min.y + push, targetBounds.max.y - push);
+
+        playerTransform.position = new Vector3(newPosition.x, newPosition.y, playerTransform.position.z);
+        if (rb != null) rb.linearVelocity = oldVelocity;
+    }
+
+    public void SetPlayer(Transform newPlayer)
+    {
+        player = newPlayer;
+        playerCollider = newPlayer.GetComponent<Collider2D>();
     }
 
     private bool IsOverlapping2D(Bounds p, Bounds w)

@@ -87,7 +87,8 @@ public class Monitor_Rotate : MonoBehaviour
         yield return new WaitForSeconds(scrollCooldown);
 
         isRotatingAnyMonitor = false;
-
+        foreach (var plug in GetComponentsInChildren<plugCollision>())
+            plug.RecheckConnections();
         canScroll = true;
     }
 }

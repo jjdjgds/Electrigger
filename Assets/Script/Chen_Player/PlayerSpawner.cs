@@ -52,5 +52,8 @@ public class PlayerSpawner : MonoBehaviour
         {
             monitor.SetPlayer(currentPlayer.transform);
         }
+
+        foreach (var monitor in FindObjectsByType<Monitor_Collision>(FindObjectsSortMode.None))
+            monitor.SetPlayer(currentPlayer.transform);
     }
 }

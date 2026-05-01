@@ -106,34 +106,45 @@ public class plugCollision : MonoBehaviour
 
         // --- TELEPORT SETUP LOGIC ---
 
-        // 4. Set the side for the PLUG's monitor based on the plug's rotation
+        // 4. Get Monitor_Collision components
         Monitor_Collision myMonitor = myOwner.GetComponent<Monitor_Collision>();
         Monitor_Collision socketMonitor = socketOwner.GetComponent<Monitor_Collision>();
 
         if (myMonitor != null && socketMonitor != null)
         {
-            // 5. Save the connection for Monitor A (The Plug)
-            float myZRot = transform.localEulerAngles.z;
-            if (myZRot >= 315 || myZRot < 45) myMonitor.portalUpTarget = socketMonitor.transform;
-            else if (myZRot >= 45 && myZRot < 135) myMonitor.portalLeftTarget = socketMonitor.transform;
-            else if (myZRot >= 135 && myZRot < 225) myMonitor.portalDownTarget = socketMonitor.transform;
-            else myMonitor.portalRightTarget = socketMonitor.transform;
+            // 5. Use world position relative to monitor center to determine side
+            SetPortalSide(myMonitor, transform, socketMonitor);
+            SetPortalSide(socketMonitor, other.transform, myMonitor);
 
-            // 6. Save the connection for Monitor B (The Socket)
-            float socketZRot = other.transform.localEulerAngles.z;
-            if (socketZRot >= 315 || socketZRot < 45) socketMonitor.portalUpTarget = myMonitor.transform;
-            else if (socketZRot >= 45 && socketZRot < 135) socketMonitor.portalLeftTarget = myMonitor.transform;
-            else if (socketZRot >= 135 && socketZRot < 225) socketMonitor.portalDownTarget = myMonitor.transform;
-            else socketMonitor.portalRightTarget = myMonitor.transform;
+            Debug.Log($"Plug({gameObject.name}) → {myMonitor.name} portal set");
+            Debug.Log($"Socket({other.name}) → {socketMonitor.name} portal set");
         }
 
-        // 7. Link them together
+        // 6. Link them together
         myOwner.connectedNode = socketOwner;
         socketOwner.connectedNode = myOwner;
 
         // 7. Finalize Connection
         connectedSocket = socketOwner;
         ConnectionManager.Instance?.Connect(myNode, socketOwner);
+
+    }
+
+    private void SetPortalSide(Monitor_Collision monitor, Transform plugTransform, Monitor_Collision targetMonitor)
+    {
+        // Convert plug world position to monitor LOCAL space
+        // This matches the wall names regardless of monitor rotation
+        Vector2 localDir = monitor.transform.InverseTransformPoint(plugTransform.position).normalized;
+        float angle = Mathf.Atan2(localDir.y, localDir.x) * Mathf.Rad2Deg;
+
+        if (angle >= -45f && angle < 45f)
+            monitor.portalRightTarget = targetMonitor.transform;
+        else if (angle >= 45f && angle < 135f)
+            monitor.portalUpTarget = targetMonitor.transform;
+        else if (angle >= 135f || angle < -135f)
+            monitor.portalLeftTarget = targetMonitor.transform;
+        else
+            monitor.portalDownTarget = targetMonitor.transform;
     }
 
     private void ClearPortals(PowerNode ownerA, PowerNode ownerB)
