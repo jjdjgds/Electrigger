@@ -105,7 +105,7 @@ public class Monitor_Drag : MonoBehaviour
 
                     Debug.Log($"{gameObject.name} drag start, playerShouldFollowDrag={playerShouldFollowDrag}");
 
-                    // ★ Disable player collider to prevent physics conflict with overlapping monitors
+                    // Disable player collider to prevent physics conflict with overlapping monitors
                     if (playerShouldFollowDrag && playerCol != null)
                         playerCol.enabled = false;
                 }
