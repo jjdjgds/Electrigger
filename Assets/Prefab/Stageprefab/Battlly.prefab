@@ -82,7 +82,7 @@ MonoBehaviour:
   plugColor: 1
   angleType: 1
   frameRenderer: {fileID: 323712838163336149}
-  spawnOffset: 0.2
+  spawnOffset: 0.1
   maxCharge: 5
   _currentCharge: 0
 --- !u!114 &1468809137176869036

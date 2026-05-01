@@ -1,4 +1,4 @@
-﻿// plugCollision.cs
+// plugCollision.cs
 using UnityEngine;
 using System.Collections;
 
@@ -35,7 +35,7 @@ public class plugCollision : MonoBehaviour
 
     public void RecheckConnections()
     {
-        // ✅ 多重呼び出し防止
+        //多重呼び出し防止
         if (isRechecking) return;
         isRechecking = true;
 
@@ -61,17 +61,23 @@ public class plugCollision : MonoBehaviour
         isRechecking = false;
     }
 
-    void OnTriggerEnter2D(Collider2D other) => TryConnect(other);
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.CompareTag("electricaloutlet")) return;
+        if (gameObject.activeInHierarchy)
+            StartCoroutine(RecheckAfterFrame());
+    }
 
     void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("electricaloutlet")) return;
-        if (other.GetComponent<socketCollision>() == null) return;
+        if (gameObject.activeInHierarchy)
+            StartCoroutine(RecheckAfterFrame());
+    }
 
-        PowerNode socketNode = other.GetComponent<PowerNode>();
-        PowerNode socketOwner = socketNode?.owner != null ? socketNode.owner : socketNode;
-
-        if (connectedSocket == socketOwner)
+    void OnDisable()
+    {
+        if (ConnectionManager.Instance != null && myNode != null)
         {
             ConnectionManager.Instance?.Disconnect(myNode);
 
@@ -80,6 +86,7 @@ public class plugCollision : MonoBehaviour
 
             connectedSocket = null;
         }
+        connectedSocket = null;
     }
 
     void TryConnect(Collider2D other)

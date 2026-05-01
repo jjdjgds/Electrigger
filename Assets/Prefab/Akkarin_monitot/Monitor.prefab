@@ -583,9 +583,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   canDrag: 1
   overlay: {fileID: 297644110902832017}
+  myPowerNode: {fileID: 0}
   gridGenerator: {fileID: 0}
   lastValidPosition: {x: 0, y: 0, z: 0}
-  placeSE: {fileID: 8300000, guid: 13aa301dca1f65347a3bc8513b824ee8, type: 3}
+  pickupSE: {fileID: 8300000, guid: 19057c689941478479450cb97dbc32fe, type: 3}
+  placeSE: {fileID: 8300000, guid: dbb9f0fbbef6ec647ae263f816f6d422, type: 3}
+  isPlaced: 0
 --- !u!114 &122431888254670337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,6 +629,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PowerNode
   isBattery: 0
   owner: {fileID: 0}
+  powerOnSE: {fileID: 8300000, guid: 0c5b24f366f772a4fa61e38c7dcf2dc6, type: 3}
 --- !u!114 &4881467912934530167
 MonoBehaviour:
   m_ObjectHideFlags: 0
