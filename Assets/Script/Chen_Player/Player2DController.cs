@@ -71,6 +71,12 @@ public class Player2DController : MonoBehaviour
     private float coyoteCounter;
     private float jumpBufferCounter;
 
+    private bool isFrozen = false;
+    private Vector2 storedVelocity;
+    private float storedGravity;
+    private bool colliderStateBeforeFreeze;
+    private Vector2 frozenPositionDelta;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -79,6 +85,7 @@ public class Player2DController : MonoBehaviour
 
     void Update()
     {
+        if (isFrozen) return;
         if (!PauseMenuManager.CanGameInput()) return;// ポーズ中は入力を受け付けない
 
         ReadInput();
@@ -87,6 +94,17 @@ public class Player2DController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isFrozen)
+        {
+            rb.linearVelocity = Vector2.zero;
+            if (frozenPositionDelta != Vector2.zero)
+            {
+                rb.position += frozenPositionDelta;
+                frozenPositionDelta = Vector2.zero;
+            }
+            return;
+        }
+
         CheckWall();        // 壁判定
         CheckGround();        // 地面判定
         UpdateCoyoteTime();   // コヨーテタイム更新
@@ -436,30 +454,30 @@ public class Player2DController : MonoBehaviour
         Collider2D col = GetComponent<Collider2D>();
         if (col == null) return;
 
-        Bounds bounds = col.bounds;
+    public void SetFrozen(bool frozen)
+    {
+        isFrozen = frozen;
 
-        float dirValue = Application.isPlaying
-            ? (moveInput != 0f ? moveInput : lastMoveDirection)
-            : 1f;
-
-        Vector2 direction = dirValue > 0f ? Vector2.right : Vector2.left;
-
-        float sideX = direction.x > 0f ? bounds.max.x : bounds.min.x;
-
-        Vector2 boxSize = new Vector2(
-            wallCheckWidth,
-            bounds.size.y * 0.7f
-        );
-
-        Vector2 boxCenter = new Vector2(
-            sideX + direction.x * boxSize.x * 0.5f,
-            bounds.center.y
-        );
-
-        Gizmos.color = (touchingWallLeft || touchingWallRight)
-            ? Color.red
-            : Color.green;
-
-        Gizmos.DrawWireCube(boxCenter, boxSize);
+        if (frozen)
+        {
+            storedVelocity = rb.linearVelocity;
+            storedGravity = rb.gravityScale;
+            rb.linearVelocity = Vector2.zero;
+            rb.gravityScale = 0f;
+            rb.simulated = false; // completely disable physics
+        }
+        else
+        {
+            rb.simulated = true;
+            rb.linearVelocity = storedVelocity;
+            rb.gravityScale = storedGravity;
+        }
     }
+
+    public void MoveWhileFrozen(Vector3 delta)
+    {
+        if (isFrozen)
+            frozenPositionDelta += (Vector2)delta;
+    }
+
 }

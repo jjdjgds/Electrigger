@@ -3,18 +3,21 @@ using UnityEngine.InputSystem;
 
 public class Monitor_Rotate : MonoBehaviour
 {
+    private Player2DController player;
     public float smoothSpeed = 5f;
     public float scrollCooldown = 0.15f;
 
     private float targetRotation;
     private float lastScroll;
     private bool canScroll = true;
+    public static bool isRotatingAnyMonitor = false;
 
     private Collider2D col;
 
     void Start()
     {
         col = GetComponent<Collider2D>();
+        player = FindObjectOfType<Player2DController>();
         targetRotation = Mathf.Round(transform.eulerAngles.z / 90f) * 90f;
     }
 
@@ -46,14 +49,24 @@ public class Monitor_Rotate : MonoBehaviour
     bool IsMouseOver()
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
-        Vector3 world = Camera.main.ScreenToWorldPoint(mousePos);
+        Vector3 world = Camera.main.ScreenToWorldPoint(
+            new Vector3(mousePos.x, mousePos.y, Mathf.Abs(Camera.main.transform.position.z))
+        );
+        world.z = transform.position.z;
 
-        return col.OverlapPoint(world);
+        Collider2D hit = Physics2D.OverlapPoint(world);
+
+        if (hit == null) return false;
+
+        // Check if hit object is this OR a child
+        return hit.transform == transform || hit.transform.IsChildOf(transform);
     }
 
     System.Collections.IEnumerator RotateStep(float amount)
     {
         canScroll = false;
+
+        isRotatingAnyMonitor = true;
 
         targetRotation += amount;
 
@@ -79,6 +92,9 @@ public class Monitor_Rotate : MonoBehaviour
 
         yield return new WaitForSeconds(scrollCooldown);
 
+        isRotatingAnyMonitor = false;
+        foreach (var plug in GetComponentsInChildren<plugCollision>())
+            plug.RecheckConnections();
         canScroll = true;
     }
 }

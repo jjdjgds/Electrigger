@@ -1,4 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Unity.Multiplayer.PlayMode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,10 +10,14 @@ public class Monitor_Drag : MonoBehaviour
     private bool isDragging = false;
     private Vector3 offset;
     private Camera cam;
-    private Transform player;
-    private PlayerMovement_Test playerMovement;
+    private static Transform sharedPlayer;
+    private static Player2DController sharedPlayerMovement;
     private bool playerInside = false;
-    private bool playerWasInsideAtDragStart = false;
+    private Vector2 playerDragOffset;
+    private bool playerShouldFollowDrag = false;
+    private bool lastFrozenState = false;
+    private static HashSet<Monitor_Drag> freezeRequesters = new HashSet<Monitor_Drag>();
+    private static Monitor_Drag currentlyDragging = null;
 
     [Header("PowerOff")]
     public GameObject overlay;
@@ -25,7 +31,6 @@ public class Monitor_Drag : MonoBehaviour
     private AudioSource audioSource;
     public bool isPlaced = false;
 
-    // 子オブジェクトのplugとsocketをキャッシュ
     private plugCollision[] plugCollisions;
     private socketCollision[] socketCollisions;
 
@@ -34,16 +39,18 @@ public class Monitor_Drag : MonoBehaviour
     void Start()
     {
         cam = Camera.main;
-        player = GameObject.FindGameObjectWithTag("Player")?.transform;
-        if (player != null)
-            playerMovement = player.GetComponent<PlayerMovement_Test>();
-
+        var found = GameObject.FindGameObjectWithTag("Player");
+        if (found != null)
+        {
+            sharedPlayer = found.transform;
+            sharedPlayerMovement = found.GetComponent<Player2DController>();
+        }
+        Debug.Log($"{gameObject.name} player found: {sharedPlayer != null}");
         myPowerNode = GetComponent<PowerNode>();
 
         plugCollisions = GetComponentsInChildren<plugCollision>();
         socketCollisions = GetComponentsInChildren<socketCollision>();
 
-        // AudioSourceを自動取得 or 追加
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
@@ -53,6 +60,21 @@ public class Monitor_Drag : MonoBehaviour
     {
         CheckIfPlayerInside();
         UpdateOverlay();
+        bool isPowered = myPowerNode != null && myPowerNode.IsPowered();
+        bool shouldFreeze = (isDragging && playerShouldFollowDrag) || Monitor_Rotate.isRotatingAnyMonitor || (!isPowered && playerInside);
+
+        if (shouldFreeze)
+            freezeRequesters.Add(this);
+        else
+            freezeRequesters.Remove(this);
+
+        bool actualFreeze = freezeRequesters.Count > 0;
+        if (sharedPlayerMovement != null && actualFreeze != lastFrozenState)
+        {
+            sharedPlayerMovement.SetFrozen(actualFreeze);
+            lastFrozenState = actualFreeze;
+        }
+
         if (!canDrag) return;
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
@@ -66,9 +88,27 @@ public class Monitor_Drag : MonoBehaviour
             if (GetComponent<Collider2D>().OverlapPoint(worldPos))
             {
                 isDragging = true;
+                currentlyDragging = this;
                 offset = transform.position - worldPos;
-                playerWasInsideAtDragStart = playerInside;
                 lastValidPosition = transform.position;
+
+                if (sharedPlayer != null)
+                {
+                    Collider2D monitorCol = GetComponent<Collider2D>();
+                    Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
+                    Bounds expanded = monitorCol.bounds;
+                    expanded.Expand(new Vector3(0f, 0f, 100f));
+
+                    playerShouldFollowDrag = playerCol != null
+                        ? expanded.Intersects(playerCol.bounds)
+                        : expanded.Contains(sharedPlayer.position);
+
+                    Debug.Log($"{gameObject.name} drag start, playerShouldFollowDrag={playerShouldFollowDrag}");
+
+                    // ★ Disable player collider to prevent physics conflict with overlapping monitors
+                    if (playerShouldFollowDrag && playerCol != null)
+                        playerCol.enabled = false;
+                }
 
                 if (playerMovement != null)
                     playerMovement.allowMovement = false;
@@ -80,8 +120,25 @@ public class Monitor_Drag : MonoBehaviour
         if (Mouse.current.leftButton.wasReleasedThisFrame && isDragging)
         {
             isDragging = false;
-            if (playerMovement != null)
-                playerMovement.allowMovement = true;
+            currentlyDragging = null;
+
+            // ★ Re-enable player collider and clamp player inside monitor on drop
+            if (sharedPlayer != null)
+            {
+                Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
+                if (playerCol != null) playerCol.enabled = true;
+
+                if (playerShouldFollowDrag)
+                {
+                    Collider2D monitorCol = GetComponent<Collider2D>();
+                    Bounds b = monitorCol.bounds;
+                    float push = 0.6f;
+                    Vector3 playerPos = sharedPlayer.position;
+                    playerPos.x = Mathf.Clamp(playerPos.x, b.min.x + push, b.max.x - push);
+                    playerPos.y = Mathf.Clamp(playerPos.y, b.min.y + push, b.max.y - push);
+                    sharedPlayer.position = playerPos;
+                }
+            }
 
             Vector2 mousePos = Mouse.current.position.ReadValue();
             Vector3 worldPos = cam.ScreenToWorldPoint(
@@ -124,26 +181,44 @@ public class Monitor_Drag : MonoBehaviour
                 }
             }
 
+            playerShouldFollowDrag = false;
             RecheckAllConnections();
         }
 
-        if (isDragging)
+        if (isDragging && currentlyDragging == this)
         {
             Vector2 mousePos = Mouse.current.position.ReadValue();
             Vector3 worldPos = cam.ScreenToWorldPoint(
                 new Vector3(mousePos.x, mousePos.y, Mathf.Abs(cam.transform.position.z))
             );
             worldPos.z = transform.position.z;
-            Vector3 rawPos = worldPos + offset;
-            Vector3 clampedPos = ClampToScreen(rawPos);
+            Vector3 clampedPos = ClampToScreen(worldPos + offset);
             Vector3 delta = clampedPos - transform.position;
             transform.position = clampedPos;
 
-            if (playerWasInsideAtDragStart && player != null)
-                player.position += delta;
+            if (playerShouldFollowDrag && sharedPlayer != null)
+            {
+                sharedPlayer.transform.position += delta;
+
+                // ★ Clamp player strictly inside this monitor every frame during drag
+                Collider2D monitorCol = GetComponent<Collider2D>();
+                Bounds b = monitorCol.bounds;
+                float push = 0.6f;
+                Vector3 playerPos = sharedPlayer.position;
+                playerPos.x = Mathf.Clamp(playerPos.x, b.min.x + push, b.max.x - push);
+                playerPos.y = Mathf.Clamp(playerPos.y, b.min.y + push, b.max.y - push);
+                sharedPlayer.position = playerPos;
+
+                // ★ Kill velocity so physics doesn't fight the clamp
+                Rigidbody2D rb = sharedPlayer.GetComponent<Rigidbody2D>();
+                if (rb != null) rb.linearVelocity = Vector2.zero;
+            }
         }
     }
 
+    void OnDestroy()
+    {
+        freezeRequesters.Remove(this);
     void PlayPickupSE()
     {
         if (pickupSE != null && audioSource != null)
@@ -193,8 +268,23 @@ public class Monitor_Drag : MonoBehaviour
 
     void CheckIfPlayerInside()
     {
-        if (player == null) return;
-        playerInside = GetComponent<Collider2D>().OverlapPoint(player.position);
+        if (sharedPlayer == null) return;
+        Collider2D monitorCol = GetComponent<Collider2D>();
+        Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
+
+        Bounds monitorBounds = monitorCol.bounds;
+        monitorBounds.Expand(new Vector3(1.5f, 1.5f, 100f));
+
+        if (playerCol != null)
+            playerInside = monitorBounds.Intersects(playerCol.bounds);
+        else
+            playerInside = monitorBounds.Contains(sharedPlayer.position);
+    }
+
+    public void SetPlayer(Transform newPlayer)
+    {
+        sharedPlayer = newPlayer;
+        sharedPlayerMovement = newPlayer.GetComponent<Player2DController>();
     }
 
     Vector3 ClampToScreen(Vector3 targetPos)

@@ -9,6 +9,8 @@ public class PowerNode : MonoBehaviour
     private battery poweredBy;
     private int depth;
 
+    public AngleType? connectedSide = null;
+    public PowerNode connectedNode = null;
     [Header("Sound")]
     public AudioClip powerOnSE;
     private AudioSource audioSource;
