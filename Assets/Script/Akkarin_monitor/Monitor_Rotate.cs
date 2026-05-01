@@ -48,7 +48,7 @@ public class Monitor_Rotate : MonoBehaviour
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Vector3 world = Camera.main.ScreenToWorldPoint(mousePos);
 
-        return col == Physics2D.OverlapPoint(world);
+        return col.OverlapPoint(world);
     }
 
     System.Collections.IEnumerator RotateStep(float amount)
