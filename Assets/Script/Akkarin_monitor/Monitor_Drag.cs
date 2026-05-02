@@ -18,6 +18,7 @@ public class Monitor_Drag : MonoBehaviour
     private bool lastFrozenState = false;
     private static HashSet<Monitor_Drag> freezeRequesters = new HashSet<Monitor_Drag>();
     private static Monitor_Drag currentlyDragging = null;
+    private Vector3 playerOffsetFromMonitor;
 
     [Header("PowerOff")]
     public GameObject overlay;
@@ -107,7 +108,11 @@ public class Monitor_Drag : MonoBehaviour
 
                     // Disable player collider to prevent physics conflict with overlapping monitors
                     if (playerShouldFollowDrag && playerCol != null)
+                    {
                         playerCol.enabled = false;
+                        playerOffsetFromMonitor = sharedPlayer.position - transform.position;
+                    
+                    }
                 }
 
                 //if (playerMovement != null)
@@ -193,23 +198,23 @@ public class Monitor_Drag : MonoBehaviour
             );
             worldPos.z = transform.position.z;
             Vector3 clampedPos = ClampToScreen(worldPos + offset);
-            Vector3 delta = clampedPos - transform.position;
             transform.position = clampedPos;
 
             if (playerShouldFollowDrag && sharedPlayer != null)
             {
-                sharedPlayer.transform.position += delta;
+                // ★ Reapply fixed offset instead of += delta (no jump at high speed)
+                Vector3 targetPlayerPos = transform.position + playerOffsetFromMonitor;
 
-                // ★ Clamp player strictly inside this monitor every frame during drag
+                // Clamp inside monitor
                 Collider2D monitorCol = GetComponent<Collider2D>();
                 Bounds b = monitorCol.bounds;
                 float push = 0.6f;
-                Vector3 playerPos = sharedPlayer.position;
-                playerPos.x = Mathf.Clamp(playerPos.x, b.min.x + push, b.max.x - push);
-                playerPos.y = Mathf.Clamp(playerPos.y, b.min.y + push, b.max.y - push);
-                sharedPlayer.position = playerPos;
+                targetPlayerPos.x = Mathf.Clamp(targetPlayerPos.x, b.min.x + push, b.max.x - push);
+                targetPlayerPos.y = Mathf.Clamp(targetPlayerPos.y, b.min.y + push, b.max.y - push);
+                targetPlayerPos.z = sharedPlayer.position.z;
 
-                // ★ Kill velocity so physics doesn't fight the clamp
+                sharedPlayer.position = targetPlayerPos;
+
                 Rigidbody2D rb = sharedPlayer.GetComponent<Rigidbody2D>();
                 if (rb != null) rb.linearVelocity = Vector2.zero;
             }
