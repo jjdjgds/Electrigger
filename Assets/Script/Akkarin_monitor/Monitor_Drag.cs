@@ -20,6 +20,8 @@ public class Monitor_Drag : MonoBehaviour
     private static Monitor_Drag currentlyDragging = null;
     private Vector3 playerOffsetFromMonitor;
 
+    private Monitor_ClickAnimation clickAnimation;
+
     [Header("PowerOff")]
     public GameObject overlay;
     public PowerNode myPowerNode;
@@ -51,6 +53,8 @@ public class Monitor_Drag : MonoBehaviour
 
         plugCollisions = GetComponentsInChildren<plugCollision>();
         socketCollisions = GetComponentsInChildren<socketCollision>();
+
+        clickAnimation = GetComponent<Monitor_ClickAnimation>();
 
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
@@ -89,6 +93,10 @@ public class Monitor_Drag : MonoBehaviour
             if (GetComponent<Collider2D>().OverlapPoint(worldPos))
             {
                 isDragging = true;
+
+                if (clickAnimation != null)
+                    clickAnimation.PlayClickAnimation();
+
                 currentlyDragging = this;
                 offset = transform.position - worldPos;
                 lastValidPosition = transform.position;
