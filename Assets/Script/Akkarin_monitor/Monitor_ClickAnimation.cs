@@ -75,4 +75,6 @@ public class Monitor_ClickAnimation : MonoBehaviour
 
         isAnimating = false;
     }
+
+
 }
