@@ -93,9 +93,11 @@ public class Monitor_Drag : MonoBehaviour
             if (GetComponent<Collider2D>().OverlapPoint(worldPos))
             {
                 isDragging = true;
-
                 if (clickAnimation != null)
+                {
                     clickAnimation.PlayClickAnimation();
+                    clickAnimation.OnDragStart();
+                }
 
                 currentlyDragging = this;
                 offset = transform.position - worldPos;
@@ -134,6 +136,8 @@ public class Monitor_Drag : MonoBehaviour
         {
             isDragging = false;
             currentlyDragging = null;
+            if (clickAnimation != null)
+                clickAnimation.OnDragEnd();
 
             // ★ Re-enable player collider and clamp player inside monitor on drop
             if (sharedPlayer != null)
