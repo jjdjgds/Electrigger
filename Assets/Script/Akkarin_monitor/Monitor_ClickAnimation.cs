@@ -15,6 +15,7 @@ public class Monitor_ClickAnimation : MonoBehaviour
     private Vector3 originalScale;
     private Vector3 targetScale;
     private bool isAnimating = false;
+    private bool isDragging = false;
 
     void Start()
     {
@@ -24,7 +25,6 @@ public class Monitor_ClickAnimation : MonoBehaviour
 
     void Update()
     {
-        // Smoothly interpolate scale
         transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * scaleSpeed);
     }
 
@@ -34,14 +34,27 @@ public class Monitor_ClickAnimation : MonoBehaviour
         StartCoroutine(ClickRoutine());
     }
 
+    // Åö Call this when drag starts
+    public void OnDragStart()
+    {
+        isDragging = true;
+        targetScale = originalScale * scaleFactor;
+    }
+
+    // Åö Call this when drag ends
+    public void OnDragEnd()
+    {
+        isDragging = false;
+        targetScale = originalScale;
+    }
+
     IEnumerator ClickRoutine()
     {
         isAnimating = true;
 
-        // Scale up
         targetScale = originalScale * scaleFactor;
 
-        // Shake while scaled up
+        // Shake
         Vector3 basePos = transform.localPosition;
         float elapsed = 0f;
 
@@ -54,10 +67,14 @@ public class Monitor_ClickAnimation : MonoBehaviour
             yield return null;
         }
 
-        // Reset position and scale
         transform.localPosition = basePos;
-        targetScale = originalScale;
+
+        // Only shrink back if not still dragging
+        if (!isDragging)
+            targetScale = originalScale;
 
         isAnimating = false;
     }
+
+
 }

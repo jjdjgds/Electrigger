@@ -20,6 +20,11 @@ public class Monitor_Drag : MonoBehaviour
     private static Monitor_Drag currentlyDragging = null;
     private Vector3 playerOffsetFromMonitor;
 
+    private float dragDelay = 0.15f;
+    private float dragDelayTimer = 0f;
+    private bool dragReady = false;
+
+
     private Monitor_ClickAnimation clickAnimation;
 
     [Header("PowerOff")]
@@ -93,9 +98,13 @@ public class Monitor_Drag : MonoBehaviour
             if (GetComponent<Collider2D>().OverlapPoint(worldPos))
             {
                 isDragging = true;
-
+                dragReady = false;
+                dragDelayTimer = 0f;
                 if (clickAnimation != null)
+                {
                     clickAnimation.PlayClickAnimation();
+                    clickAnimation.OnDragStart();
+                }
 
                 currentlyDragging = this;
                 offset = transform.position - worldPos;
@@ -129,11 +138,12 @@ public class Monitor_Drag : MonoBehaviour
                 RecheckAllConnections();
             }
         }
-
-        if (Mouse.current.leftButton.wasReleasedThisFrame && isDragging)
+        else if(Mouse.current.leftButton.wasReleasedThisFrame && isDragging)
         {
             isDragging = false;
             currentlyDragging = null;
+            if (clickAnimation != null)
+                clickAnimation.OnDragEnd();
 
             // ★ Re-enable player collider and clamp player inside monitor on drop
             if (sharedPlayer != null)
@@ -197,30 +207,43 @@ public class Monitor_Drag : MonoBehaviour
             playerShouldFollowDrag = false;
             RecheckAllConnections();
         }
-
-        if (isDragging && currentlyDragging == this)
+        else if (isDragging && currentlyDragging == this)
         {
+            if (!dragReady)
+            {
+                dragDelayTimer += Time.deltaTime;
+                if (dragDelayTimer >= dragDelay)
+                {
+                    dragReady = true;
+
+                    // Recalculate offset fresh after animation settles
+                    Vector2 mousePos2 = Mouse.current.position.ReadValue();
+                    Vector3 worldPos2 = cam.ScreenToWorldPoint(
+                        new Vector3(mousePos2.x, mousePos2.y, Mathf.Abs(cam.transform.position.z))
+                    );
+                    worldPos2.z = transform.position.z;
+                    offset = transform.position - worldPos2; // ★ fresh offset after animation
+                }
+                return; // ★ don't move yet
+            }
             Vector2 mousePos = Mouse.current.position.ReadValue();
             Vector3 worldPos = cam.ScreenToWorldPoint(
                 new Vector3(mousePos.x, mousePos.y, Mathf.Abs(cam.transform.position.z))
             );
             worldPos.z = transform.position.z;
-            Vector3 clampedPos = ClampToScreen(worldPos + offset);
-            transform.position = clampedPos;
+
+            // ★ No clamping during drag — follow mouse exactly 1:1
+            transform.position = worldPos + offset;
 
             if (playerShouldFollowDrag && sharedPlayer != null)
             {
-                // ★ Reapply fixed offset instead of += delta (no jump at high speed)
                 Vector3 targetPlayerPos = transform.position + playerOffsetFromMonitor;
-
-                // Clamp inside monitor
                 Collider2D monitorCol = GetComponent<Collider2D>();
                 Bounds b = monitorCol.bounds;
                 float push = 0.6f;
                 targetPlayerPos.x = Mathf.Clamp(targetPlayerPos.x, b.min.x + push, b.max.x - push);
                 targetPlayerPos.y = Mathf.Clamp(targetPlayerPos.y, b.min.y + push, b.max.y - push);
                 targetPlayerPos.z = sharedPlayer.position.z;
-
                 sharedPlayer.position = targetPlayerPos;
 
                 Rigidbody2D rb = sharedPlayer.GetComponent<Rigidbody2D>();
