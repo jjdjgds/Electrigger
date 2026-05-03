@@ -16,6 +16,8 @@ public class Monitor_ClickAnimation : MonoBehaviour
     private Vector3 targetScale;
     private bool isAnimating = false;
     private bool isDragging = false;
+    private Coroutine clickCoroutine;
+    private Vector3 basePos;
 
     void Start()
     {
@@ -31,17 +33,28 @@ public class Monitor_ClickAnimation : MonoBehaviour
     public void PlayClickAnimation()
     {
         if (isAnimating) return;
-        StartCoroutine(ClickRoutine());
+        basePos = transform.localPosition;
+        clickCoroutine = StartCoroutine(ClickRoutine());
     }
 
-    // Åö Call this when drag starts
+    public void StopShake()
+    {
+        if (isAnimating)
+        {
+            if (clickCoroutine != null) StopCoroutine(clickCoroutine);
+            transform.localPosition = basePos;
+            isAnimating = false;
+        }
+    }
+
+    // ‚òÖ Call this when drag starts
     public void OnDragStart()
     {
         isDragging = true;
         targetScale = originalScale * scaleFactor;
     }
 
-    // Åö Call this when drag ends
+    // ‚òÖ Call this when drag ends
     public void OnDragEnd()
     {
         isDragging = false;
@@ -55,7 +68,6 @@ public class Monitor_ClickAnimation : MonoBehaviour
         targetScale = originalScale * scaleFactor;
 
         // Shake
-        Vector3 basePos = transform.localPosition;
         float elapsed = 0f;
 
         while (elapsed < shakeDuration)

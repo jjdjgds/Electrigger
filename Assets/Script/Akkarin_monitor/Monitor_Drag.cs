@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Multiplayer.PlayMode;
 using UnityEngine;
@@ -171,9 +171,9 @@ public class Monitor_Drag : MonoBehaviour
 
             if (gridGenerator != null)
             {
-                var nearest = gridGenerator.GetNearestTile(worldPos);
+                var nearest = gridGenerator.GetNearestTile(transform.position);
 
-                if (nearest != null && gridGenerator.IsInsideGrid(worldPos))
+                if (nearest != null && gridGenerator.IsInsideGrid(transform.position))
                 {
                     var otherMonitor = gridGenerator.GetMonitorOnTile(nearest, this);
                     if (otherMonitor != null && otherMonitor.gameObject != gameObject)
@@ -215,14 +215,10 @@ public class Monitor_Drag : MonoBehaviour
                 if (dragDelayTimer >= dragDelay)
                 {
                     dragReady = true;
-
-                    // Recalculate offset fresh after animation settles
-                    Vector2 mousePos2 = Mouse.current.position.ReadValue();
-                    Vector3 worldPos2 = cam.ScreenToWorldPoint(
-                        new Vector3(mousePos2.x, mousePos2.y, Mathf.Abs(cam.transform.position.z))
-                    );
-                    worldPos2.z = transform.position.z;
-                    offset = transform.position - worldPos2; // ★ fresh offset after animation
+                    if (clickAnimation != null)
+                    {
+                        clickAnimation.StopShake();
+                    }
                 }
                 return; // ★ don't move yet
             }
