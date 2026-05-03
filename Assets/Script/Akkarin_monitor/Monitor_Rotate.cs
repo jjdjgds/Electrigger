@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Monitor_Rotate : MonoBehaviour
@@ -21,7 +21,7 @@ public class Monitor_Rotate : MonoBehaviour
         player = FindFirstObjectByType<Player2DController>();
 
         if (player == null)
-            Debug.LogError("Player‚ªŒ©‚Â‚©‚ç‚È‚¢");
+            Debug.LogError("PlayerãŒè¦‹ã¤ã‹ã‚‰ãªã„");
 
         targetRotation = Mathf.Round(transform.eulerAngles.z / 90f) * 90f;
     }
