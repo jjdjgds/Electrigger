@@ -12,7 +12,7 @@ public class Monitor_Drag : MonoBehaviour
     private Camera cam;
     private static Transform sharedPlayer;
     private static Player2DController sharedPlayerMovement;
-    private bool playerInside = false;
+    public bool playerInside = false;
     private Vector2 playerDragOffset;
     private bool playerShouldFollowDrag = false;
     private bool lastFrozenState = false;
@@ -145,23 +145,7 @@ public class Monitor_Drag : MonoBehaviour
             if (clickAnimation != null)
                 clickAnimation.OnDragEnd();
 
-            // ★ Re-enable player collider and clamp player inside monitor on drop
-            if (sharedPlayer != null)
-            {
-                Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
-                if (playerCol != null) playerCol.enabled = true;
-
-                if (playerShouldFollowDrag)
-                {
-                    Collider2D monitorCol = GetComponent<Collider2D>();
-                    Bounds b = monitorCol.bounds;
-                    float push = 0.6f;
-                    Vector3 playerPos = sharedPlayer.position;
-                    playerPos.x = Mathf.Clamp(playerPos.x, b.min.x + push, b.max.x - push);
-                    playerPos.y = Mathf.Clamp(playerPos.y, b.min.y + push, b.max.y - push);
-                    sharedPlayer.position = playerPos;
-                }
-            }
+            Vector3 oldMonitorPos = transform.position; // 1. スナップ前の位置を記憶
 
             Vector2 mousePos = Mouse.current.position.ReadValue();
             Vector3 worldPos = cam.ScreenToWorldPoint(
@@ -179,11 +163,20 @@ public class Monitor_Drag : MonoBehaviour
                     if (otherMonitor != null && otherMonitor.gameObject != gameObject)
                     {
                         Debug.Log($"スワップ: {gameObject.name} ↔ {otherMonitor.gameObject.name}");
+                        Vector3 otherOldPos = otherMonitor.transform.position;
                         otherMonitor.transform.position = new Vector3(
                             lastValidPosition.x,
                             lastValidPosition.y,
                             otherMonitor.transform.position.z
                         );
+                        
+                        // プレイヤーがスワップ先モニターにいた場合、一緒に移動させる
+                        if (sharedPlayer != null && otherMonitor.playerInside)
+                        {
+                            Vector3 otherDelta = otherMonitor.transform.position - otherOldPos;
+                            sharedPlayer.position += otherDelta;
+                        }
+
                         otherMonitor.lastValidPosition = otherMonitor.transform.position;
                     }
 
@@ -202,6 +195,30 @@ public class Monitor_Drag : MonoBehaviour
                     isPlaced = false;
                     transform.position = lastValidPosition;
                 }
+            }
+
+            // 2. モニターがスナップで動いた差分を計算
+            Vector3 monitorDelta = transform.position - oldMonitorPos;
+
+            // ★ Re-enable player collider and clamp player inside monitor on drop
+            if (sharedPlayer != null)
+            {
+                if (playerShouldFollowDrag)
+                {
+                    // 3. プレイヤーもモニターと同じだけ移動させる
+                    sharedPlayer.position += monitorDelta;
+
+                    Collider2D monitorCol = GetComponent<Collider2D>();
+                    Bounds b = monitorCol.bounds;
+                    float push = 0.6f;
+                    Vector3 playerPos = sharedPlayer.position;
+                    playerPos.x = Mathf.Clamp(playerPos.x, b.min.x + push, b.max.x - push);
+                    playerPos.y = Mathf.Clamp(playerPos.y, b.min.y + push, b.max.y - push);
+                    sharedPlayer.position = playerPos;
+                }
+
+                Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
+                if (playerCol != null) playerCol.enabled = true;
             }
 
             playerShouldFollowDrag = false;
