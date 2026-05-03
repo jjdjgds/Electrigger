@@ -121,5 +121,8 @@ public class ConnectionManager : MonoBehaviour
             bat.SetCharge(bat.maxCharge - count);
             //Debug.Log($"[Recalculate] {bat.gameObject.name}: {bat.currentCharge}/{bat.maxCharge} (接続数={count})");
         }
+
+        foreach (PowerNode node in allNodes)
+            node.NotifyPoweredResult();
     }
 }

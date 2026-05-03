@@ -18,19 +18,31 @@ public class Monitor_Drag : MonoBehaviour
     private bool lastFrozenState = false;
     private static HashSet<Monitor_Drag> freezeRequesters = new HashSet<Monitor_Drag>();
     private static Monitor_Drag currentlyDragging = null;
+    private Vector3 playerOffsetFromMonitor;
+
+    private float dragDelay = 0.15f;
+    private float dragDelayTimer = 0f;
+    private bool dragReady = false;
+
+
+    private Monitor_ClickAnimation clickAnimation;
 
     [Header("PowerOff")]
     public GameObject overlay;
-    private PowerNode myPowerNode;
+    public PowerNode myPowerNode;
     public GridGenerator gridGenerator;
     public Vector3 lastValidPosition;
 
     [Header("Sound")]
-    public AudioClip placeSE;
+    public AudioClip pickupSE;        // 持ったときの効果音
+    public AudioClip placeSE;         // 置いたときの効果音
     private AudioSource audioSource;
+    public bool isPlaced = false;
 
     private plugCollision[] plugCollisions;
     private socketCollision[] socketCollisions;
+
+    private bool wasScreenOn = false;
 
     void Start()
     {
@@ -46,6 +58,8 @@ public class Monitor_Drag : MonoBehaviour
 
         plugCollisions = GetComponentsInChildren<plugCollision>();
         socketCollisions = GetComponentsInChildren<socketCollision>();
+
+        clickAnimation = GetComponent<Monitor_ClickAnimation>();
 
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
@@ -84,6 +98,14 @@ public class Monitor_Drag : MonoBehaviour
             if (GetComponent<Collider2D>().OverlapPoint(worldPos))
             {
                 isDragging = true;
+                dragReady = false;
+                dragDelayTimer = 0f;
+                if (clickAnimation != null)
+                {
+                    clickAnimation.PlayClickAnimation();
+                    clickAnimation.OnDragStart();
+                }
+
                 currentlyDragging = this;
                 offset = transform.position - worldPos;
                 lastValidPosition = transform.position;
@@ -101,19 +123,27 @@ public class Monitor_Drag : MonoBehaviour
 
                     Debug.Log($"{gameObject.name} drag start, playerShouldFollowDrag={playerShouldFollowDrag}");
 
-                    // ★ Disable player collider to prevent physics conflict with overlapping monitors
+                    // Disable player collider to prevent physics conflict with overlapping monitors
                     if (playerShouldFollowDrag && playerCol != null)
+                    {
                         playerCol.enabled = false;
+                        playerOffsetFromMonitor = sharedPlayer.position - transform.position;
+                    
+                    }
                 }
 
+                //if (playerMovement != null)
+                //    playerMovement.allowMovement = false;
+                PlayPickupSE();
                 RecheckAllConnections();
             }
         }
-
-        if (Mouse.current.leftButton.wasReleasedThisFrame && isDragging)
+        else if(Mouse.current.leftButton.wasReleasedThisFrame && isDragging)
         {
             isDragging = false;
             currentlyDragging = null;
+            if (clickAnimation != null)
+                clickAnimation.OnDragEnd();
 
             // ★ Re-enable player collider and clamp player inside monitor on drop
             if (sharedPlayer != null)
@@ -164,10 +194,12 @@ public class Monitor_Drag : MonoBehaviour
                     );
                     lastValidPosition = transform.position;
 
+                    isPlaced = true;
                     PlayPlaceSE();
                 }
                 else
                 {
+                    isPlaced = false;
                     transform.position = lastValidPosition;
                 }
             }
@@ -175,32 +207,45 @@ public class Monitor_Drag : MonoBehaviour
             playerShouldFollowDrag = false;
             RecheckAllConnections();
         }
-
-        if (isDragging && currentlyDragging == this)
+        else if (isDragging && currentlyDragging == this)
         {
+            if (!dragReady)
+            {
+                dragDelayTimer += Time.deltaTime;
+                if (dragDelayTimer >= dragDelay)
+                {
+                    dragReady = true;
+
+                    // Recalculate offset fresh after animation settles
+                    Vector2 mousePos2 = Mouse.current.position.ReadValue();
+                    Vector3 worldPos2 = cam.ScreenToWorldPoint(
+                        new Vector3(mousePos2.x, mousePos2.y, Mathf.Abs(cam.transform.position.z))
+                    );
+                    worldPos2.z = transform.position.z;
+                    offset = transform.position - worldPos2; // ★ fresh offset after animation
+                }
+                return; // ★ don't move yet
+            }
             Vector2 mousePos = Mouse.current.position.ReadValue();
             Vector3 worldPos = cam.ScreenToWorldPoint(
                 new Vector3(mousePos.x, mousePos.y, Mathf.Abs(cam.transform.position.z))
             );
             worldPos.z = transform.position.z;
-            Vector3 clampedPos = ClampToScreen(worldPos + offset);
-            Vector3 delta = clampedPos - transform.position;
-            transform.position = clampedPos;
+
+            // ★ No clamping during drag — follow mouse exactly 1:1
+            transform.position = worldPos + offset;
 
             if (playerShouldFollowDrag && sharedPlayer != null)
             {
-                sharedPlayer.transform.position += delta;
-
-                // ★ Clamp player strictly inside this monitor every frame during drag
+                Vector3 targetPlayerPos = transform.position + playerOffsetFromMonitor;
                 Collider2D monitorCol = GetComponent<Collider2D>();
                 Bounds b = monitorCol.bounds;
                 float push = 0.6f;
-                Vector3 playerPos = sharedPlayer.position;
-                playerPos.x = Mathf.Clamp(playerPos.x, b.min.x + push, b.max.x - push);
-                playerPos.y = Mathf.Clamp(playerPos.y, b.min.y + push, b.max.y - push);
-                sharedPlayer.position = playerPos;
+                targetPlayerPos.x = Mathf.Clamp(targetPlayerPos.x, b.min.x + push, b.max.x - push);
+                targetPlayerPos.y = Mathf.Clamp(targetPlayerPos.y, b.min.y + push, b.max.y - push);
+                targetPlayerPos.z = sharedPlayer.position.z;
+                sharedPlayer.position = targetPlayerPos;
 
-                // ★ Kill velocity so physics doesn't fight the clamp
                 Rigidbody2D rb = sharedPlayer.GetComponent<Rigidbody2D>();
                 if (rb != null) rb.linearVelocity = Vector2.zero;
             }
@@ -210,6 +255,11 @@ public class Monitor_Drag : MonoBehaviour
     void OnDestroy()
     {
         freezeRequesters.Remove(this);
+    }
+    void PlayPickupSE()
+    {
+        if (pickupSE != null && audioSource != null)
+            audioSource.PlayOneShot(pickupSE);
     }
 
     void PlayPlaceSE()
@@ -240,7 +290,17 @@ public class Monitor_Drag : MonoBehaviour
     {
         if (overlay == null) return;
         bool isPowered = myPowerNode != null && myPowerNode.IsPowered();
-        overlay.SetActive(isDragging || !isPowered);
+        bool isScreenOn = !isDragging && isPowered;
+        
+        overlay.SetActive(!isScreenOn);
+
+        if (isScreenOn && !wasScreenOn)
+        {
+            if (myPowerNode != null)
+                myPowerNode.PlayPowerOnSE();
+        }
+
+        wasScreenOn = isScreenOn;
     }
 
     void CheckIfPlayerInside()

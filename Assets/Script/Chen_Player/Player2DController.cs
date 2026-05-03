@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+///　2Dプレイヤーコントローラー
+/// </summary>
 public class Player2DController : MonoBehaviour
 {
     [Header("Move")]
@@ -24,7 +27,7 @@ public class Player2DController : MonoBehaviour
 
     [Header("Wall Check")]
     public Vector2 wallCheckOffset = new Vector2(0f, -0.2f);   // 壁判定位置の補正
-    public Vector2 wallCheckBoxSize = new Vector2(0.06f, 0.4f); // 壁判定ボックスのサイズ
+    public float wallCheckWidth = 0.06f; // 壁判定ボックスのサイズ
 
     [Header("Ground Check")]
     public Vector2 groundCheckSize = new Vector2(0.6f, 0.1f); // 地面判定ボックスのサイズ
@@ -41,6 +44,9 @@ public class Player2DController : MonoBehaviour
     [Header("Jump Assist")]
     public float coyoteTime = 0.12f;     // 離地後もジャンプ可能な時間
     public float jumpBufferTime = 0.12f; // ジャンプ先行入力時間
+
+    [Header("Debug")]
+    public bool showDebug = true;
 
     private Rigidbody2D rb;
     private Collider2D playerCollider;
@@ -80,6 +86,7 @@ public class Player2DController : MonoBehaviour
     void Update()
     {
         if (isFrozen) return;
+        if (!PauseMenuManager.CanGameInput()) return;// ポーズ中は入力を受け付けない
 
         ReadInput();
         UpdateJumpBuffer();
@@ -126,11 +133,13 @@ public class Player2DController : MonoBehaviour
         else if (keyboard.dKey.isPressed)
             moveInput = 1f;
 
+        //　最後の入力方向を保存
         if (moveInput != 0f)
             lastMoveDirection = moveInput;
 
         if (canJump)
         {
+            // ジャンプ入力
             jumpHeld = keyboard.wKey.isPressed;
 
             if (keyboard.wKey.wasReleasedThisFrame)
@@ -193,6 +202,7 @@ public class Player2DController : MonoBehaviour
 
         bool canStartJump = !isJumping && (isGrounded || coyoteCounter > 0f);
 
+        // ジャンプバッファが有効で、ジャンプ可能な状態ならジャンプ開始
         if (jumpBufferCounter > 0f && canStartJump)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpStartSpeed);
@@ -255,6 +265,7 @@ public class Player2DController : MonoBehaviour
             return;
         }
 
+        // ジャンプ中の状態に応じて重力を切り替え
         if (isJumpHolding)
         {
             rb.gravityScale = jumpHoldGravityScale;
@@ -311,25 +322,45 @@ public class Player2DController : MonoBehaviour
 
         Bounds bounds = playerCollider.bounds;
 
+        //　入力 or 最後の入力方向で判定方向を決定
         float dirValue = moveInput != 0f ? moveInput : lastMoveDirection;
         Vector2 direction = dirValue > 0f ? Vector2.right : Vector2.left;
 
         float sideX = direction.x > 0f ? bounds.max.x : bounds.min.x;
 
-        Vector2 origin = new Vector2(sideX, bounds.center.y) + wallCheckOffset;
-        Vector2 boxCenter = origin + direction * (wallCheckBoxSize.x * 0.5f);
+        float boxWidth = wallCheckWidth;
+
+        float boxHeight = bounds.size.y * 0.65f;
+
+        float centerY = bounds.center.y + bounds.size.y * 0.08f + wallCheckOffset.y;
+
+        Vector2 boxSize = new Vector2(boxWidth, boxHeight);
+
+        Vector2 boxCenter = new Vector2(
+            sideX + direction.x * (boxWidth * 0.5f + 0.01f),
+            centerY
+        );
 
         Collider2D hit = Physics2D.OverlapBox(
             boxCenter,
-            wallCheckBoxSize,
+            boxSize,
             0f,
-            groundLayer | oneWayPlatformLayer
+            groundLayer
         );
 
         if (hit == null) return;
 
-        if (direction.x > 0f) touchingWallRight = true;
-        else touchingWallLeft = true;
+        // プレイヤーの足元よりも低い位置の壁は無視する
+        float playerFootY = bounds.min.y;
+        float groundIgnoreHeight = bounds.size.y * 0.15f;
+
+        if (hit.bounds.max.y <= playerFootY + groundIgnoreHeight)
+            return;
+
+        if (direction.x > 0f)
+            touchingWallRight = true;
+        else
+            touchingWallLeft = true;
     }
 
     // コヨーテタイム更新
@@ -416,6 +447,13 @@ public class Player2DController : MonoBehaviour
     }
 
     // デバッグ用
+    void OnDrawGizmos()
+    {
+        if (!showDebug) return;
+
+        Collider2D col = GetComponent<Collider2D>();
+        if (col == null) return;
+    }
 
     public void SetFrozen(bool frozen)
     {

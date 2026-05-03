@@ -439,6 +439,7 @@ GameObject:
   - component: {fileID: 7717468142062032626}
   - component: {fileID: 8294943019939931974}
   - component: {fileID: 4881467912934530167}
+  - component: {fileID: 6346225621285904255}
   m_Layer: 0
   m_Name: Monitor
   m_TagString: Untagged
@@ -583,9 +584,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   canDrag: 1
   overlay: {fileID: 297644110902832017}
+  myPowerNode: {fileID: 0}
   gridGenerator: {fileID: 0}
   lastValidPosition: {x: 0, y: 0, z: 0}
-  placeSE: {fileID: 8300000, guid: 13aa301dca1f65347a3bc8513b824ee8, type: 3}
+  pickupSE: {fileID: 8300000, guid: 19057c689941478479450cb97dbc32fe, type: 3}
+  placeSE: {fileID: 8300000, guid: dbb9f0fbbef6ec647ae263f816f6d422, type: 3}
+  isPlaced: 0
 --- !u!114 &122431888254670337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -612,6 +616,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44777f51dd1410543838ae064978b753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  wallRight: {fileID: 0}
+  wallLeft: {fileID: 0}
+  wallTop: {fileID: 0}
+  wallBottom: {fileID: 0}
+  teleportCooldown: 0
+  portalRightTarget: {fileID: 0}
+  portalLeftTarget: {fileID: 0}
+  portalUpTarget: {fileID: 0}
+  portalDownTarget: {fileID: 0}
 --- !u!114 &8294943019939931974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,6 +639,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PowerNode
   isBattery: 0
   owner: {fileID: 0}
+  connectedNode: {fileID: 0}
+  powerOnSE: {fileID: 8300000, guid: 0c5b24f366f772a4fa61e38c7dcf2dc6, type: 3}
 --- !u!114 &4881467912934530167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -656,6 +671,23 @@ MonoBehaviour:
     spawnOffset: {x: 0, y: 0}
     angleType: 2
     isEnabled: 1
+--- !u!114 &6346225621285904255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3972473597760132367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bcfdd3f2f11ac54d93688a9dbd36c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  scaleFactor: 1.1
+  scaleSpeed: 10
+  shakeDuration: 0.1
+  shakeMagnitude: 0.02
+  shakeSpeed: 40
 --- !u!1 &4294514358905840684
 GameObject:
   m_ObjectHideFlags: 0
