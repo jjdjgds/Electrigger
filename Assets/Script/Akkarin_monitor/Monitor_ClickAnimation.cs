@@ -59,6 +59,7 @@ public class Monitor_ClickAnimation : MonoBehaviour
     {
         isDragging = false;
         targetScale = originalScale;
+        StopShake();
     }
 
     IEnumerator ClickRoutine()

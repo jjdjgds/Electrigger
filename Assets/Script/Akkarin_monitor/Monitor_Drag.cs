@@ -100,15 +100,15 @@ public class Monitor_Drag : MonoBehaviour
                 isDragging = true;
                 dragReady = false;
                 dragDelayTimer = 0f;
+                currentlyDragging = this;
+                offset = transform.position - worldPos;
+                lastValidPosition = transform.position;
+
                 if (clickAnimation != null)
                 {
                     clickAnimation.PlayClickAnimation();
                     clickAnimation.OnDragStart();
                 }
-
-                currentlyDragging = this;
-                offset = transform.position - worldPos;
-                lastValidPosition = transform.position;
 
                 if (sharedPlayer != null)
                 {
