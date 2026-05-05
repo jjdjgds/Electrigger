@@ -1349,6 +1349,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExitGoal
       objectReference: {fileID: 0}
+    - target: {fileID: 6181724918134768355, guid: 99b573c159c4bfe42b8b0757052b3e55, type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6181724918134768355, guid: 99b573c159c4bfe42b8b0757052b3e55, type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7994329321411425449, guid: 99b573c159c4bfe42b8b0757052b3e55, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.51
