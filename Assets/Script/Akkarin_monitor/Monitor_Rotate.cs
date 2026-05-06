@@ -14,6 +14,9 @@ public class Monitor_Rotate : MonoBehaviour
 
     private Collider2D col;
 
+    private bool isSelected = false;
+    private static Monitor_Rotate selectedMonitor = null;
+
     void Awake()
     {
         col = GetComponent<Collider2D>();
@@ -28,8 +31,10 @@ public class Monitor_Rotate : MonoBehaviour
 
     void Update()
     {
+        HandleSelection();
+
         if (!canScroll) return;
-        if (!IsMouseOver()) return;
+        if (!isSelected) return;
 
         float scroll = Mouse.current.scroll.ReadValue().y;
 
@@ -51,6 +56,28 @@ public class Monitor_Rotate : MonoBehaviour
         );
     }
 
+    void HandleSelection()
+    {
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            if (IsMouseOver())
+            {
+                if (selectedMonitor != null && selectedMonitor != this)
+                    selectedMonitor.isSelected = false;
+
+                selectedMonitor = this;
+                isSelected = true;
+            }
+            else
+            {
+                if (selectedMonitor == this)
+                    selectedMonitor = null;
+
+                isSelected = false;
+            }
+        }
+    }
+
     bool IsMouseOver()
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
@@ -63,14 +90,12 @@ public class Monitor_Rotate : MonoBehaviour
 
         if (hit == null) return false;
 
-        // Check if hit object is this OR a child
         return hit.transform == transform || hit.transform.IsChildOf(transform);
     }
 
     System.Collections.IEnumerator RotateStep(float amount)
     {
         canScroll = false;
-
         isRotatingAnyMonitor = true;
 
         targetRotation += amount;
@@ -100,6 +125,7 @@ public class Monitor_Rotate : MonoBehaviour
         isRotatingAnyMonitor = false;
         foreach (var plug in GetComponentsInChildren<plugCollision>())
             plug.RecheckConnections();
+
         canScroll = true;
     }
 }
