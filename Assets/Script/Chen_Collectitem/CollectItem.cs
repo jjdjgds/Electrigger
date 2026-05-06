@@ -20,8 +20,8 @@ public class CollectItem : MonoBehaviour
     private CollectItemManager manager;
     private SpriteRenderer spriteRenderer;
 
-    private Vector3 startPos;
-    private Vector3 startScale;
+    private Vector3 startLocalPos;
+    private Vector3 startLocalScale;
 
     private bool canCollect = true;
     private bool isAnimationActive = true;
@@ -29,8 +29,8 @@ public class CollectItem : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        startPos = transform.position;
-        startScale = transform.localScale;
+        startLocalPos = transform.localPosition;
+        startLocalScale = transform.localScale;
     }
 
     private void Update()
@@ -45,8 +45,8 @@ public class CollectItem : MonoBehaviour
     {
         manager = owner;
 
-        startPos = transform.position;
-        startScale = transform.localScale;
+        startLocalPos = transform.localPosition;
+        startLocalScale = transform.localScale;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -62,7 +62,7 @@ public class CollectItem : MonoBehaviour
     private void UpdateFloatAnimation()
     {
         float y = Mathf.Sin(Time.time * floatSpeed) * floatHeight;
-        transform.position = startPos + new Vector3(0, y, 0);
+        transform.localPosition = startLocalPos + new Vector3(0, y, 0);
     }
 
     private void UpdateFlipAnimation()
@@ -70,9 +70,9 @@ public class CollectItem : MonoBehaviour
         float t = (Mathf.Sin(Time.time * flipSpeed) + 1f) * 0.5f;
         float flipScale = Mathf.Lerp(-1f, 1f, t);
         transform.localScale = new Vector3(
-            startScale.x * flipScale,
-            startScale.y,
-            startScale.z);
+            startLocalScale.x * flipScale,
+            startLocalScale.y,
+            startLocalScale.z);
     }
 
     public void HideAfterCollected()

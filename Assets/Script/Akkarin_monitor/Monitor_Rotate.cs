@@ -1,4 +1,4 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Monitor_Rotate : MonoBehaviour
@@ -21,7 +21,7 @@ public class Monitor_Rotate : MonoBehaviour
         player = FindFirstObjectByType<Player2DController>();
 
         if (player == null)
-            Debug.LogError("PlayerÇ™å©Ç¬Ç©ÇÁÇ»Ç¢");
+            Debug.LogError("Player„ÅåË¶ã„Å§„Åã„Çâ„Å™„ÅÑ");
 
         targetRotation = Mathf.Round(transform.eulerAngles.z / 90f) * 90f;
     }
@@ -29,7 +29,7 @@ public class Monitor_Rotate : MonoBehaviour
     void Update()
     {
         if (!canScroll) return;
-        if (!IsMouseOver()) return;
+        if (!IsRotateHeld()) return;
 
         float scroll = Mouse.current.scroll.ReadValue().y;
 
@@ -51,6 +51,14 @@ public class Monitor_Rotate : MonoBehaviour
         );
     }
 
+    bool IsRotateHeld()
+    {
+        if (Mouse.current == null) return false;
+        if (!Mouse.current.leftButton.isPressed) return false;
+
+        return IsMouseOver();
+    }
+
     bool IsMouseOver()
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
@@ -63,14 +71,12 @@ public class Monitor_Rotate : MonoBehaviour
 
         if (hit == null) return false;
 
-        // Check if hit object is this OR a child
         return hit.transform == transform || hit.transform.IsChildOf(transform);
     }
 
     System.Collections.IEnumerator RotateStep(float amount)
     {
         canScroll = false;
-
         isRotatingAnyMonitor = true;
 
         targetRotation += amount;
@@ -100,6 +106,7 @@ public class Monitor_Rotate : MonoBehaviour
         isRotatingAnyMonitor = false;
         foreach (var plug in GetComponentsInChildren<plugCollision>())
             plug.RecheckConnections();
+
         canScroll = true;
     }
 }

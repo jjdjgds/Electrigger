@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// ゴール判定クラス
+/// ゴールオブジェクトのスクリプト
 /// </summary>
 public class ExitGoal : MonoBehaviour
 {
@@ -13,6 +13,10 @@ public class ExitGoal : MonoBehaviour
     // アイコンオフセット
     [Header("Follow Target")]
     [SerializeField] private Vector3 iconOffset = new Vector3(0f, 1.5f, 0f);
+
+    // クリアメニュー管理
+    [Header("Clear Menu")]
+    [SerializeField] private ClearMenuManager clearMenuManager;
 
     // 入力設定
     [Header("Input")]
@@ -45,12 +49,12 @@ public class ExitGoal : MonoBehaviour
 
             if (keyboard[resetKey].wasPressedThisFrame)
             {
-                ClearLevel();
+                ClearStage();
             }
         }
     }
 
-    // プレイヤーがゴールエリアに入ったときの処理
+    // プレイヤーがゴール範囲に入ったとき
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isCleared) return;
@@ -76,7 +80,7 @@ public class ExitGoal : MonoBehaviour
         }
     }
 
-    // プレイヤーがゴールエリアから出たときの処理
+    // プレイヤーがゴール範囲から出たとき
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player")) return;
@@ -104,7 +108,7 @@ public class ExitGoal : MonoBehaviour
         interactIcon.transform.position = player.position + iconOffset;
     }
 
-    private void ClearLevel()
+    private void ClearStage()
     {
         isCleared = true;
 
@@ -113,7 +117,7 @@ public class ExitGoal : MonoBehaviour
             interactIcon.SetActive(false);
         }
 
-        LevelClearUI.Instance?.ShowClearUI();
+        clearMenuManager.ShowClearMenu();
 
         Debug.Log("Level Clear!");
     }

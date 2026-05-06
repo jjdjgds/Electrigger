@@ -1,3 +1,4 @@
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 
@@ -7,9 +8,17 @@ using UnityEngine;
 /// </summary>
 public class SelectItemData
 {
+    [Header("Basic")]
     public string displayName;
     public Sprite previewImage;
     public string targetSceneName;
+
+    [Header("Save ID")]
+    public string worldId;
+    public string stageId;
+
+    [Header("Collect")]
+    public int collectItemTotal;
 }
 
 /// <summary>
@@ -21,10 +30,15 @@ public static class LevelSelectReturnData
     public static int currentStageIndex = 0;
     public static bool shouldReturnToStageSelect = false;
 
-    public static void SetCurrentStage(int worldIndex, int stageIndex)
+    public static string currentWorldId = "";
+    public static string currentStageId = "";
+
+    public static void SetCurrentStage(int worldIndex, int stageIndex, string worldId, string stageId)
     {
         currentWorldIndex = worldIndex;
         currentStageIndex = stageIndex;
+        currentWorldId = worldId;
+        currentStageId = stageId;
     }
 
     public static void RequestReturnToStageSelect()

@@ -165,6 +165,19 @@ public class PauseMenuManager : MonoBehaviour
         SceneManager.LoadScene(worldSelectSceneName);
     }
 
+    public void SaveGame()
+    {
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.Save();
+            Debug.Log("Game Saved.");
+        }
+        else
+        {
+            Debug.LogWarning("SaveManager not found.");
+        }
+    }
+
     public void QuitGame()
     {
         Time.timeScale = 1f;
