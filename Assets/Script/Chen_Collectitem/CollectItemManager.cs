@@ -7,6 +7,10 @@ public class CollectItemManager : MonoBehaviour
 {
     public static CollectItemManager Instance { get; private set; }
 
+    [Header("Stage ID")]
+    [SerializeField] private string worldId = "World1";
+    [SerializeField] private string stageId = "World1_Stage1";
+
     [Header("UI")]
     [SerializeField] private TMP_Text collectCountText;
 
@@ -24,7 +28,14 @@ public class CollectItemManager : MonoBehaviour
 
     private void Start()
     {
+        if (!string.IsNullOrEmpty(LevelSelectReturnData.currentWorldId))
+            worldId = LevelSelectReturnData.currentWorldId;
+
+        if (!string.IsNullOrEmpty(LevelSelectReturnData.currentStageId))
+            stageId = LevelSelectReturnData.currentStageId;
+
         RegisterAllCollectItems();
+        LoadCollectedData();
         RefreshAllCollectItems();
         UpdateCollectUI();
     }
@@ -72,19 +83,41 @@ public class CollectItemManager : MonoBehaviour
         }
     }
 
+    private void LoadCollectedData()
+    {
+        collectedIds.Clear();
+
+        if (SaveManager.Instance == null) return;
+
+        HashSet<string> savedIds = SaveManager.Instance.GetCollectedIds(worldId, stageId);
+
+        foreach (string id in savedIds)
+        {
+            collectedIds.Add(id);
+        }
+    }
+
     public void Collect(CollectItem item)
     {
         if (item == null) return;
 
         string id = item.CollectId;
 
-        collectedIds.Add(id);
+        if (!collectedIds.Contains(id))
+        {
+            collectedIds.Add(id);
+
+            if (SaveManager.Instance != null)
+            {
+                SaveManager.Instance.AddCollectedItem(worldId, stageId, id);
+            }
+        }
 
         item.HideAfterCollected();
 
         UpdateCollectUI();
 
-        Debug.Log($"³É¹¦£º{id}");
+        Debug.Log($"Collect£º{id}");
     }
 
     private void RefreshAllCollectItems()
@@ -109,10 +142,12 @@ public class CollectItemManager : MonoBehaviour
 
     private void UpdateCollectUI()
     {
-        if (collectCountText != null)
-        {
-            collectCountText.text = $"AKKARIN: {collectedIds.Count}";
-        }
+        if (collectCountText == null) return;
+
+        int current = collectedIds.Count;
+        int total = collectItems.Count;
+
+        collectCountText.text = $"{current} / {total}";
     }
 
     private void ResetCharacterTest()
