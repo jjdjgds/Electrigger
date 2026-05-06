@@ -15,6 +15,9 @@ public class WorldStageSelectManager : MonoBehaviour
     [SerializeField] private LevelSelectUI worldSelector;
     [SerializeField] private LevelSelectUI stageSelector;
 
+    [Header("World Data")]
+    [SerializeField] private SelectItemData[] worldItems;
+
     // ワールドデータ
     [Header("Stage Data Per World")]
     [SerializeField] private SelectItemData[] world1Stages;
@@ -34,12 +37,12 @@ public class WorldStageSelectManager : MonoBehaviour
 
     private void Start()
     {
-        // 初期状態はワールド選択
-        ShowWorldSelect();
+        InitializeSave();
 
-        // イベントリスナーの登録
         worldSelector.onSelected.AddListener(OnWorldSelected);
         stageSelector.onSelected.AddListener(OnStageSelected);
+
+        worldSelector.SetItems(worldItems);
 
         // ステージ復帰処理
         if (LevelSelectReturnData.shouldReturnToStageSelect)
@@ -53,44 +56,81 @@ public class WorldStageSelectManager : MonoBehaviour
         }
     }
 
+
+    private void InitializeSave()
+    {
+        if (SaveManager.Instance == null)
+        {
+            Debug.LogWarning("SaveManager not found.");
+            return;
+        }
+
+        SelectItemData[][] stageGroups =
+        {
+            world1Stages,
+            world2Stages
+        };
+
+        SaveManager.Instance.LoadOrCreate(worldItems, stageGroups);
+    }
+
     // ワールド選択時の処理
     private void OnWorldSelected(int worldIndex, SelectItemData worldData)
     {
+        if (SaveManager.Instance != null &&
+             !SaveManager.Instance.IsWorldUnlocked(worldData.worldId))
+        {
+            Debug.Log("World is locked.");
+            return;
+        }
+
         currentWorldIndex = worldIndex;
 
         ShowStageSelect();
 
-        // ステージデータの切り替え
-        switch (worldIndex)
-        {
-            case 0:
-                stageSelector.SetItems(world1Stages);
-                break;
-
-            case 1:
-                stageSelector.SetItems(world2Stages);
-                break;
-
-            default:
-                Debug.LogWarning("No stage data for this world.");
-                break;
-        }
+        stageSelector.SetItems(GetStagesByWorldIndex(worldIndex));
     }
 
     // ステージ選択時の処理
     private void OnStageSelected(int stageIndex, SelectItemData stageData)
     {
+        if (SaveManager.Instance != null &&
+            !SaveManager.Instance.IsStageUnlocked(stageData.worldId, stageData.stageId))
+        {
+            Debug.Log("Stage is locked.");
+            return;
+        }
+
         if (string.IsNullOrEmpty(stageData.targetSceneName))
         {
             Debug.LogWarning("Target scene name is empty.");
             return;
         }
 
-        // 選択されたステージの情報を保存
-        LevelSelectReturnData.SetCurrentStage(currentWorldIndex, stageIndex);
+        LevelSelectReturnData.SetCurrentStage(
+            currentWorldIndex,
+            stageIndex,
+            stageData.worldId,
+            stageData.stageId);
 
         SceneManager.LoadScene(stageData.targetSceneName);
     }
+
+    private SelectItemData[] GetStagesByWorldIndex(int worldIndex)
+    {
+        switch (worldIndex)
+        {
+            case 0:
+                return world1Stages;
+
+            case 1:
+                return world2Stages;
+
+            default:
+                return new SelectItemData[0];
+        }
+    }
+
 
     public void ShowWorldSelect()
     {
@@ -124,17 +164,7 @@ public class WorldStageSelectManager : MonoBehaviour
 
         ShowStageSelect();
 
-        switch (currentWorldIndex)
-        {
-            case 0:
-                stageSelector.SetItems(world1Stages);
-                break;
-
-            case 1:
-                stageSelector.SetItems(world2Stages);
-                break;
-        }
-
+        stageSelector.SetItems(GetStagesByWorldIndex(currentWorldIndex));
         stageSelector.SetIndex(LevelSelectReturnData.currentStageIndex);
     }
 }

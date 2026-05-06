@@ -153,7 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   interactIcon: {fileID: 7287151179142474805}
-  iconOffset: {x: -1.5, y: 0, z: 0}
+  iconOffset: {x: -0.58, y: 0, z: 0}
+  clearMenuManager: {fileID: 2470664731350897086, guid: 81cd7e72f5662084fb15dfb796aba779, type: 3}
   resetKey: 37
 --- !u!1001 &7009216975005675538
 PrefabInstance:

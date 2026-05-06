@@ -47,7 +47,6 @@ public class Player2DController : MonoBehaviour
 
     [Header("Animation")]
     [SerializeField] private Animator animator;// アニメーター
-    [SerializeField] private float runThreshold = 0.1f;// 走り状態とみなす速度の閾値
     [SerializeField] private float fallThreshold = -0.1f;// 落下状態とみなす速度の閾値
 
     [Header("Visual")]

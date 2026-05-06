@@ -16,6 +16,7 @@ public class LevelSelectUI : MonoBehaviour
 
     [SerializeField] private TMP_Text numberText;
     [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text collectText;
     [SerializeField] private Image previewImage;
 
     // ¥Ç©`¥¿
@@ -24,6 +25,9 @@ public class LevelSelectUI : MonoBehaviour
 
     [Header("Text Prefix")]
     [SerializeField] private string numberPrefix = "No.";
+
+    [Header("Mode")]
+    [SerializeField] private bool isWorldSelector = false;
 
     private int currentIndex = 0;
 
@@ -75,9 +79,57 @@ public class LevelSelectUI : MonoBehaviour
 
         SelectItemData item = items[currentIndex];
 
+        bool unlocked = IsUnlocked(item);
+
         numberText.text = $"{numberPrefix} {currentIndex + 1}";
-        nameText.text = item.displayName;
+
+        if (unlocked)
+        {
+            bool cleared = !isWorldSelector &&
+                           SaveManager.Instance != null &&
+                           SaveManager.Instance.IsStageCleared(item.worldId, item.stageId);
+
+            nameText.text = cleared ? $"{item.displayName} CLEAR" : item.displayName;
+        }
+        else
+        {
+            nameText.text = "???";
+        }
+
         previewImage.sprite = item.previewImage;
+        previewImage.color = unlocked ? Color.white : Color.gray;
+
+        UpdateCollectText(item, unlocked);
+    }
+
+    private void UpdateCollectText(SelectItemData item, bool unlocked)
+    {
+        if (collectText == null) return;
+
+        if (!unlocked)
+        {
+            collectText.text = "? / ?";
+            return;
+        }
+
+        if (SaveManager.Instance == null)
+        {
+            collectText.text = "0 / 0";
+            return;
+        }
+
+        if (isWorldSelector)
+        {
+            int current = SaveManager.Instance.GetWorldCollectedCount(item.worldId);
+            int total = SaveManager.Instance.GetWorldCollectTotal(item.worldId);
+            collectText.text = $"{current} / {total}";
+        }
+        else
+        {
+            int current = SaveManager.Instance.GetStageCollectedCount(item.worldId, item.stageId);
+            int total = SaveManager.Instance.GetStageCollectTotal(item.worldId, item.stageId);
+            collectText.text = $"{current} / {total}";
+        }
     }
 
     // ´_¶¨
@@ -85,7 +137,26 @@ public class LevelSelectUI : MonoBehaviour
     {
         if (!HasItems()) return;
 
-        onSelected?.Invoke(currentIndex, items[currentIndex]);
+        SelectItemData item = items[currentIndex];
+
+        if (!IsUnlocked(item))
+        {
+            Debug.Log("This item is locked.");
+            return;
+        }
+
+        onSelected?.Invoke(currentIndex, item);
+    }
+
+    private bool IsUnlocked(SelectItemData item)
+    {
+        if (SaveManager.Instance == null)
+            return true;
+
+        if (isWorldSelector)
+            return SaveManager.Instance.IsWorldUnlocked(item.worldId);
+
+        return SaveManager.Instance.IsStageUnlocked(item.worldId, item.stageId);
     }
 
     private bool HasItems()
