@@ -366,6 +366,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f763a5df7779414389f3279c054ed25, type: 3}
+--- !u!4 &362094931 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4133814078639744311, guid: 22c61b8c43cafc94ab145934b4737984, type: 3}
+  m_PrefabInstance: {fileID: 474414428}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &385519072 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 502664893079671523, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
@@ -555,6 +560,10 @@ PrefabInstance:
     - target: {fileID: 743214342180616663, guid: 22c61b8c43cafc94ab145934b4737984, type: 3}
       propertyPath: collectId
       value: World1_Stage1_Item_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 743214342180616663, guid: 22c61b8c43cafc94ab145934b4737984, type: 3}
+      propertyPath: floatHeight
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3824503930706695096, guid: 22c61b8c43cafc94ab145934b4737984, type: 3}
       propertyPath: m_Name
@@ -1845,7 +1854,7 @@ PrefabInstance:
       addedObject: {fileID: 1318943867}
     - targetCorrespondingSourceObject: {fileID: 502664893079671523, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1300790251}
+      addedObject: {fileID: 362094931}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
 --- !u!224 &1966023710 stripped
