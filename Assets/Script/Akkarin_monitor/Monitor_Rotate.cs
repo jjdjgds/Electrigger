@@ -14,9 +14,6 @@ public class Monitor_Rotate : MonoBehaviour
 
     private Collider2D col;
 
-    private bool isSelected = false;
-    private static Monitor_Rotate selectedMonitor = null;
-
     void Awake()
     {
         col = GetComponent<Collider2D>();
@@ -31,10 +28,8 @@ public class Monitor_Rotate : MonoBehaviour
 
     void Update()
     {
-        HandleSelection();
-
         if (!canScroll) return;
-        if (!isSelected) return;
+        if (!IsRotateHeld()) return;
 
         float scroll = Mouse.current.scroll.ReadValue().y;
 
@@ -56,26 +51,12 @@ public class Monitor_Rotate : MonoBehaviour
         );
     }
 
-    void HandleSelection()
+    bool IsRotateHeld()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            if (IsMouseOver())
-            {
-                if (selectedMonitor != null && selectedMonitor != this)
-                    selectedMonitor.isSelected = false;
+        if (Mouse.current == null) return false;
+        if (!Mouse.current.leftButton.isPressed) return false;
 
-                selectedMonitor = this;
-                isSelected = true;
-            }
-            else
-            {
-                if (selectedMonitor == this)
-                    selectedMonitor = null;
-
-                isSelected = false;
-            }
-        }
+        return IsMouseOver();
     }
 
     bool IsMouseOver()
