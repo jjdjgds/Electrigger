@@ -1178,7 +1178,7 @@ MonoBehaviour:
     targetSceneName: 
     worldId: World1
     stageId: 
-    collectItemTotal: 2
+    collectItemTotal: 5
   - displayName: ChenH
     previewImage: {fileID: -6815437586108985893, guid: f0facba314a51e345a7d040c3238b7d8, type: 3}
     targetSceneName: 
@@ -1197,6 +1197,24 @@ MonoBehaviour:
     targetSceneName: Stage1_2
     worldId: World1
     stageId: World1_Stage2
+    collectItemTotal: 1
+  - displayName: KanStages
+    previewImage: {fileID: 1327486742127042788, guid: fa6434a401b33dd469bf16352d8f2a4d, type: 3}
+    targetSceneName: Stage1_3
+    worldId: World1
+    stageId: World1_Stage3
+    collectItemTotal: 1
+  - displayName: MuraStages
+    previewImage: {fileID: -7495151390619700525, guid: 247b1365216a8a5419be6ca239bd844e, type: 3}
+    targetSceneName: Stage1_4
+    worldId: World1
+    stageId: World1_Stage4
+    collectItemTotal: 1
+  - displayName: hannStages
+    previewImage: {fileID: 5042419182065618365, guid: 47fb23ebeb90b284f9f8f9836a54c784, type: 3}
+    targetSceneName: Stage1_5
+    worldId: World1
+    stageId: World1_Stage5
     collectItemTotal: 1
   world2Stages:
   - displayName: KanStages
@@ -2590,6 +2608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae04d10e469520d4e91e682b13015d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SaveManager
+  deleteSaveKey: 105
 --- !u!4 &1676033027
 Transform:
   m_ObjectHideFlags: 0
