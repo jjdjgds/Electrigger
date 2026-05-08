@@ -338,15 +338,11 @@ public class Monitor_Drag : MonoBehaviour
 
         Bounds monitorBounds = monitorCol.bounds;
 
+        // 電源ONの時だけ判定を拡張（ドラッグ用）
+        // 電源OFFの時は実際のモニター境界で判定（誤フリーズ防止）
         if (isPowered)
         {
-            // 電源ONの時は判定を拡張（ドラッグ用）
             monitorBounds.Expand(new Vector3(1.5f, 1.5f, 100f));
-        }
-        else
-        {
-            // 電源OFFの時は判定を縮小（境界付近は許容、中心部のみフリーズ）
-            monitorBounds.Expand(new Vector3(-0.3f, -0.3f, 0f));
         }
 
         if (playerCol != null)
