@@ -813,6 +813,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 569294865751433419, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: playerInside
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 569294865751433419, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: gridGenerator
       value: 
       objectReference: {fileID: 1937095491}

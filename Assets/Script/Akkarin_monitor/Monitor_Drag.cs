@@ -40,7 +40,7 @@ public class Monitor_Drag : MonoBehaviour
     private AudioSource audioSource;
     [SerializeField] private AudioMixerGroup sfxMixerGroup;
     public bool isPlaced = false;
-  
+
 
     private plugCollision[] plugCollisions;
     private socketCollision[] socketCollisions;
@@ -80,7 +80,10 @@ public class Monitor_Drag : MonoBehaviour
         CheckIfPlayerInside();
         UpdateOverlay();
         bool isPowered = myPowerNode != null && myPowerNode.IsPowered();
-        bool shouldFreeze = (isDragging && playerShouldFollowDrag) || Monitor_Rotate.isRotatingAnyMonitor || (!isPowered && playerInside);
+
+        bool shouldFreeze = (isDragging && playerShouldFollowDrag)
+                         || Monitor_Rotate.isRotatingAnyMonitor
+                         || (!isPowered && playerInside);
 
         if (shouldFreeze)
             freezeRequesters.Add(this);
@@ -137,7 +140,7 @@ public class Monitor_Drag : MonoBehaviour
                     {
                         playerCol.enabled = false;
                         playerOffsetFromMonitor = sharedPlayer.position - transform.position;
-                    
+
                     }
                 }
 
@@ -147,7 +150,7 @@ public class Monitor_Drag : MonoBehaviour
                 RecheckAllConnections();
             }
         }
-        else if(Mouse.current.leftButton.wasReleasedThisFrame && isDragging)
+        else if (Mouse.current.leftButton.wasReleasedThisFrame && isDragging)
         {
             isDragging = false;
             currentlyDragging = null;
@@ -178,7 +181,7 @@ public class Monitor_Drag : MonoBehaviour
                             lastValidPosition.y,
                             otherMonitor.transform.position.z
                         );
-                        
+
                         // プレイヤーがスワップ先モニターにいた場合、一緒に移動させる
                         if (sharedPlayer != null && otherMonitor.playerInside)
                         {
@@ -313,7 +316,7 @@ public class Monitor_Drag : MonoBehaviour
         if (overlay == null) return;
         bool isPowered = myPowerNode != null && myPowerNode.IsPowered();
         bool isScreenOn = !isDragging && isPowered;
-        
+
         overlay.SetActive(!isScreenOn);
 
         if (isScreenOn && !wasScreenOn)
@@ -331,8 +334,20 @@ public class Monitor_Drag : MonoBehaviour
         Collider2D monitorCol = GetComponent<Collider2D>();
         Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
 
+        bool isPowered = myPowerNode != null && myPowerNode.IsPowered();
+
         Bounds monitorBounds = monitorCol.bounds;
-        monitorBounds.Expand(new Vector3(1.5f, 1.5f, 100f));
+
+        if (isPowered)
+        {
+            // 電源ONの時は判定を拡張（ドラッグ用）
+            monitorBounds.Expand(new Vector3(1.5f, 1.5f, 100f));
+        }
+        else
+        {
+            // 電源OFFの時は判定を縮小（境界付近は許容、中心部のみフリーズ）
+            monitorBounds.Expand(new Vector3(-0.3f, -0.3f, 0f));
+        }
 
         if (playerCol != null)
             playerInside = monitorBounds.Intersects(playerCol.bounds);
