@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.51, y: -1.49, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 548763138616974929}
@@ -138,7 +138,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 5, y: 5}
+  m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
 --- !u!114 &5840049131417658490
 MonoBehaviour:
@@ -153,7 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   interactIcon: {fileID: 7287151179142474805}
-  iconOffset: {x: -1.5, y: 0, z: 0}
+  iconOffset: {x: -0.58, y: 0, z: 0}
+  clearMenuManager: {fileID: 2470664731350897086, guid: 81cd7e72f5662084fb15dfb796aba779, type: 3}
   resetKey: 37
 --- !u!1001 &7009216975005675538
 PrefabInstance:

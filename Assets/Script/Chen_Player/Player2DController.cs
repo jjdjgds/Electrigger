@@ -45,6 +45,13 @@ public class Player2DController : MonoBehaviour
     public float coyoteTime = 0.12f;     // 離地後もジャンプ可能な時間
     public float jumpBufferTime = 0.12f; // ジャンプ先行入力時間
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator;// アニメーター
+    [SerializeField] private float fallThreshold = -0.1f;// 落下状態とみなす速度の閾値
+
+    [Header("Visual")]
+    [SerializeField] private Transform visualRoot;
+
     [Header("Debug")]
     public bool showDebug = true;
 
@@ -81,6 +88,12 @@ public class Player2DController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<Collider2D>();
+
+        if (animator == null)
+            animator = GetComponent<Animator>();
+
+        if (visualRoot == null)
+            visualRoot = transform;
     }
 
     void Update()
@@ -110,6 +123,7 @@ public class Player2DController : MonoBehaviour
         UpdateCoyoteTime();   // コヨーテタイム更新
 
         Move();               // 移動処理
+        UpdateFacing();       // 表示反転
         HandleLedgeSnap();   // レッジスナップ
 
         TryStartJump();       // ジャンプ開始判定
@@ -117,8 +131,70 @@ public class Player2DController : MonoBehaviour
         HandleJumpCut();      // 短押しジャンプ
         ApplyJumpGravity();   // 重力適用
 
+        UpdateAnimation();
+
         jumpReleased = false;
     }
+
+    // 移動方向に合わせて表示を反転
+    void UpdateFacing()
+    {
+        if (visualRoot == null) return;
+        if (Mathf.Abs(moveInput) < 0.01f) return;
+
+        Vector3 scale = visualRoot.localScale;
+
+        scale.x = Mathf.Abs(scale.x) * (moveInput > 0f ? 1f : -1f);
+
+        visualRoot.localScale = scale;
+    }
+
+    // アニメーション更新
+    void UpdateAnimation()
+    {
+        if (animator == null) return;
+
+        float speed = Mathf.Abs(rb.linearVelocity.x);
+        float inputAbs = Mathf.Abs(moveInput);
+
+        float animSpeed = isGrounded ? inputAbs : speed;
+        float yVel = rb.linearVelocity.y;
+
+        // 走り状態の判定
+        animator.SetFloat("Speed", animSpeed);
+        animator.SetBool("IsGrounded", isGrounded);
+        animator.SetFloat("YVelocity", yVel);
+
+        int jumpState = 0;
+
+        if (!isGrounded)
+        {
+            if (yVel > 0.1f)
+            {
+                jumpState = 1; // JumpStart
+            }
+            else if (Mathf.Abs(yVel) <= apexVelocityThreshold)
+            {
+                jumpState = 2; // Apex
+            }
+            else if (yVel < fallThreshold)
+            {
+                jumpState = 3; // Fall
+            }
+        }
+        else
+        {
+            jumpState = 0;
+        }
+
+        if (isGrounded && yVel <= 0.01f)
+        {
+            animator.SetInteger("JumpState", 0);
+        }
+
+        animator.SetInteger("JumpState", jumpState);
+    }
+
 
     // 入力取得
     void ReadInput()

@@ -583,6 +583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   canDrag: 1
+  playerInside: 0
   overlay: {fileID: 297644110902832017}
   myPowerNode: {fileID: 0}
   gridGenerator: {fileID: 0}
@@ -590,6 +591,7 @@ MonoBehaviour:
   pickupSE: {fileID: 8300000, guid: 19057c689941478479450cb97dbc32fe, type: 3}
   placeSE: {fileID: 8300000, guid: dbb9f0fbbef6ec647ae263f816f6d422, type: 3}
   isPlaced: 0
+  sfxMixerGroup: {fileID: 5858297327489128199, guid: af8c1c24f5859e84f952c57a27bd83ae, type: 2}
 --- !u!114 &122431888254670337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +643,7 @@ MonoBehaviour:
   owner: {fileID: 0}
   connectedNode: {fileID: 0}
   powerOnSE: {fileID: 8300000, guid: 0c5b24f366f772a4fa61e38c7dcf2dc6, type: 3}
+  sfxMixerGroup: {fileID: 5858297327489128199, guid: af8c1c24f5859e84f952c57a27bd83ae, type: 2}
 --- !u!114 &4881467912934530167
 MonoBehaviour:
   m_ObjectHideFlags: 0

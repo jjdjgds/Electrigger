@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Multiplayer.PlayMode;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 
 public class Monitor_Drag : MonoBehaviour
@@ -37,7 +38,9 @@ public class Monitor_Drag : MonoBehaviour
     public AudioClip pickupSE;        // 持ったときの効果音
     public AudioClip placeSE;         // 置いたときの効果音
     private AudioSource audioSource;
+    [SerializeField] private AudioMixerGroup sfxMixerGroup;
     public bool isPlaced = false;
+  
 
     private plugCollision[] plugCollisions;
     private socketCollision[] socketCollisions;
@@ -64,6 +67,12 @@ public class Monitor_Drag : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
+
+        audioSource.playOnAwake = false;
+        audioSource.loop = false;
+
+        if (sfxMixerGroup != null)
+            audioSource.outputAudioMixerGroup = sfxMixerGroup;
     }
 
     void Update()
