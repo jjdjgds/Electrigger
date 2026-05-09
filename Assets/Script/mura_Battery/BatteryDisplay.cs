@@ -1,9 +1,31 @@
 ﻿using UnityEngine;
+using System;
+
+
+public enum CellType
+{
+    Green,
+    Red,
+    Blue
+
+}
+
+
+[System.Serializable]
+public class CellPrefabData 
+{
+    public CellType type;
+    public GameObject prefab;
+
+}
+
+
 
 public class BatteryDisplay : MonoBehaviour
 {
     [SerializeField] private battery targetBattery;
-    [SerializeField] private GameObject cellPrefab;
+
+    [SerializeField] private CellPrefabData[] cellPrefabs;
     [SerializeField] private SpriteRenderer frameRenderer;
     [SerializeField] private ColorPaletteSO colorPalette;
     [SerializeField] private float cellWidth = 0.2f;
@@ -16,7 +38,7 @@ public class BatteryDisplay : MonoBehaviour
     private int lastCharge = -1;
     private Color activeColor;
 
-    // ✅ batteryのStartから明示的に呼ばれる
+    //batteryのStartから明示的に呼ばれる
     public void Initialize()
     {
         if (colorPalette != null)
@@ -50,10 +72,10 @@ public class BatteryDisplay : MonoBehaviour
 
         for (int i = 0; i < targetBattery.maxCharge; i++)
         {
-            GameObject cell = Instantiate(cellPrefab, transform);
-            cell.transform.localPosition = new Vector3(startX + i * (cellWidth + cellSpacing), 0, 0);
-            cell.transform.localScale = new Vector3(cellWidth, cellHeight, 1);
-            cells[i] = cell;
+            //GameObject cell = Instantiate(cellPrefab, transform);
+            //cell.transform.localPosition = new Vector3(startX + i * (cellWidth + cellSpacing), 0, 0);
+            //cell.transform.localScale = new Vector3(cellWidth, cellHeight, 1);
+            //cells[i] = cell;
         }
     }
 
