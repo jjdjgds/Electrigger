@@ -6,7 +6,7 @@ public class ColorPaletteSO : ScriptableObject
 {
     [SerializeField] private List<ColorEntry> colorPalette = new List<ColorEntry>();
 
-    public Color GetColor(PlugColor type)
+    public Color GetColor(ColorType type)
     {
         foreach (ColorEntry entry in colorPalette)
         {

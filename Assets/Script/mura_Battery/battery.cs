@@ -4,14 +4,14 @@ using UnityEngine;
 public class battery : MonoBehaviour
 {
     [SerializeField] public GameObject plugPrefab;
-    [SerializeField] private PlugColor plugColor;
+    [SerializeField] private ColorType plugColor;
     [SerializeField] private AngleType angleType;
     [SerializeField] private SpriteRenderer frameRenderer;
     [SerializeField] private float spawnOffset = 0f;
     [SerializeField] public int maxCharge = 3;
     [SerializeField] private int _currentCharge;
     public int currentCharge => _currentCharge;
-    public PlugColor GetPlugColor() => plugColor;
+    public ColorType GetColorType() => plugColor;
 
 
     private plugCollision[] plugCollisions;

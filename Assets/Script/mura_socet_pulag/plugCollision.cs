@@ -4,7 +4,7 @@ using System.Collections;
 
 public class plugCollision : MonoBehaviour
 {
-    private plugColor myPlugColor;
+    private plugColor myColorType;
     private PowerNode myNode;
     [SerializeField] private float connectRadius = 0.5f;
     private Quaternion lastRotation;
@@ -13,7 +13,7 @@ public class plugCollision : MonoBehaviour
 
     void Awake()
     {
-        myPlugColor = GetComponent<plugColor>();
+        myColorType = GetComponent<plugColor>();
         myNode = GetComponent<PowerNode>();
         lastRotation = transform.rotation;
     }
@@ -101,7 +101,7 @@ public class plugCollision : MonoBehaviour
         // 2. Color check
         plugColor otherColor = other.GetComponent<plugColor>();
         if (otherColor == null) return;
-        if (myPlugColor.GetPlugColor() != otherColor.GetPlugColor()) return;
+        if (myColorType.GetColorType() != otherColor.GetColorType()) return;
 
         // 3. Get PowerNodes
         PowerNode socketNode = other.GetComponent<PowerNode>();

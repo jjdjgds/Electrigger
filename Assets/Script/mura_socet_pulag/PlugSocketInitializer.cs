@@ -24,7 +24,7 @@ public enum AngleType
 public class PlugSocketConfig
 {
     public AttachType attachType;
-    public PlugColor plugColor;
+    public ColorType plugColor;
     public Vector2 spawnOffset;  // ← GameObjectの代わりにオフセット値
     public AngleType angleType;
     public bool isEnabled;
