@@ -950,6 +950,14 @@ PrefabInstance:
       propertyPath: socketConfigs.Array.data[1].spawnOffset.x
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1750988985
+      objectReference: {fileID: 0}
     - target: {fileID: 7613743487544382793, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1305,6 +1313,14 @@ PrefabInstance:
     - target: {fileID: 4881467912934530167, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: socketConfigs.Array.data[1].spawnOffset.x
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1750988985
       objectReference: {fileID: 0}
     - target: {fileID: 7613743487544382793, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_IsActive
@@ -1909,6 +1925,14 @@ PrefabInstance:
     - target: {fileID: 4881467912934530167, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: socketConfigs.Array.data[0].spawnOffset.x
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1750988985
       objectReference: {fileID: 0}
     - target: {fileID: 7613743487544382793, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_IsActive
@@ -2582,10 +2606,10 @@ SceneRoots:
   - {fileID: 801591096}
   - {fileID: 2055365021}
   - {fileID: 1113829310}
-  - {fileID: 488049394}
   - {fileID: 1415549213}
   - {fileID: 1993330257}
   - {fileID: 2107178842}
   - {fileID: 1169261068}
   - {fileID: 692655270}
   - {fileID: 1947073470}
+  - {fileID: 488049394}
