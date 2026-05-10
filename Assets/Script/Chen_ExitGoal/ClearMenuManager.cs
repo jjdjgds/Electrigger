@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// クリアメニュー管理
+/// クEⅴ幞衰濠`管纴E
 /// </summary>
 public class ClearMenuManager : MonoBehaviour
 {
@@ -20,7 +20,7 @@ public class ClearMenuManager : MonoBehaviour
         }
     }
 
-    // クリアメニューを表示
+    // クEⅴ幞衰濠`を柄婢
     public void ShowClearMenu()
     {
         if (clearPanel == null) return;
@@ -37,11 +37,13 @@ public class ClearMenuManager : MonoBehaviour
         }
 
         clearPanel.SetActive(true);
+        Cursor.visible = true;
+
 
         Time.timeScale = 0f;
     }
 
-    // ステージセレクトに戻る
+    // ステージセE趣藨丒
     public void BackToStageSelect()
     {
         Time.timeScale = 1f;
