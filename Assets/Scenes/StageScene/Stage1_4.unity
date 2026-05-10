@@ -1302,6 +1302,10 @@ PrefabInstance:
       propertyPath: socketConfigs.Array.data[1].spawnOffset.x
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7613743487544382793, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2264,6 +2268,10 @@ PrefabInstance:
       propertyPath: socketConfigs.Array.data[1].spawnOffset.y
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7613743487544382793, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2823,6 +2831,10 @@ PrefabInstance:
     - target: {fileID: 4881467912934530167, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: socketConfigs.Array.data[1].spawnOffset.y
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7613743487544382793, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_IsActive

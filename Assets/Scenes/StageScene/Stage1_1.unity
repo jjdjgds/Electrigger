@@ -952,11 +952,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_SortingLayerID
-      value: -1750988985
+      value: 1805466931
       objectReference: {fileID: 0}
     - target: {fileID: 7613743487544382793, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_IsActive
@@ -1316,11 +1320,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_SortingLayerID
-      value: -1750988985
+      value: 1805466931
       objectReference: {fileID: 0}
     - target: {fileID: 7613743487544382793, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_IsActive
@@ -1928,11 +1936,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7507082821560512442, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_SortingLayerID
-      value: -1750988985
+      value: 1805466931
       objectReference: {fileID: 0}
     - target: {fileID: 7613743487544382793, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_IsActive
