@@ -58,12 +58,13 @@ Transform:
   m_GameObject: {fileID: 4464755497374025430}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.35, y: 4.11, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.33117688, y: 0.49544927, z: 0.49544927}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1794840702342403762}
   - {fileID: 7261226266084612799}
+  - {fileID: 2888617177228715620}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7366260730952603708
@@ -79,10 +80,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::battery
   plugPrefab: {fileID: 4684737374451977217, guid: 3f159c50de2e7d644b0097451c413270, type: 3}
-  plugColor: 1
+  plugColor: 2
   angleType: 1
   frameRenderer: {fileID: 323712838163336149}
-  spawnOffset: 0.1
+  spawnOffset: 0.15
   maxCharge: 5
   _currentCharge: 0
 --- !u!114 &1468809137176869036
@@ -98,7 +99,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BatteryDisplay
   targetBattery: {fileID: 7366260730952603708}
-  cellPrefab: {fileID: 512649743099343999, guid: e781f7053d15dbe4facef787762bfa71, type: 3}
+  cellPrefabs:
+  - type: 0
+    prefab: {fileID: 512649743099343999, guid: e781f7053d15dbe4facef787762bfa71, type: 3}
+  - type: 1
+    prefab: {fileID: 512649743099343999, guid: c0a203b79c52102439adb2b9ad3ca21b, type: 3}
+  - type: 2
+    prefab: {fileID: 512649743099343999, guid: 243e3c3e370a87c47b50d90791bd2135, type: 3}
+  emptyCellPrefab: {fileID: 512649743099343999, guid: 322d9f067841b1140a7888b539a7ea9d, type: 3}
   frameRenderer: {fileID: 323712838163336149}
   colorPalette: {fileID: 11400000, guid: f2f011cc3bb83dc46a253014a7ccffa1, type: 2}
   cellWidth: 0.5
@@ -106,6 +114,38 @@ MonoBehaviour:
   cellSpacing: 0.05
   framePadding: 0.1
   inactiveColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  cellsRoot: {fileID: 2888617177228715620}
+--- !u!1 &6271994518591286904
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2888617177228715620}
+  m_Layer: 0
+  m_Name: CellsRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2888617177228715620
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6271994518591286904}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.0195346, y: 2.0183702, z: 2.0183702}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2742599861137709272}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7490347442032721066
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,8 +172,8 @@ Transform:
   m_GameObject: {fileID: 7490347442032721066}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8, y: 0.85, z: 1}
+  m_LocalPosition: {x: -1.73, y: 0, z: 0}
+  m_LocalScale: {x: 0.9, y: 0.425, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2742599861137709272}
@@ -187,7 +227,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: -2182971287810781382, guid: e46430435ac302c48aca4be28b35f6da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

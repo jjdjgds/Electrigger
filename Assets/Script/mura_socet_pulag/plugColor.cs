@@ -1,31 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlugColor
-{
-    Red,
-    Blue,
-    Green,
-    Yellow
-}
+
 
 [System.Serializable]
 public class ColorEntry
 {
-    public PlugColor colorType;
+    public ColorType colorType;
     public Color color;
 }
 
 public class plugColor : MonoBehaviour
 {
-    [SerializeField] private PlugColor plugcolor;
+    [SerializeField] private ColorType plugcolor;
     [SerializeField] private ColorPaletteSO colorPalette;  // SOÇéQè∆
 
     void Start()
     {
         ApplyColor();
     }
-    public PlugColor GetPlugColor()
+    public ColorType GetColorType()
     {
         return plugcolor;
     }
@@ -44,7 +38,7 @@ public class plugColor : MonoBehaviour
         }
     }
 
-    public void SetColor(PlugColor newColor)
+    public void SetColor(ColorType newColor)
     {
         plugcolor = newColor;
         ApplyColor();

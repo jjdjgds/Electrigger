@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PowerNode : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class PowerNode : MonoBehaviour
     public PowerNode connectedNode = null;
     [Header("Sound")]
     public AudioClip powerOnSE;
+    [SerializeField] private AudioMixerGroup sfxMixerGroup;
+
     private AudioSource audioSource;
 
     //モニター本体のMonitor_Dragを参照
@@ -21,8 +24,15 @@ public class PowerNode : MonoBehaviour
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
+
+        audioSource.playOnAwake = false;
+        audioSource.loop = false;
+
+        if (sfxMixerGroup != null)
+            audioSource.outputAudioMixerGroup = sfxMixerGroup;
 
         //ownerがあればそちら、なければ自身から取得
         monitorDrag = owner != null

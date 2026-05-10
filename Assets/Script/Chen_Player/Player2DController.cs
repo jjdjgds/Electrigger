@@ -149,10 +149,6 @@ public class Player2DController : MonoBehaviour
         visualRoot.localScale = scale;
     }
 
-    public float debugAnimSpeed;
-    public float debugYVelocity;
-    public int debugJumpState;
-
     // アニメーション更新
     void UpdateAnimation()
     {
@@ -168,9 +164,6 @@ public class Player2DController : MonoBehaviour
         animator.SetFloat("Speed", animSpeed);
         animator.SetBool("IsGrounded", isGrounded);
         animator.SetFloat("YVelocity", yVel);
-
-        debugAnimSpeed = animSpeed;
-        debugYVelocity = yVel;
 
         int jumpState = 0;
 
@@ -199,18 +192,9 @@ public class Player2DController : MonoBehaviour
             animator.SetInteger("JumpState", 0);
         }
 
-        debugJumpState = jumpState;
-
         animator.SetInteger("JumpState", jumpState);
     }
 
-    void OnGUI()
-    {
-        GUI.Label(new Rect(10, 10, 300, 20), $"AnimSpeed: {debugAnimSpeed:F2}");
-        GUI.Label(new Rect(10, 30, 300, 20), $"Y Velocity: {debugYVelocity:F2}");
-        GUI.Label(new Rect(10, 50, 300, 20), $"JumpState: {debugJumpState}");
-        GUI.Label(new Rect(10, 70, 300, 20), $"Grounded: {isGrounded}");
-    }
 
     // 入力取得
     void ReadInput()
