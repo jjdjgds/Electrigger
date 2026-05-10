@@ -71,7 +71,7 @@ public class LevelSelectUI : MonoBehaviour
         UpdateView();
     }
 
-    // UI∏ÅE¬
+    // UI∏ÅE?
     private void UpdateView()
     {
         if (!HasItems()) return;

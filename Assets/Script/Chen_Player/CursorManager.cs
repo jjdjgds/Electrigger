@@ -10,7 +10,7 @@ public class CursorManager : MonoBehaviour
 
     void Start()
     {
-        cam = Camera.main;
+        //cam = Camera.main;
 
         Cursor.visible = false;
     }
@@ -25,13 +25,14 @@ public class CursorManager : MonoBehaviour
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
 
+        /*
         Vector3 worldPos = cam.ScreenToWorldPoint(
             new Vector3(mousePos.x, mousePos.y, Mathf.Abs(cam.transform.position.z))
         );
 
         worldPos.z = 0;
-
-        transform.position = worldPos;
+        */
+        transform.position = mousePos;
     }
 
     void UpdateView()
