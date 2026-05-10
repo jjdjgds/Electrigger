@@ -372,4 +372,9 @@ public class Monitor_Drag : MonoBehaviour
         targetPos.y = Mathf.Clamp(targetPos.y, minY, maxY);
         return targetPos;
     }
+
+    public static bool IsDraggingAny()
+    {
+        return currentlyDragging != null;
+    }
 }
