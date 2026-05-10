@@ -16,6 +16,7 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
+        Cursor.visible = true;
         if (Instance != null)
         {
             Destroy(gameObject);
