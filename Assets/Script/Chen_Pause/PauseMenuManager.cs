@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// ¥İ©`¥º¥á¥Ë¥å©`¹ÜÀí
+/// ¥İ©`¥º¥á¥Ë¥å©`¹ÜÀE
 /// </summary>
 public class PauseMenuManager : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class PauseMenuManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject pausePanel;
 
-    // ¥·©`¥óÃû
+    // ¥·©`¥óÃE
     [Header("Scene")]
     [SerializeField] private string worldSelectSceneName = "WorldSelectScene";
 
@@ -20,7 +20,7 @@ public class PauseMenuManager : MonoBehaviour
     [Header("Animation")]// ¥¢¥Ë¥á©`¥·¥ç¥óÔO¶¨
     [SerializeField] private float animationDuration = 0.25f;
 
-    [Header("Input")]// ÈëÁ¦ÔO¶¨
+    [Header("Input")]// ÈE¦ÔO¶¨
     [SerializeField] private float toggleCooldown = 0.25f;
 
     // ×´‘B
@@ -33,10 +33,10 @@ public class PauseMenuManager : MonoBehaviour
     private Vector2 hiddenPos;
     private Coroutine animCoroutine;
 
-    // ¥İ©`¥º×´‘B¤òÍâ²¿¤«¤é²ÎÕÕ¿ÉÄÜ¤Ë¤¹¤ë¥×¥í¥Ñ¥Æ¥£
+    // ¥İ©`¥º×´‘B¤òÍâ²¿¤«¤é²ÎÕÕ¿ÉÄÜ¤Ë¤¹¤E×¥úÁÑ¥Æ¥£
     public static bool IsPaused { get; private set; }
 
-    // ¥²©`¥àÄÚ¤ÇÈëÁ¦¤òÊÜ¤±¸¶¤±¤ë¤Ù¤­¤«
+    // ¥²©`¥àÄÚ¤ÇÈE¦¤òÊÜ¤±¸¶¤±¤EÙ¤­¤«
     public static bool CanGameInput()
     {
         return !IsPaused;
@@ -71,13 +71,13 @@ public class PauseMenuManager : MonoBehaviour
         }
     }
 
-    // ¥İ©`¥ºÇĞ¤êÌæ¤¨
+    // ¥İ©`¥ºÇĞ¤Eæ¤¨
     private void TryTogglePause()
     {
-        // ¥¢¥Ë¥á©`¥·¥ç¥óÖĞ¤ÏÇĞ¤êÌæ¤¨²»¿É
+        // ¥¢¥Ë¥á©`¥·¥ç¥óÖĞ¤ÏÇĞ¤Eæ¤¨²»¿É
         if (isAnimating) return;
 
-        // ¥¯©`¥ë¥À¥¦¥óÖĞ¤ÏÇĞ¤êÌæ¤¨²»¿É
+        // ¥¯©`¥EÀ¥¦¥óÖĞ¤ÏÇĞ¤Eæ¤¨²»¿É
         if (Time.unscaledTime - lastToggleTime < toggleCooldown)
             return;
 
