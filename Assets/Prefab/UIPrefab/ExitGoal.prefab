@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.51, y: -1.49, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.24, y: 0.24, z: 0.24}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 548763138616974929}
@@ -80,11 +80,11 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1805466931
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: bd11df0f94a7f384f861ef19052adef5, type: 3}
+  m_Sprite: {fileID: 1378275472504835762, guid: f521056f0024eec47876345d82c32975, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -128,17 +128,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.17}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.88, y: 1.9}
+    oldSize: {x: 0.5, y: 0.58}
     newSize: {x: 1.88, y: 1.9}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 0.64, y: 0.67}
   m_EdgeRadius: 0
 --- !u!114 &5840049131417658490
 MonoBehaviour:
@@ -153,8 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   interactIcon: {fileID: 7287151179142474805}
-  iconOffset: {x: -0.58, y: 0, z: 0}
-  clearMenuManager: {fileID: 2470664731350897086, guid: 81cd7e72f5662084fb15dfb796aba779, type: 3}
+  iconOffset: {x: -0.25, y: 0, z: 0}
+  clearMenuManager: {fileID: 0}
   resetKey: 37
 --- !u!1001 &7009216975005675538
 PrefabInstance:
@@ -170,15 +170,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7410713426584809027, guid: 0177c01be0976d047ad599307aa0585c, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7410713426584809027, guid: 0177c01be0976d047ad599307aa0585c, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7410713426584809027, guid: 0177c01be0976d047ad599307aa0585c, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7410713426584809027, guid: 0177c01be0976d047ad599307aa0585c, type: 3}
       propertyPath: m_LocalPosition.x

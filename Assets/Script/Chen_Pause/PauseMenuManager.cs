@@ -33,10 +33,10 @@ public class PauseMenuManager : MonoBehaviour
     private Vector2 hiddenPos;
     private Coroutine animCoroutine;
 
-    // ･ﾝｩ`･ｺﾗｴ腺､箚ｿ､ｫ､魎ﾎﾕﾕｿﾉﾄﾜ､ﾋ､ｹ､・ﾗ･愠ﾑ･ﾆ･｣
+    // ･ﾝｩ`･ｺﾗｴ腺､箚ｿ､ｫ､魎ﾎﾕﾕｿﾉﾄﾜ､ﾋ､ｹ､・ﾗ･愠ﾑ･ﾆ･?
     public static bool IsPaused { get; private set; }
 
-    // ･ｲｩ`･狷ﾚ､ﾇﾈ・ｦ､ﾜ､ｱｸｶ､ｱ､・ﾙ､ｭ､ｫ
+    // ･ｲｩ`･狷ﾚ､ﾇﾈ・ｦ､ﾜ､ｱｸｶ､ｱ､・ﾙ､ｭ､?
     public static bool CanGameInput()
     {
         return !IsPaused;
@@ -71,13 +71,13 @@ public class PauseMenuManager : MonoBehaviour
         }
     }
 
-    // ･ﾝｩ`･ｺﾇﾐ､・讀ｨ
+    // ･ﾝｩ`･ｺﾇﾐ､・讀?
     private void TryTogglePause()
     {
-        // ･｢･ﾋ･皓`･ｷ･逾ﾐ､ﾏﾇﾐ､・讀ｨｲｻｿﾉ
+        // ･｢･ﾋ･皓`･ｷ･逾ﾐ､ﾏﾇﾐ､・讀ｨｲｻｿ?
         if (isAnimating) return;
 
-        // ･ｯｩ`･・ﾀ･ｦ･ﾐ､ﾏﾇﾐ､・讀ｨｲｻｿﾉ
+        // ･ｯｩ`･・ﾀ･ｦ･ﾐ､ﾏﾇﾐ､・讀ｨｲｻｿ?
         if (Time.unscaledTime - lastToggleTime < toggleCooldown)
             return;
 
@@ -87,6 +87,12 @@ public class PauseMenuManager : MonoBehaviour
             ResumeGame();
         else
             PauseGame();
+    }
+
+    // UI､ﾎ･ﾜ･ｿ･ｫ､鮗ﾓｳｹﾓﾃ､ﾎ･皈ｽ･ﾃ･ﾉ
+    public void OnPauseButtonClicked()
+    {
+        TryTogglePause();
     }
 
     public void PauseGame()
