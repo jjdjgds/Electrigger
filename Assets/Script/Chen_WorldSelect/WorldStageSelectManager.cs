@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// •Ô©`•Î•…§»•π•∆©`•∏
+/// •ÅE`•ÅE…§»•π•∆©`•∏
 /// </summary>
 public class WorldStageSelectManager : MonoBehaviour
 {
@@ -18,14 +18,14 @@ public class WorldStageSelectManager : MonoBehaviour
     [Header("World Data")]
     [SerializeField] private SelectItemData[] worldItems;
 
-    // •Ô©`•Î•…•«©`•ø
+    // •ÅE`•ÅE…•«©`•ø
     [Header("Stage Data Per World")]
     [SerializeField] private SelectItemData[] world1Stages;
     [SerializeField] private SelectItemData[] world2Stages;
 
-    private int currentWorldIndex = 0;// •Ô©`•Î•…•§•Û•«•√•Ø•π§Ú±£≥÷
+    private int currentWorldIndex = 0;// •ÅE`•ÅE…•§•Û•«•√•Ø•π§Ú±£≥÷
 
-    // UI◊¥ëBπ‹¿Ì
+    // UI◊¥ëBπ‹¿ÅE
     private enum UIState
     {
         World,
@@ -44,7 +44,7 @@ public class WorldStageSelectManager : MonoBehaviour
 
         worldSelector.SetItems(worldItems);
 
-        // •π•∆©`•∏èÕé¢ÑI¿Ì
+        // •π•∆©`•∏èÕé¢ÑI¿ÅE
         if (LevelSelectReturnData.shouldReturnToStageSelect)
         {
             RestoreStageSelect();
@@ -74,7 +74,7 @@ public class WorldStageSelectManager : MonoBehaviour
         SaveManager.Instance.LoadOrCreate(worldItems, stageGroups);
     }
 
-    // •Ô©`•Î•…ﬂxíkïr§ŒÑI¿Ì
+    // •ÅE`•ÅE…ﬂxíkïr§ŒÑI¿ÅE
     private void OnWorldSelected(int worldIndex, SelectItemData worldData)
     {
         if (SaveManager.Instance != null &&
@@ -91,7 +91,7 @@ public class WorldStageSelectManager : MonoBehaviour
         stageSelector.SetItems(GetStagesByWorldIndex(worldIndex));
     }
 
-    // •π•∆©`•∏ﬂxíkïr§ŒÑI¿Ì
+    // •π•∆©`•∏ﬂxíkïr§ŒÑI¿ÅE
     private void OnStageSelected(int stageIndex, SelectItemData stageData)
     {
         if (SaveManager.Instance != null &&

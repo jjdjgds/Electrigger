@@ -56,6 +56,11 @@ public class Monitor_Rotate : MonoBehaviour
         if (Mouse.current == null) return false;
         if (!Mouse.current.leftButton.isPressed) return false;
 
+        // 他のモニターをドラッグ中なら回転しない
+        Monitor_Drag myDrag = GetComponent<Monitor_Drag>();
+        if (Monitor_Drag.IsDraggingAny() && !Monitor_Drag.IsDraggingThis(myDrag))
+            return false;
+
         return IsMouseOver();
     }
 

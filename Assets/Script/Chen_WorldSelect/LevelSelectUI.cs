@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine.Events;
 
 /// <summary>
-/// ¥ì¥Ù¥ëßx’kUI
+/// ¥EÙ¥Ex’kUI
 /// </summary>
 public class LevelSelectUI : MonoBehaviour
 {
@@ -35,9 +35,8 @@ public class LevelSelectUI : MonoBehaviour
 
     private void Awake()
     {
-        // ¥Ü¥¿¥óµÇåh
-        prevButton.onClick.AddListener(Prev);
-        nextButton.onClick.AddListener(Next);
+        prevButton.onClick.AddListener(Next); // ãƒ{ƒ^ƒ“ ¨ ”Žš‘‰Á
+        nextButton.onClick.AddListener(Prev); // ‰ºƒ{ƒ^ƒ“ ¨ ”ŽšŒ¸­
         imageButton.onClick.AddListener(Confirm);
     }
 
@@ -72,7 +71,7 @@ public class LevelSelectUI : MonoBehaviour
         UpdateView();
     }
 
-    // UI¸üÐÂ
+    // UI¸EÂ
     private void UpdateView()
     {
         if (!HasItems()) return;
