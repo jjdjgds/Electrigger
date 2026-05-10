@@ -83,7 +83,7 @@ MonoBehaviour:
   plugColor: 2
   angleType: 1
   frameRenderer: {fileID: 323712838163336149}
-  spawnOffset: 0.1
+  spawnOffset: 0.15
   maxCharge: 5
   _currentCharge: 0
 --- !u!114 &1468809137176869036
@@ -114,6 +114,7 @@ MonoBehaviour:
   cellSpacing: 0.05
   framePadding: 0.1
   inactiveColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  cellsRoot: {fileID: 2888617177228715620}
 --- !u!1 &6271994518591286904
 GameObject:
   m_ObjectHideFlags: 0
