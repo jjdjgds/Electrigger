@@ -1187,7 +1187,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 502664893079671523, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.2302961
+      value: 2.230296
       objectReference: {fileID: 0}
     - target: {fileID: 502664893079671523, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1225,6 +1225,14 @@ PrefabInstance:
       propertyPath: gridGenerator
       value: 
       objectReference: {fileID: 1937095491}
+    - target: {fileID: 2784421313650760595, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2784421313650760595, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3972473597760132367, guid: 44b12c1c0bae204469acdb330e96f578, type: 3}
       propertyPath: m_Name
       value: Monitor

@@ -1468,6 +1468,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 436169580}
     m_Modifications:
+    - target: {fileID: 223057393638273036, guid: 22c61b8c43cafc94ab145934b4737984, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 223057393638273036, guid: 22c61b8c43cafc94ab145934b4737984, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1805466931
+      objectReference: {fileID: 0}
     - target: {fileID: 743214342180616663, guid: 22c61b8c43cafc94ab145934b4737984, type: 3}
       propertyPath: collectId
       value: World1_Stage3_Item_01
