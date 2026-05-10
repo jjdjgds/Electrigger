@@ -50,6 +50,9 @@ TagManager:
   - name: Obj
     uniqueID: 1805466931
     locked: 0
+  - name: Obj_texture
+    uniqueID: 3373281875
+    locked: 0
   - name: UI
     uniqueID: 2543978311
     locked: 0
