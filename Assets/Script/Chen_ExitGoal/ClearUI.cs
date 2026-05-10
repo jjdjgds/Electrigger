@@ -2,11 +2,11 @@ using UnityEngine;
 using TMPro;
 
 /// <summary>
-/// •Ø•Í•¢UI•Ø•È•π
+/// •Ø•ÅE¢UI•Ø•È•π
 /// </summary>
 public class LevelClearUI : MonoBehaviour
 {
-    // •∑•Û•∞•Î•»•Û•§•Û•π•ø•Û•π
+    // •∑•Û•∞•ÅE»•Û•§•Û•π•ø•Û•π
     public static LevelClearUI Instance { get; private set; }
 
     // UI≤Œ’’
@@ -27,7 +27,7 @@ public class LevelClearUI : MonoBehaviour
         }
     }
 
-    // •Ø•Í•¢UI§Ú±Ì æ§π§Î•·•Ω•√•…
+    // •Ø•ÅE¢UI§Ú±˙Êæ§π§ÅE·•Ω•√•…
     public void ShowClearUI()
     {
         if (clearPanel != null)

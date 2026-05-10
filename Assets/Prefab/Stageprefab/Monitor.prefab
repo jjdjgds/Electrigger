@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4703493913237916051}
   - component: {fileID: 2493460135949189015}
   - component: {fileID: 1205083664398568480}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6539512033963105086}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,9 +278,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: -1750988985
-  m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingLayerID: 1805466931
+  m_SortingLayer: 1
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.9490196}
@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 3782651915935831785}
   - component: {fileID: 1975522508638322268}
   - component: {fileID: 8970121198297525708}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -612,7 +612,7 @@ GameObject:
   - component: {fileID: 2298560050810667217}
   - component: {fileID: 1381702942035338761}
   - component: {fileID: 8928856017576858457}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall_Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -810,7 +810,7 @@ GameObject:
   - component: {fileID: 7163999367767416694}
   - component: {fileID: 7096037532211351318}
   - component: {fileID: 4216043197727736122}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall_Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1121,7 +1121,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   canDrag: 1
+  playerInside: 0
   overlay: {fileID: 2152164238903309602}
+  myPowerNode: {fileID: 0}
+  gridGenerator: {fileID: 0}
+  lastValidPosition: {x: 0, y: 0, z: 0}
+  pickupSE: {fileID: 0}
+  placeSE: {fileID: 0}
+  sfxMixerGroup: {fileID: 0}
+  isPlaced: 0
 --- !u!114 &8279999419007494560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1148,3 +1156,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44777f51dd1410543838ae064978b753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  wallRight: {fileID: 0}
+  wallLeft: {fileID: 0}
+  wallTop: {fileID: 0}
+  wallBottom: {fileID: 0}
+  teleportCooldown: 0
+  portalRightTarget: {fileID: 0}
+  portalLeftTarget: {fileID: 0}
+  portalUpTarget: {fileID: 0}
+  portalDownTarget: {fileID: 0}

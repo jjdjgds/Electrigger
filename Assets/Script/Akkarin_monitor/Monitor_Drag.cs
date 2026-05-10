@@ -377,4 +377,10 @@ public class Monitor_Drag : MonoBehaviour
     {
         return currentlyDragging != null;
     }
+
+    // Monitor_Drag.cs に追加
+    public static bool IsDraggingThis(Monitor_Drag target)
+    {
+        return currentlyDragging == target;
+    }
 }
