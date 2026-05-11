@@ -47,6 +47,8 @@ public class Monitor_Drag : MonoBehaviour
 
     private bool wasScreenOn = false;
 
+    private MonitorPassengerController passengerController;
+
     void Start()
     {
         cam = Camera.main;
@@ -73,6 +75,11 @@ public class Monitor_Drag : MonoBehaviour
 
         if (sfxMixerGroup != null)
             audioSource.outputAudioMixerGroup = sfxMixerGroup;
+
+        passengerController = GetComponent<MonitorPassengerController>();
+
+        if (passengerController == null)
+            passengerController = gameObject.AddComponent<MonitorPassengerController>();
     }
 
     void Update()
@@ -82,21 +89,38 @@ public class Monitor_Drag : MonoBehaviour
         UpdateOverlay();
         bool isPowered = myPowerNode != null && myPowerNode.IsPowered();
 
-        bool shouldFreeze = (isDragging && playerShouldFollowDrag)
-                         || Monitor_Rotate.isRotatingAnyMonitor
-                         || (!isPowered && playerInside);
+        ////bool shouldFreeze = (isDragging && playerShouldFollowDrag)
+        ////                 || Monitor_Rotate.isRotatingAnyMonitor
+        ////                 || (!isPowered && playerInside);
 
-        if (shouldFreeze)
-            freezeRequesters.Add(this);
-        else
-            freezeRequesters.Remove(this);
+        //bool shouldFreeze = (!isPowered && playerInside);
 
-        bool actualFreeze = freezeRequesters.Count > 0;
-        if (sharedPlayerMovement != null && actualFreeze != lastFrozenState)
-        {
-            sharedPlayerMovement.SetFrozen(actualFreeze);
-            lastFrozenState = actualFreeze;
-        }
+        //if (shouldFreeze)
+        //    freezeRequesters.Add(this);
+        //else
+        //    freezeRequesters.Remove(this);
+
+        //bool actualFreeze = freezeRequesters.Count > 0;
+        //if (sharedPlayerMovement != null && actualFreeze != lastFrozenState)
+        //{
+        //    sharedPlayerMovement.SetFrozen(actualFreeze);
+        //    lastFrozenState = actualFreeze;
+        //}
+
+        //bool shouldFreeze = (!isPowered && playerInside);
+
+        //if (shouldFreeze)
+        //    freezeRequesters.Add(this);
+        //else
+        //    freezeRequesters.Remove(this);
+
+        //bool actualFreeze = freezeRequesters.Count > 0;
+
+        //if (sharedPlayerMovement != null && actualFreeze != lastFrozenState)
+        //{
+        //    sharedPlayerMovement.SetFrozen(actualFreeze, true);
+        //    lastFrozenState = actualFreeze;
+        //}
 
         if (!canDrag) return;
 
@@ -123,26 +147,34 @@ public class Monitor_Drag : MonoBehaviour
                     clickAnimation.OnDragStart();
                 }
 
-                if (sharedPlayer != null)
+                //if (sharedPlayer != null)
+                //{
+                //    Collider2D monitorCol = GetComponent<Collider2D>();
+                //    Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
+                //    Bounds expanded = monitorCol.bounds;
+                //    expanded.Expand(new Vector3(0f, 0f, 100f));
+
+                //    playerShouldFollowDrag = playerCol != null
+                //        ? expanded.Intersects(playerCol.bounds)
+                //        : expanded.Contains(sharedPlayer.position);
+
+                //    //Debug.Log($"{gameObject.name} drag start, playerShouldFollowDrag={playerShouldFollowDrag}");
+
+                //    // Disable player collider to prevent physics conflict with overlapping monitors
+                //    if (playerShouldFollowDrag && playerCol != null)
+                //    {
+                //        playerCol.enabled = false;
+                //        playerOffsetFromMonitor = sharedPlayer.position - transform.position;
+
+                //    }
+                //}
+
+                playerShouldFollowDrag = false;
+
+                if (passengerController != null && passengerController.IsPlayerInside())
                 {
-                    Collider2D monitorCol = GetComponent<Collider2D>();
-                    Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
-                    Bounds expanded = monitorCol.bounds;
-                    expanded.Expand(new Vector3(0f, 0f, 100f));
-
-                    playerShouldFollowDrag = playerCol != null
-                        ? expanded.Intersects(playerCol.bounds)
-                        : expanded.Contains(sharedPlayer.position);
-
-                    //Debug.Log($"{gameObject.name} drag start, playerShouldFollowDrag={playerShouldFollowDrag}");
-
-                    // Disable player collider to prevent physics conflict with overlapping monitors
-                    if (playerShouldFollowDrag && playerCol != null)
-                    {
-                        playerCol.enabled = false;
-                        playerOffsetFromMonitor = sharedPlayer.position - transform.position;
-
-                    }
+                    playerShouldFollowDrag = true;
+                    passengerController.BeginPassenger();
                 }
 
                 //if (playerMovement != null)
@@ -214,24 +246,30 @@ public class Monitor_Drag : MonoBehaviour
             Vector3 monitorDelta = transform.position - oldMonitorPos;
 
             // ★ Re-enable player collider and clamp player inside monitor on drop
-            if (sharedPlayer != null)
+            //if (sharedPlayer != null)
+            //{
+            //    if (playerShouldFollowDrag)
+            //    {
+            //        // 3. プレイヤーもモニターと同じだけ移動させる
+            //        sharedPlayer.position += monitorDelta;
+
+            //        Collider2D monitorCol = GetComponent<Collider2D>();
+            //        Bounds b = monitorCol.bounds;
+            //        float push = 0.6f;
+            //        Vector3 playerPos = sharedPlayer.position;
+            //        playerPos.x = Mathf.Clamp(playerPos.x, b.min.x + push, b.max.x - push);
+            //        playerPos.y = Mathf.Clamp(playerPos.y, b.min.y + push, b.max.y - push);
+            //        sharedPlayer.position = playerPos;
+            //    }
+
+            //    Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
+            //    if (playerCol != null) playerCol.enabled = true;
+            //}
+
+            if (playerShouldFollowDrag && passengerController != null)
             {
-                if (playerShouldFollowDrag)
-                {
-                    // 3. プレイヤーもモニターと同じだけ移動させる
-                    sharedPlayer.position += monitorDelta;
-
-                    Collider2D monitorCol = GetComponent<Collider2D>();
-                    Bounds b = monitorCol.bounds;
-                    float push = 0.6f;
-                    Vector3 playerPos = sharedPlayer.position;
-                    playerPos.x = Mathf.Clamp(playerPos.x, b.min.x + push, b.max.x - push);
-                    playerPos.y = Mathf.Clamp(playerPos.y, b.min.y + push, b.max.y - push);
-                    sharedPlayer.position = playerPos;
-                }
-
-                Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
-                if (playerCol != null) playerCol.enabled = true;
+                passengerController.UpdatePassenger();
+                passengerController.EndPassenger();
             }
 
             playerShouldFollowDrag = false;
@@ -261,19 +299,24 @@ public class Monitor_Drag : MonoBehaviour
             // ★ No clamping during drag — follow mouse exactly 1:1
             transform.position = worldPos + offset;
 
-            if (playerShouldFollowDrag && sharedPlayer != null)
-            {
-                Vector3 targetPlayerPos = transform.position + playerOffsetFromMonitor;
-                Collider2D monitorCol = GetComponent<Collider2D>();
-                Bounds b = monitorCol.bounds;
-                float push = 0.6f;
-                targetPlayerPos.x = Mathf.Clamp(targetPlayerPos.x, b.min.x + push, b.max.x - push);
-                targetPlayerPos.y = Mathf.Clamp(targetPlayerPos.y, b.min.y + push, b.max.y - push);
-                targetPlayerPos.z = sharedPlayer.position.z;
-                sharedPlayer.position = targetPlayerPos;
+            //if (playerShouldFollowDrag && sharedPlayer != null)
+            //{
+            //    Vector3 targetPlayerPos = transform.position + playerOffsetFromMonitor;
+            //    Collider2D monitorCol = GetComponent<Collider2D>();
+            //    Bounds b = monitorCol.bounds;
+            //    float push = 0.6f;
+            //    targetPlayerPos.x = Mathf.Clamp(targetPlayerPos.x, b.min.x + push, b.max.x - push);
+            //    targetPlayerPos.y = Mathf.Clamp(targetPlayerPos.y, b.min.y + push, b.max.y - push);
+            //    targetPlayerPos.z = sharedPlayer.position.z;
+            //    sharedPlayer.position = targetPlayerPos;
 
-                Rigidbody2D rb = sharedPlayer.GetComponent<Rigidbody2D>();
-                if (rb != null) rb.linearVelocity = Vector2.zero;
+            //    Rigidbody2D rb = sharedPlayer.GetComponent<Rigidbody2D>();
+            //    if (rb != null) rb.linearVelocity = Vector2.zero;
+            //}
+
+            if (playerShouldFollowDrag && passengerController != null)
+            {
+                passengerController.UpdatePassenger();
             }
         }
     }
