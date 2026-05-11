@@ -133,7 +133,7 @@ public class Monitor_Drag : MonoBehaviour
                         ? expanded.Intersects(playerCol.bounds)
                         : expanded.Contains(sharedPlayer.position);
 
-                    Debug.Log($"{gameObject.name} drag start, playerShouldFollowDrag={playerShouldFollowDrag}");
+                    //Debug.Log($"{gameObject.name} drag start, playerShouldFollowDrag={playerShouldFollowDrag}");
 
                     // Disable player collider to prevent physics conflict with overlapping monitors
                     if (playerShouldFollowDrag && playerCol != null)
