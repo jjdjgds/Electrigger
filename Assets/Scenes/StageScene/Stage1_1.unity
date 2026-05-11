@@ -429,6 +429,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Casoru
       objectReference: {fileID: 0}
+    - target: {fileID: 733730130495233920, guid: 5d2df3302c22d134ca8939874fe6d230, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1640255564483184432, guid: 5d2df3302c22d134ca8939874fe6d230, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -476,6 +480,10 @@ PrefabInstance:
     - target: {fileID: 1640255564483184432, guid: 5d2df3302c22d134ca8939874fe6d230, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1900841657148173146, guid: 5d2df3302c22d134ca8939874fe6d230, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3745493574426486548, guid: 5d2df3302c22d134ca8939874fe6d230, type: 3}
       propertyPath: m_Name
@@ -814,6 +822,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: -921685421
       objectReference: {fileID: 0}
+    - target: {fileID: 5459953644896072471, guid: a2ee0b330bbd8ec4a89c99d48773b091, type: 3}
+      propertyPath: clearMenuManager
+      value: 
+      objectReference: {fileID: 1375072124}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -996,6 +1008,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1291309413}
   m_CullTransparentMesh: 1
+--- !u!114 &1375072124 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6331579117436364925, guid: 5d2df3302c22d134ca8939874fe6d230, type: 3}
+  m_PrefabInstance: {fileID: 488049394}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ab30b0f05bc7341bce1ff666934fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClearMenuManager
 --- !u!1 &1415549212
 GameObject:
   m_ObjectHideFlags: 0
@@ -1843,7 +1866,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8982651615632149499, guid: 02e6b0f8b181c514282dead16f980240, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1942,6 +1965,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClearUI
       objectReference: {fileID: 0}
+    - target: {fileID: 8961766203407061599, guid: 81cd7e72f5662084fb15dfb796aba779, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1966,6 +1993,6 @@ SceneRoots:
   - {fileID: 458956425}
   - {fileID: 461250764}
   - {fileID: 1291309414}
-  - {fileID: 5248789276746673237}
   - {fileID: 2007812305}
+  - {fileID: 5248789276746673237}
   - {fileID: 6779091599694948755}
