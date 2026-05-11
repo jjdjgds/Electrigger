@@ -53,13 +53,26 @@ public class PlayerSpawner : MonoBehaviour
 
         currentPlayer = Instantiate(playerPrefab, transform.position, transform.rotation);
 
-        // Notify all monitors of new player
+        Transform playerTransform = currentPlayer.transform;
+
+        MonitorPassengerController.RegisterPlayer(playerTransform);
+
+        // ドラッグ処理にプレイヤーを登録
         foreach (var monitor in FindObjectsByType<Monitor_Drag>(FindObjectsSortMode.None))
         {
-            monitor.SetPlayer(currentPlayer.transform);
+            monitor.SetPlayer(playerTransform);
         }
 
+        // モニター間移動処理にプレイヤーを登録
         foreach (var monitor in FindObjectsByType<Monitor_Collision>(FindObjectsSortMode.None))
-            monitor.SetPlayer(currentPlayer.transform);
+        {
+            monitor.SetPlayer(playerTransform);
+        }
+
+        // 各モニターのPassengerControllerにも登録
+        foreach (var passenger in FindObjectsByType<MonitorPassengerController>(FindObjectsSortMode.None))
+        {
+            passenger.SetPlayer(playerTransform);
+        }
     }
 }
