@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// ¥´©`¥ë¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¹¥¯¥ê¥×¥È
+/// ¥´©`¥Eª¥Ö¥¸¥§¥¯¥È¤Î¥¹¥¯¥E×¥È
 /// </summary>
 public class ExitGoal : MonoBehaviour
 {
@@ -14,11 +14,11 @@ public class ExitGoal : MonoBehaviour
     [Header("Follow Target")]
     [SerializeField] private Vector3 iconOffset = new Vector3(0f, 1.5f, 0f);
 
-    // ¥¯¥ê¥¢¥á¥Ë¥å©`¹ÜÀí
+    // ¥¯¥E¢¥á¥Ë¥å©`¹ÜÀE
     [Header("Clear Menu")]
     [SerializeField] private ClearMenuManager clearMenuManager;
 
-    // ÈëÁ¦ÔO¶¨
+    // ÈE¦ÔO¶¨
     [Header("Input")]
     [SerializeField] public Key resetKey = Key.W;
 
@@ -54,7 +54,7 @@ public class ExitGoal : MonoBehaviour
         }
     }
 
-    // ¥×¥ì¥¤¥ä©`¤¬¥´©`¥ë¹ ‡ì¤ËÈë¤Ã¤¿¤È¤­
+    // ¥×¥E¤¥ä©`¤¬¥´©`¥E E¤ËÈEÃ¤¿¤È¤­
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isCleared) return;
@@ -68,19 +68,19 @@ public class ExitGoal : MonoBehaviour
 
             if (interactIcon != null)
             {
-                // ¥¢¥¤¥³¥ó±íÊ¾
+                // ¥¢¥¤¥³¥ó±úæ¾
                 interactIcon.SetActive(true);
             }
 
             if (playerController != null)
             {
-                // ¥¸¥ã¥ó¥×Ÿo„¿»¯
+                // ¥¸¥ã¥ó¥×ŸoE»¯
                 playerController.SetJumpEnabled(false);
             }
         }
     }
 
-    // ¥×¥ì¥¤¥ä©`¤¬¥´©`¥ë¹ ‡ì¤«¤é³ö¤¿¤È¤­
+    // ¥×¥E¤¥ä©`¤¬¥´©`¥E E¤«¤é³ö¤¿¤È¤­
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player")) return;

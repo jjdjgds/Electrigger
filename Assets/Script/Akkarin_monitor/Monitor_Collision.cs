@@ -44,6 +44,8 @@ public class Monitor_Collision : MonoBehaviour
 
     void Update()
     {
+        if (!PauseMenuManager.CanGameInput()) return;
+
         if (teleportCooldown > 0) teleportCooldown -= Time.deltaTime;
 
         UpdateWallTriggers();

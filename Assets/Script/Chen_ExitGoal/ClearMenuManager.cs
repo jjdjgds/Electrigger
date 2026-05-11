@@ -10,7 +10,7 @@ public class ClearMenuManager : MonoBehaviour
     [SerializeField] private GameObject clearPanel;
 
     [Header("Scene")]
-    [SerializeField] private string worldSelectSceneName = "WorldSelectScene";
+    [SerializeField] private string SceneName = "WorldSelectScene";
 
     private void Awake()
     {
@@ -49,6 +49,6 @@ public class ClearMenuManager : MonoBehaviour
         Time.timeScale = 1f;
 
         LevelSelectReturnData.RequestReturnToStageSelect();
-        SceneManager.LoadScene(worldSelectSceneName);
+        SceneManager.LoadScene(SceneName);
     }
 }

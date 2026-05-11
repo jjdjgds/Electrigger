@@ -1,8 +1,10 @@
+using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 /// <summary>
-/// •ÅE`•ÅE…§»•π•∆©`•∏
+/// •Ô©`•Î•…ﬂxík§»•π•∆©`•∏ﬂxík§Œπ‹¿Ì§Ú––§¶•Ø•È•π°£
 /// </summary>
 public class WorldStageSelectManager : MonoBehaviour
 {
@@ -18,14 +20,18 @@ public class WorldStageSelectManager : MonoBehaviour
     [Header("World Data")]
     [SerializeField] private SelectItemData[] worldItems;
 
-    // •ÅE`•ÅE…•«©`•ø
+    // ∏˜•Ô©`•Î•…§Œ•π•∆©`•∏•«©`•ø
     [Header("Stage Data Per World")]
     [SerializeField] private SelectItemData[] world1Stages;
     [SerializeField] private SelectItemData[] world2Stages;
 
-    private int currentWorldIndex = 0;// •ÅE`•ÅE…•§•Û•«•√•Ø•π§Ú±£≥÷
 
-    // UI◊¥ëBπ‹¿ÅE
+    [Header("Scene")]
+    [SerializeField] private string SceneName = "Scene";
+
+    private int currentWorldIndex = 0;// ¨F‘⁄ﬂxík§µ§Ï§∆§§§Î•Ô©`•Î•…§Œ•§•Û•«•√•Ø•π
+
+    // UI§Œ◊¥ëB§Úπ‹¿Ì§π§Î¡–í§–Õ
     private enum UIState
     {
         World,
@@ -44,7 +50,7 @@ public class WorldStageSelectManager : MonoBehaviour
 
         worldSelector.SetItems(worldItems);
 
-        // •π•∆©`•∏èÕé¢ÑI¿ÅE
+        // •π•∆©`•∏ﬂxík§´§Èë¯§√§∆§≠§øàˆ∫œ§œ•π•∆©`•∏ﬂxík§ÚèÕ‘™°¢§Ω§Ï“‘Õ‚§œ•Ô©`•Î•…ﬂxík§Ú±Ì æ
         if (LevelSelectReturnData.shouldReturnToStageSelect)
         {
             RestoreStageSelect();
@@ -74,7 +80,7 @@ public class WorldStageSelectManager : MonoBehaviour
         SaveManager.Instance.LoadOrCreate(worldItems, stageGroups);
     }
 
-    // •ÅE`•ÅE…ﬂxíkïr§ŒÑI¿ÅE
+    // •Ô©`•Î•…ﬂxíkïr§ŒÑI¿Ì
     private void OnWorldSelected(int worldIndex, SelectItemData worldData)
     {
         if (SaveManager.Instance != null &&
@@ -91,7 +97,7 @@ public class WorldStageSelectManager : MonoBehaviour
         stageSelector.SetItems(GetStagesByWorldIndex(worldIndex));
     }
 
-    // •π•∆©`•∏ﬂxíkïr§ŒÑI¿ÅE
+    // •π•∆©`•∏ﬂxíkïr§ŒÑI¿Ì
     private void OnStageSelected(int stageIndex, SelectItemData stageData)
     {
         if (SaveManager.Instance != null &&
@@ -154,7 +160,7 @@ public class WorldStageSelectManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Back to Title");
+            SceneManager.LoadScene(SceneName);
         }
     }
 

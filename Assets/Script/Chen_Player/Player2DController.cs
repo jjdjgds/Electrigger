@@ -156,42 +156,24 @@ public class Player2DController : MonoBehaviour
 
         float speed = Mathf.Abs(rb.linearVelocity.x);
         float inputAbs = Mathf.Abs(moveInput);
-
         float animSpeed = isGrounded ? inputAbs : speed;
         float yVel = rb.linearVelocity.y;
-
-        // 走り状態の判定
-        animator.SetFloat("Speed", animSpeed);
-        animator.SetBool("IsGrounded", isGrounded);
-        animator.SetFloat("YVelocity", yVel);
 
         int jumpState = 0;
 
         if (!isGrounded)
         {
             if (yVel > 0.1f)
-            {
                 jumpState = 1; // JumpStart
-            }
             else if (Mathf.Abs(yVel) <= apexVelocityThreshold)
-            {
-                jumpState = 2; // Apex
-            }
+                jumpState = 2; // JumpApex
             else if (yVel < fallThreshold)
-            {
                 jumpState = 3; // Fall
-            }
-        }
-        else
-        {
-            jumpState = 0;
         }
 
-        if (isGrounded && yVel <= 0.01f)
-        {
-            animator.SetInteger("JumpState", 0);
-        }
-
+        animator.SetFloat("Speed", animSpeed);
+        animator.SetBool("IsGrounded", isGrounded);
+        animator.SetFloat("YVelocity", yVel);
         animator.SetInteger("JumpState", jumpState);
     }
 
@@ -338,6 +320,10 @@ public class Player2DController : MonoBehaviour
             rb.gravityScale = normalGravityScale;
             isJumping = false;
             isJumpHolding = false;
+
+            if (animator != null)
+                animator.SetInteger("JumpState", 0);
+
             return;
         }
 
@@ -531,7 +517,7 @@ public class Player2DController : MonoBehaviour
         if (col == null) return;
     }
 
-    public void SetFrozen(bool frozen)
+    public void SetFrozen(bool frozen, bool clearVelocityOnUnfreeze = false)
     {
         isFrozen = frozen;
 
@@ -539,14 +525,26 @@ public class Player2DController : MonoBehaviour
         {
             storedVelocity = rb.linearVelocity;
             storedGravity = rb.gravityScale;
+
             rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
             rb.gravityScale = 0f;
-            rb.simulated = false; // completely disable physics
+            rb.simulated = false;
         }
         else
         {
             rb.simulated = true;
-            rb.linearVelocity = storedVelocity;
+
+            if (clearVelocityOnUnfreeze)
+            {
+                rb.linearVelocity = Vector2.zero;
+                rb.angularVelocity = 0f;
+            }
+            else
+            {
+                rb.linearVelocity = storedVelocity;
+            }
+
             rb.gravityScale = storedGravity;
         }
     }

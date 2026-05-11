@@ -126,8 +126,8 @@ public class plugCollision : MonoBehaviour
             SetPortalSide(myMonitor, transform, socketMonitor);
             SetPortalSide(socketMonitor, other.transform, myMonitor);
 
-            Debug.Log($"Plug({gameObject.name}) → {myMonitor.name} portal set");
-            Debug.Log($"Socket({other.name}) → {socketMonitor.name} portal set");
+            //Debug.Log($"Plug({gameObject.name}) → {myMonitor.name} portal set");
+            //Debug.Log($"Socket({other.name}) → {socketMonitor.name} portal set");
         }
 
         // 6. Link them together
