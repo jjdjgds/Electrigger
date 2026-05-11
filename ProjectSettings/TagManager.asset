@@ -53,8 +53,14 @@ TagManager:
   - name: Obj_texture
     uniqueID: 3373281875
     locked: 0
-  - name: UI
+  - name: Player
     uniqueID: 2543978311
+    locked: 0
+  - name: PowerOff
+    uniqueID: 3517955465
+    locked: 0
+  - name: UI
+    uniqueID: 1768217769
     locked: 0
   m_RenderingLayers:
   - Default
