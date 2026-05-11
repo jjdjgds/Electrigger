@@ -77,6 +77,7 @@ public class Monitor_Drag : MonoBehaviour
 
     void Update()
     {
+        if (!PauseMenuManager.CanGameInput()) return;
         CheckIfPlayerInside();
         UpdateOverlay();
         bool isPowered = myPowerNode != null && myPowerNode.IsPowered();
