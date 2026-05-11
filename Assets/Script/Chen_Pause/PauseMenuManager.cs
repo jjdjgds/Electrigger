@@ -103,6 +103,7 @@ public class PauseMenuManager : MonoBehaviour
         IsPaused = true;
 
         pausePanel.SetActive(true);
+        Cursor.visible = false;
         Time.timeScale = 0f;
 
         StartSlide(hiddenPos, shownPos, false);

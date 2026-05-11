@@ -174,7 +174,7 @@ public class Monitor_Drag : MonoBehaviour
                     var otherMonitor = gridGenerator.GetMonitorOnTile(nearest, this);
                     if (otherMonitor != null && otherMonitor.gameObject != gameObject)
                     {
-                        Debug.Log($"スワップ: {gameObject.name} ↔ {otherMonitor.gameObject.name}");
+                       // Debug.Log($"スワップ: {gameObject.name} ↔ {otherMonitor.gameObject.name}");
                         Vector3 otherOldPos = otherMonitor.transform.position;
                         otherMonitor.transform.position = new Vector3(
                             lastValidPosition.x,
