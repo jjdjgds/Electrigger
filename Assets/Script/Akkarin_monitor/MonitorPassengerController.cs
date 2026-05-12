@@ -146,6 +146,12 @@ public class MonitorPassengerController : MonoBehaviour
         if (!isPassengerActive || sharedPlayer == null)
             return;
 
+        if (!IsPlayerInside())
+        {
+            CancelPassengerImmediate();
+            return;
+        }
+
         Vector3 targetWorldPos = transform.TransformPoint(playerLocalPosition);
         targetWorldPos.z = sharedPlayer.position.z;
 
@@ -191,6 +197,20 @@ public class MonitorPassengerController : MonoBehaviour
         StartCoroutine(RestorePhysicsNextFrame());
     }
 
+    public void CancelPassengerImmediate()
+    {
+        isPassengerActive = false;
+        isPassengerFreezeActive = false;
+        UpdateFreezeState();
+
+        if (sharedPlayerRb != null)
+        {
+            sharedPlayerRb.linearVelocity = Vector2.zero;
+            sharedPlayerRb.angularVelocity = 0f;
+            sharedPlayerRb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        }
+    }
+
     private System.Collections.IEnumerator RestorePhysicsNextFrame()
     {
         yield return null;
@@ -232,6 +252,12 @@ public class MonitorPassengerController : MonoBehaviour
 
         return worldPos;
     }
+
+    public Vector3 ClampWorldPositionInside(Vector3 worldPos)
+    {
+        return ClampInsideMonitor(worldPos);
+    }
+
 
     public bool IsPassengerActive()
     {
