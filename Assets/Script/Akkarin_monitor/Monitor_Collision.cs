@@ -18,7 +18,6 @@ public class Monitor_Collision : MonoBehaviour
     [HideInInspector] public Transform portalUpTarget;
     [HideInInspector] public Transform portalDownTarget;
 
-    // Define the 4 sides so the teleport knows EXACTLY which door was used
     private enum PortalSide { Right, Left, Top, Bottom }
 
     void Start()
@@ -61,10 +60,25 @@ public class Monitor_Collision : MonoBehaviour
 
         if (powerNode == null || !powerNode.IsPowered()) return;
 
-        if (portalRightTarget != null && portalRightTarget.GetComponent<PowerNode>().IsPowered()) { if (wallRight != null) wallRight.isTrigger = true; }
-        if (portalLeftTarget != null && portalLeftTarget.GetComponent<PowerNode>().IsPowered()) { if (wallLeft != null) wallLeft.isTrigger = true; }
-        if (portalUpTarget != null && portalUpTarget.GetComponent<PowerNode>().IsPowered()) { if (wallTop != null) wallTop.isTrigger = true; }
-        if (portalDownTarget != null && portalDownTarget.GetComponent<PowerNode>().IsPowered()) { if (wallBottom != null) wallBottom.isTrigger = true; }
+        if (portalRightTarget != null && portalRightTarget.GetComponent<PowerNode>().IsPowered())
+        {
+            if (wallRight != null) wallRight.isTrigger = true;
+        }
+
+        if (portalLeftTarget != null && portalLeftTarget.GetComponent<PowerNode>().IsPowered())
+        {
+            if (wallLeft != null) wallLeft.isTrigger = true;
+        }
+
+        if (portalUpTarget != null && portalUpTarget.GetComponent<PowerNode>().IsPowered())
+        {
+            if (wallTop != null) wallTop.isTrigger = true;
+        }
+
+        if (portalDownTarget != null && portalDownTarget.GetComponent<PowerNode>().IsPowered())
+        {
+            if (wallBottom != null) wallBottom.isTrigger = true;
+        }
     }
 
     void CheckTeleport()
@@ -72,8 +86,15 @@ public class Monitor_Collision : MonoBehaviour
         if (player == null || playerCollider == null)
         {
             GameObject pObj = GameObject.FindGameObjectWithTag("Player");
-            if (pObj != null) { player = pObj.transform; playerCollider = pObj.GetComponent<Collider2D>(); }
-            else return;
+            if (pObj != null)
+            {
+                player = pObj.transform;
+                playerCollider = pObj.GetComponent<Collider2D>();
+            }
+            else
+            {
+                return;
+            }
         }
 
         if (powerNode == null || teleportCooldown > 0) return;
@@ -84,22 +105,24 @@ public class Monitor_Collision : MonoBehaviour
         Bounds playerReach = playerCollider.bounds;
         playerReach.Expand(0.2f);
 
-        // Pass the EXACT side into the teleport method!
         if (wallRight != null && wallRight.isTrigger && IsOverlapping2D(playerReach, wallRight.bounds))
         {
             TeleportPlayer(player, portalRightTarget, PortalSide.Right);
             return;
         }
+
         if (wallLeft != null && wallLeft.isTrigger && IsOverlapping2D(playerReach, wallLeft.bounds))
         {
             TeleportPlayer(player, portalLeftTarget, PortalSide.Left);
             return;
         }
+
         if (wallTop != null && wallTop.isTrigger && IsOverlapping2D(playerReach, wallTop.bounds))
         {
             TeleportPlayer(player, portalUpTarget, PortalSide.Top);
             return;
         }
+
         if (wallBottom != null && wallBottom.isTrigger && IsOverlapping2D(playerReach, wallBottom.bounds))
         {
             TeleportPlayer(player, portalDownTarget, PortalSide.Bottom);
@@ -114,10 +137,19 @@ public class Monitor_Collision : MonoBehaviour
         Monitor_Collision targetMC = targetMonitor.GetComponent<Monitor_Collision>();
         if (targetMC == null) return;
 
+        MonitorPassengerController sourcePassenger = GetComponent<MonitorPassengerController>();
+        if (sourcePassenger != null)
+            sourcePassenger.CancelPassengerImmediate();
+
+        MonitorPassengerController targetPassenger = targetMonitor.GetComponent<MonitorPassengerController>();
+        if (targetPassenger != null)
+            targetPassenger.CancelPassengerImmediate();
+
         teleportCooldown = 0.5f;
         targetMC.teleportCooldown = 0.5f;
 
         PortalSide exitSide = PortalSide.Left;
+
         if (targetMC.portalRightTarget == transform) exitSide = PortalSide.Right;
         else if (targetMC.portalLeftTarget == transform) exitSide = PortalSide.Left;
         else if (targetMC.portalUpTarget == transform) exitSide = PortalSide.Top;
@@ -140,28 +172,39 @@ public class Monitor_Collision : MonoBehaviour
         float push = 0.6f;
         Vector2 exitWallCenter = exitWall.bounds.center;
         Vector2 inwardDir = ((Vector2)targetMonitor.position - exitWallCenter).normalized;
-        Vector2 newPosition;
 
+        Vector2 newPosition = playerTransform.position;
 
         if (Mathf.Abs(inwardDir.x) > Mathf.Abs(inwardDir.y))
         {
-
             newPosition.x = exitWallCenter.x + inwardDir.x * push;
             newPosition.y = playerTransform.position.y;
         }
         else
         {
-
             newPosition.x = playerTransform.position.x;
             newPosition.y = exitWallCenter.y + inwardDir.y * push;
         }
 
-        Bounds targetBounds = targetMonitor.GetComponent<Collider2D>().bounds;
+        Collider2D targetCollider = targetMonitor.GetComponent<Collider2D>();
+        if (targetCollider == null) return;
+
+        Bounds targetBounds = targetCollider.bounds;
         newPosition.x = Mathf.Clamp(newPosition.x, targetBounds.min.x + push, targetBounds.max.x - push);
         newPosition.y = Mathf.Clamp(newPosition.y, targetBounds.min.y + push, targetBounds.max.y - push);
 
-        playerTransform.position = new Vector3(newPosition.x, newPosition.y, playerTransform.position.z);
-        if (rb != null) rb.linearVelocity = oldVelocity;
+        Vector3 finalPos = new Vector3(newPosition.x, newPosition.y, playerTransform.position.z);
+
+        if (targetPassenger != null)
+            finalPos = targetPassenger.ClampWorldPositionInside(finalPos);
+
+        playerTransform.position = finalPos;
+
+        if (rb != null)
+        {
+            rb.linearVelocity = oldVelocity;
+            rb.angularVelocity = 0f;
+        }
     }
 
     public void SetPlayer(Transform newPlayer)
@@ -175,11 +218,11 @@ public class Monitor_Collision : MonoBehaviour
         return p.min.x <= w.max.x && p.max.x >= w.min.x &&
                p.min.y <= w.max.y && p.max.y >= w.min.y;
     }
+
     private void OnDrawGizmos()
     {
         if (!Application.isPlaying) return;
 
-        // Draw Player Reach (Green)
         if (playerCollider != null)
         {
             Gizmos.color = Color.green;
@@ -188,7 +231,6 @@ public class Monitor_Collision : MonoBehaviour
             Gizmos.DrawWireCube(pBounds.center, pBounds.size);
         }
 
-        // Draw Open Portals (Red)
         Gizmos.color = Color.red;
         if (wallRight != null && wallRight.isTrigger) Gizmos.DrawWireCube(wallRight.bounds.center, wallRight.bounds.size);
         if (wallLeft != null && wallLeft.isTrigger) Gizmos.DrawWireCube(wallLeft.bounds.center, wallLeft.bounds.size);
@@ -196,25 +238,3 @@ public class Monitor_Collision : MonoBehaviour
         if (wallBottom != null && wallBottom.isTrigger) Gizmos.DrawWireCube(wallBottom.bounds.center, wallBottom.bounds.size);
     }
 }
-
-
-//private void OnDrawGizmos()
-//{
-//    if (!Application.isPlaying) return;
-//
-//    // Draw Player Reach (Green)
-//    if (playerCollider != null)
-//    {
-//        Gizmos.color = Color.green;
-//        Bounds pBounds = playerCollider.bounds;
-//        pBounds.Expand(0.5f);
-//        Gizmos.DrawWireCube(pBounds.center, pBounds.size);
-//    }
-//
-//    // Draw Open Portals (Red)
-//    Gizmos.color = Color.red;
-//    if (wallRight != null && wallRight.isTrigger) Gizmos.DrawWireCube(wallRight.bounds.center, wallRight.bounds.size);
-//    if (wallLeft != null && wallLeft.isTrigger) Gizmos.DrawWireCube(wallLeft.bounds.center, wallLeft.bounds.size);
-//    if (wallTop != null && wallTop.isTrigger) Gizmos.DrawWireCube(wallTop.bounds.center, wallTop.bounds.size);
-//    if (wallBottom != null && wallBottom.isTrigger) Gizmos.DrawWireCube(wallBottom.bounds.center, wallBottom.bounds.size);
-//}
