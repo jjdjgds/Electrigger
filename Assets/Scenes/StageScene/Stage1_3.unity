@@ -585,6 +585,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30a806ea05723574d8f994c510a99e5d, type: 3}
+--- !u!114 &1239143522 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6331579117436364925, guid: 5d2df3302c22d134ca8939874fe6d230, type: 3}
+  m_PrefabInstance: {fileID: 258656703}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ab30b0f05bc7341bce1ff666934fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClearMenuManager
 --- !u!114 &1937095491 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5934103973097235268, guid: d5eab8b6d2993304e89b03a3c8e5ad48, type: 3}
@@ -956,6 +967,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1991259889434694520, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
+      propertyPath: clearMenuManager
+      value: 
+      objectReference: {fileID: 1239143522}
     - target: {fileID: 7130258757787745921, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
       propertyPath: m_Name
       value: Type_3
