@@ -25,6 +25,10 @@ public class MonitorPassengerController : MonoBehaviour
     private bool isPowerFreezeActive = false;
     private bool lastFrozenState = false;
 
+    public static MonitorPassengerController ActivePassengerMonitor { get; private set; }
+
+    private bool ignoreInsideCheckWhileMoving = false;
+
 
     private void Awake()
     {
@@ -34,11 +38,21 @@ public class MonitorPassengerController : MonoBehaviour
 
     private void Update()
     {
+        if (isPassengerActive)
+            return;
+
         UpdatePowerFreeze();
     }
 
     private void UpdatePowerFreeze()
     {
+        if (ActivePassengerMonitor != null && ActivePassengerMonitor != this)
+            return;
+
+        Monitor_Drag drag = GetComponent<Monitor_Drag>();
+        if (drag != null && drag.IsDragging())
+            return;
+
         if (powerNode == null || sharedPlayer == null)
             return;
 
@@ -116,28 +130,28 @@ public class MonitorPassengerController : MonoBehaviour
     }
 
     // モニター追従開始
-    public void BeginPassenger()
+    public void BeginPassenger(bool ignoreInsideCheck = true)
     {
         if (sharedPlayer == null || isPassengerActive)
             return;
+
+        ActivePassengerMonitor = this;
+        ignoreInsideCheckWhileMoving = ignoreInsideCheck;
 
         isPassengerActive = true;
 
         playerLocalPosition = transform.InverseTransformPoint(sharedPlayer.position);
         playerWorldRotation = sharedPlayer.rotation;
 
-        if (sharedPlayerController != null)
-            isPassengerFreezeActive = true;
-            UpdateFreezeState();
+        isPassengerFreezeActive = true;
+        UpdateFreezeState();
 
         if (sharedPlayerRb != null)
         {
             sharedPlayerRb.linearVelocity = Vector2.zero;
             sharedPlayerRb.angularVelocity = 0f;
             sharedPlayerRb.interpolation = RigidbodyInterpolation2D.None;
-
         }
-
     }
 
     // モニター移動・回転中の追従更新
@@ -146,7 +160,8 @@ public class MonitorPassengerController : MonoBehaviour
         if (!isPassengerActive || sharedPlayer == null)
             return;
 
-        if (!IsPlayerInside())
+        // 移動中にプレイヤーがモニター内にいない場合は追従をキャンセル
+        if (!ignoreInsideCheckWhileMoving && !IsPlayerInside())
         {
             CancelPassengerImmediate();
             return;
@@ -157,12 +172,8 @@ public class MonitorPassengerController : MonoBehaviour
 
         targetWorldPos = ClampInsideMonitor(targetWorldPos);
 
-        if (sharedPlayerRb != null && sharedPlayerRb.simulated)
-            sharedPlayerRb.MovePosition(targetWorldPos);
-        else
-            sharedPlayer.position = targetWorldPos;
-
-        // プレイヤー自身は回転させない
+        // プレイヤーをモニターの動きに合わせて移動・回転させる
+        sharedPlayer.position = targetWorldPos;
         sharedPlayer.rotation = playerWorldRotation;
 
         if (sharedPlayerRb != null)
@@ -186,6 +197,7 @@ public class MonitorPassengerController : MonoBehaviour
         UpdatePassenger();
 
         isPassengerActive = false;
+        ignoreInsideCheckWhileMoving = false;
 
         if (sharedPlayerRb != null)
         {
@@ -195,11 +207,21 @@ public class MonitorPassengerController : MonoBehaviour
         }
 
         StartCoroutine(RestorePhysicsNextFrame());
+
+        if (!isPowerFreezeActive && ActivePassengerMonitor == this)
+        {
+            ActivePassengerMonitor = null;
+        }
     }
 
     public void CancelPassengerImmediate()
     {
         isPassengerActive = false;
+        ignoreInsideCheckWhileMoving = false;
+
+        if (ActivePassengerMonitor == this)
+            ActivePassengerMonitor = null;
+
         isPassengerFreezeActive = false;
         UpdateFreezeState();
 
@@ -220,6 +242,12 @@ public class MonitorPassengerController : MonoBehaviour
         if (sharedPlayerController != null)
         {
             isPassengerFreezeActive = false;
+
+            if (powerNode != null)
+            {
+                isPowerFreezeActive = !powerNode.IsPowered() && IsPlayerInside();
+            }
+
             UpdateFreezeState();
         }
 

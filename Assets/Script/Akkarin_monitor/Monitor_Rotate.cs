@@ -140,7 +140,7 @@ public class Monitor_Rotate : MonoBehaviour
 
         if (passengerController != null && passengerController.IsPlayerInside())
         {
-            passengerController.BeginPassenger();
+            passengerController.BeginPassenger(true);
             passengerStartedByRotate = true;
         }
 

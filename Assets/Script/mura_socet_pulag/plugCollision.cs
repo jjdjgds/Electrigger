@@ -39,6 +39,13 @@ public class plugCollision : MonoBehaviour
         if (isRechecking) return;
         isRechecking = true;
 
+        Monitor_Drag drag = GetComponentInParent<Monitor_Drag>();
+        if (drag != null && drag.IsDragging())
+        {
+            isRechecking = false;
+            return;
+        }
+
         ConnectionManager.Instance?.Disconnect(myNode);
 
         if (myNode != null && myNode.owner != null && connectedSocket != null)
@@ -64,6 +71,10 @@ public class plugCollision : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("electricaloutlet")) return;
+
+        if (IsRelatedMonitorDragging(other))
+            return;
+
         if (gameObject.activeInHierarchy)
             StartCoroutine(RecheckAfterFrame());
     }
@@ -94,6 +105,9 @@ public class plugCollision : MonoBehaviour
 
     void TryConnect(Collider2D other)
     {
+        if (IsRelatedMonitorDragging(other))// ドラッグ中のモニター同士の接続は無視する（回転中も含む）
+            return;
+
         // 1. Initial Validation
         if (!other.CompareTag("electricaloutlet")) return;
         if (other.GetComponent<socketCollision>() == null) return;
@@ -176,5 +190,19 @@ public class plugCollision : MonoBehaviour
             if (monitorB.portalUpTarget == monitorA.transform) monitorB.portalUpTarget = null;
             if (monitorB.portalDownTarget == monitorA.transform) monitorB.portalDownTarget = null;
         }
+    }
+
+    // ドラッグ中のモニター同士の接続は無視する（回転中も含む）
+    private bool IsRelatedMonitorDragging(Collider2D other)
+    {
+        Monitor_Drag selfDrag = GetComponentInParent<Monitor_Drag>();
+        if (selfDrag != null && selfDrag.IsDragging())
+            return true;
+
+        Monitor_Drag otherDrag = other.GetComponentInParent<Monitor_Drag>();
+        if (otherDrag != null && otherDrag.IsDragging())
+            return true;
+
+        return false;
     }
 }

@@ -47,7 +47,7 @@ public class Monitor_Drag : MonoBehaviour
 
     private MonitorPassengerController passengerController;
 
-    private bool frozePlayerForDrag = false;
+    //private bool frozePlayerForDrag = false;
 
     void Start()
     {
@@ -57,6 +57,8 @@ public class Monitor_Drag : MonoBehaviour
         {
             sharedPlayer = found.transform;
             sharedPlayerMovement = found.GetComponent<Player2DController>();
+
+            MonitorPassengerController.RegisterPlayer(sharedPlayer);
         }
 
         Debug.Log($"{gameObject.name} player found: {sharedPlayer != null}");
@@ -107,7 +109,12 @@ public class Monitor_Drag : MonoBehaviour
                 offset = transform.position - worldPos;
                 lastValidPosition = transform.position;
 
-                FreezePlayerForDrag();
+                Cursor.lockState = CursorLockMode.Confined;
+
+                if (myPowerNode != null)
+                    myPowerNode.SetForcePowerDisabled(true);
+
+                //FreezePlayerForDrag();
 
                 if (clickAnimation != null)
                 {
@@ -120,11 +127,11 @@ public class Monitor_Drag : MonoBehaviour
                 if (passengerController != null && passengerController.IsPlayerInside())
                 {
                     playerShouldFollowDrag = true;
-                    passengerController.BeginPassenger();
+                    passengerController.BeginPassenger(true);
                 }
 
                 PlayPickupSE();
-                RecheckAllConnections();
+                //RecheckAllConnections();  ¥É¥é¥Ã¥°é_Ê¼•r¤Ï½Ó¾A¥Á¥§¥Ã¥¯¤·¤Ê¤¤
             }
         }
         else if (Mouse.current.leftButton.wasReleasedThisFrame && isDragging)
@@ -185,21 +192,11 @@ public class Monitor_Drag : MonoBehaviour
 
             if (playerShouldFollowDrag && passengerController != null)
             {
-                if (!passengerController.IsPlayerInside())
-                {
-                    playerShouldFollowDrag = false;
-                    passengerController.CancelPassengerImmediate();
-                }
-                else
-                {
-                    passengerController.UpdatePassenger();
-                    passengerController.EndPassenger();
-                }
+                passengerController.UpdatePassenger();
             }
 
-            playerShouldFollowDrag = false;
-            UnfreezePlayerForDrag();
-            RecheckAllConnections();
+            StartCoroutine(EndDragAfterPowerCheck());
+            //UnfreezePlayerForDrag();
         }
         else if (isDragging && currentlyDragging == this)
         {
@@ -225,15 +222,7 @@ public class Monitor_Drag : MonoBehaviour
 
             if (playerShouldFollowDrag && passengerController != null)
             {
-                if (!passengerController.IsPlayerInside())
-                {
-                    playerShouldFollowDrag = false;
-                    passengerController.CancelPassengerImmediate();
-                }
-                else
-                {
-                    passengerController.UpdatePassenger();
-                }
+                passengerController.UpdatePassenger();
             }
         }
     }
@@ -241,10 +230,17 @@ public class Monitor_Drag : MonoBehaviour
     void OnDestroy()
     {
         freezeRequesters.Remove(this);
-        UnfreezePlayerForDrag();
+
+        if (myPowerNode != null)
+            myPowerNode.SetForcePowerDisabled(false);
+
+        Cursor.lockState = CursorLockMode.None;
+
+        if (passengerController != null)
+            passengerController.CancelPassengerImmediate();
     }
 
-    void FreezePlayerForDrag()
+    /*void FreezePlayerForDrag()
     {
         if (sharedPlayerMovement == null || frozePlayerForDrag) return;
 
@@ -259,6 +255,7 @@ public class Monitor_Drag : MonoBehaviour
         sharedPlayerMovement.SetFrozen(false, true);
         frozePlayerForDrag = false;
     }
+    */
 
     void PlayPickupSE()
     {
@@ -285,9 +282,31 @@ public class Monitor_Drag : MonoBehaviour
         foreach (Collider2D col in nearbyColliders)
         {
             plugCollision nearbyPlug = col.GetComponent<plugCollision>();
+
             if (nearbyPlug != null)
                 nearbyPlug.RecheckConnections();
         }
+    }
+
+    IEnumerator EndDragAfterPowerCheck()
+    {
+        if (myPowerNode != null)
+            myPowerNode.SetForcePowerDisabled(false);
+
+        RecheckAllConnections();
+
+        yield return null;
+        yield return new WaitForFixedUpdate();
+
+        if (playerShouldFollowDrag && passengerController != null)
+        {
+            passengerController.UpdatePassenger();
+            passengerController.EndPassenger();
+        }
+
+        playerShouldFollowDrag = false;
+
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void UpdateOverlay()
@@ -359,5 +378,10 @@ public class Monitor_Drag : MonoBehaviour
     public static bool IsDraggingThis(Monitor_Drag target)
     {
         return currentlyDragging == target;
+    }
+
+    public bool IsDragging()
+    {
+        return isDragging;
     }
 }
