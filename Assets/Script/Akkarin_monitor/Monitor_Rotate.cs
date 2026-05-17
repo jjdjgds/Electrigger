@@ -24,7 +24,7 @@ public class Monitor_Rotate : MonoBehaviour
         player = FindFirstObjectByType<Player2DController>();
 
         if (player == null)
-            Debug.LogError("Playerが見つからない");
+            ///Debug.LogError("Playerが見つからない");
 
         targetRotation = Mathf.Round(transform.eulerAngles.z / 90f) * 90f;
 
