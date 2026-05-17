@@ -21,6 +21,10 @@ public class PowerNode : MonoBehaviour
     //モニター本体のMonitor_Dragを参照
     private Monitor_Drag monitorDrag;
 
+    private bool forcePowerDisabled = false;
+
+
+
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -66,5 +70,10 @@ public class PowerNode : MonoBehaviour
         {
             audioSource.PlayOneShot(powerOnSE);
         }
+    }
+
+    public void SetForcePowerDisabled(bool disabled)
+    {
+        forcePowerDisabled = disabled;
     }
 }

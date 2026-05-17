@@ -585,6 +585,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30a806ea05723574d8f994c510a99e5d, type: 3}
+--- !u!114 &1239143522 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6331579117436364925, guid: 5d2df3302c22d134ca8939874fe6d230, type: 3}
+  m_PrefabInstance: {fileID: 258656703}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ab30b0f05bc7341bce1ff666934fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClearMenuManager
 --- !u!114 &1937095491 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5934103973097235268, guid: d5eab8b6d2993304e89b03a3c8e5ad48, type: 3}
@@ -834,6 +845,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2098356900596608727, guid: b77e829e86db2f9409fa87fdf240b849, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6440721996843209422, guid: b77e829e86db2f9409fa87fdf240b849, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771930977019024982, guid: b77e829e86db2f9409fa87fdf240b849, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6915185296653229914, guid: b77e829e86db2f9409fa87fdf240b849, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6994298046359122706, guid: b77e829e86db2f9409fa87fdf240b849, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.2302961
@@ -935,9 +962,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2778511280197788187, guid: b408c0c5bcee94241bc4c161a94cb456, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4859264886540711360, guid: b408c0c5bcee94241bc4c161a94cb456, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5260323668055845526, guid: b408c0c5bcee94241bc4c161a94cb456, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6567270441179648270, guid: b408c0c5bcee94241bc4c161a94cb456, type: 3}
       propertyPath: m_Name
       value: Type_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993786133779466653, guid: b408c0c5bcee94241bc4c161a94cb456, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7069274828115272548, guid: b408c0c5bcee94241bc4c161a94cb456, type: 3}
       propertyPath: gridGenerator
@@ -956,9 +999,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1991259889434694520, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
+      propertyPath: clearMenuManager
+      value: 
+      objectReference: {fileID: 1239143522}
+    - target: {fileID: 3682196988018786255, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422896876904742601, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6495195705300334494, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7130258757787745921, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
       propertyPath: m_Name
       value: Type_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7399868805685991616, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8214643124751585507, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
       propertyPath: gridGenerator

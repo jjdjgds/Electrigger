@@ -1,0 +1,2201 @@
+fileFormatVersion: 2
+guid: 9e6b2b8a1d7c510448fc12a060b0be6b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2774876185433246851
+    second: blackplayer_2_0
+  - first:
+      213: -3041879637653192560
+    second: blackplayer_2_1
+  - first:
+      213: -1647540684632504923
+    second: blackplayer_2_2
+  - first:
+      213: 8320943549571750837
+    second: blackplayer_2_3
+  - first:
+      213: -3272122447457884801
+    second: blackplayer_2_4
+  - first:
+      213: -5481988137466395569
+    second: blackplayer_2_5
+  - first:
+      213: 8374285423349961668
+    second: blackplayer_2_6
+  - first:
+      213: 8055455708797151361
+    second: blackplayer_2_7
+  - first:
+      213: 7768574411963606830
+    second: blackplayer_2_8
+  - first:
+      213: -4528126707670841015
+    second: blackplayer_2_9
+  - first:
+      213: -6057436568847870484
+    second: blackplayer_2_10
+  - first:
+      213: -5886367922178009814
+    second: blackplayer_2_11
+  - first:
+      213: 9123046986833548461
+    second: blackplayer_2_12
+  - first:
+      213: 1635614150257469741
+    second: blackplayer_2_13
+  - first:
+      213: -578598833162869448
+    second: blackplayer_2_14
+  - first:
+      213: 5704870829521946681
+    second: blackplayer_2_15
+  - first:
+      213: 329098425363033780
+    second: blackplayer_2_16
+  - first:
+      213: 6198254379400818333
+    second: blackplayer_2_17
+  - first:
+      213: -7013132009731601801
+    second: blackplayer_2_18
+  - first:
+      213: -975024721914461966
+    second: blackplayer_2_19
+  - first:
+      213: 2973167079748729906
+    second: blackplayer_2_20
+  - first:
+      213: 5602806053689978229
+    second: blackplayer_2_21
+  - first:
+      213: 2049218422863577490
+    second: blackplayer_2_22
+  - first:
+      213: -8503588904564228119
+    second: blackplayer_2_23
+  - first:
+      213: -319082169491117633
+    second: blackplayer_2_24
+  - first:
+      213: -4914121980878479939
+    second: blackplayer_2_25
+  - first:
+      213: 475214371378626831
+    second: blackplayer_2_26
+  - first:
+      213: -2171460712059278764
+    second: blackplayer_2_27
+  - first:
+      213: -3990936425165910390
+    second: blackplayer_2_28
+  - first:
+      213: -7200969018605579310
+    second: blackplayer_2_29
+  - first:
+      213: -2576136447531847029
+    second: blackplayer_2_30
+  - first:
+      213: -6311333015316372097
+    second: blackplayer_2_31
+  - first:
+      213: 4253822507135736502
+    second: blackplayer_2_32
+  - first:
+      213: -8405266841120172194
+    second: blackplayer_2_33
+  - first:
+      213: -8529540016714702988
+    second: blackplayer_2_34
+  - first:
+      213: 5490923802548246168
+    second: blackplayer_2_35
+  - first:
+      213: 2021763616231302482
+    second: blackplayer_2_36
+  - first:
+      213: -4670017976720102541
+    second: blackplayer_2_37
+  - first:
+      213: -2977603434825554958
+    second: blackplayer_2_38
+  - first:
+      213: 268975739548113307
+    second: blackplayer_2_39
+  - first:
+      213: -2150610992753802917
+    second: blackplayer_2_40
+  - first:
+      213: -8383901330023759119
+    second: blackplayer_2_41
+  - first:
+      213: -4885721221622240931
+    second: blackplayer_2_42
+  - first:
+      213: 2645855843036506997
+    second: blackplayer_2_43
+  - first:
+      213: 8937280411359121352
+    second: blackplayer_2_44
+  - first:
+      213: 3097099837402929712
+    second: blackplayer_2_45
+  - first:
+      213: -5779908286398553201
+    second: blackplayer_2_46
+  - first:
+      213: -7486295295905652347
+    second: blackplayer_2_47
+  - first:
+      213: 7680106243897779889
+    second: blackplayer_2_48
+  - first:
+      213: -4574284444474766777
+    second: blackplayer_2_49
+  - first:
+      213: -7332107402054368953
+    second: blackplayer_2_50
+  - first:
+      213: -7990658147374684924
+    second: blackplayer_2_51
+  - first:
+      213: 5040969878256702145
+    second: blackplayer_2_52
+  - first:
+      213: -113346999810248097
+    second: blackplayer_2_53
+  - first:
+      213: 2943037976143468299
+    second: blackplayer_2_54
+  - first:
+      213: -2945414628245081870
+    second: blackplayer_2_55
+  - first:
+      213: -1119137326804550138
+    second: blackplayer_2_56
+  - first:
+      213: -3909572704961431871
+    second: blackplayer_2_57
+  - first:
+      213: -5340169985518000987
+    second: blackplayer_2_58
+  - first:
+      213: -9169212727870682568
+    second: blackplayer_2_59
+  - first:
+      213: 648129098687012940
+    second: blackplayer_2_60
+  - first:
+      213: -3824833710108756315
+    second: blackplayer_2_61
+  - first:
+      213: 2998845008934427262
+    second: blackplayer_2_62
+  - first:
+      213: -1284556948835318064
+    second: blackplayer_2_63
+  - first:
+      213: -8381164313070974247
+    second: blackplayer_2_64
+  - first:
+      213: 5365922623553862720
+    second: blackplayer_2_65
+  - first:
+      213: -8731133935499056072
+    second: blackplayer_2_66
+  - first:
+      213: -3405696366536922964
+    second: blackplayer_2_67
+  - first:
+      213: 7814593936745992390
+    second: blackplayer_2_68
+  - first:
+      213: 7523494016402306132
+    second: blackplayer_2_69
+  - first:
+      213: 6907197006796480818
+    second: blackplayer_2_70
+  - first:
+      213: -185178260370527307
+    second: blackplayer_2_71
+  - first:
+      213: 5042616636979671663
+    second: blackplayer_2_72
+  - first:
+      213: -2969354041516544287
+    second: blackplayer_2_73
+  - first:
+      213: -1205871522730253469
+    second: blackplayer_2_74
+  - first:
+      213: 8616836493033025206
+    second: blackplayer_2_75
+  - first:
+      213: -9016328122829789764
+    second: blackplayer_2_76
+  - first:
+      213: 1279934265513514174
+    second: blackplayer_2_77
+  - first:
+      213: 911827513579426102
+    second: blackplayer_2_78
+  - first:
+      213: -8594263170353025404
+    second: blackplayer_2_79
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: blackplayer_2_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 327
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d737f8fafc8ad79d0800000000000000
+      internalID: -2774876185433246851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_1
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 327
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 090003c069219c5d0800000000000000
+      internalID: -3041879637653192560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_2
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 327
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a5c973f972c229e0800000000000000
+      internalID: -1647540684632504923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_3
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 327
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bb5d44721ee97370800000000000000
+      internalID: 8320943549571750837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_4
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 327
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f75e0b178f51792d0800000000000000
+      internalID: -3272122447457884801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_5
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 327
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f44096375d01ce3b0800000000000000
+      internalID: -5481988137466395569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_6
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 327
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c391824930773470800000000000000
+      internalID: 8374285423349961668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_7
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 327
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1882fba994abacf60800000000000000
+      internalID: 8055455708797151361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_8
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 327
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e27a74c94458fcb60800000000000000
+      internalID: 7768574411963606830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_9
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 286
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 949025b10ccd821c0800000000000000
+      internalID: -4528126707670841015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_10
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 286
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce59c58c889afeba0800000000000000
+      internalID: -6057436568847870484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_11
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 286
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a255355ef8b6f4ea0800000000000000
+      internalID: -5886367922178009814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_12
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 286
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da4596706e29b9e70800000000000000
+      internalID: 9123046986833548461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_13
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 286
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d29e2bf576ed2b610800000000000000
+      internalID: 1635614150257469741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_14
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 286
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8352fd14d6768f7f0800000000000000
+      internalID: -578598833162869448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_15
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 286
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 938c4233bc5cb2f40800000000000000
+      internalID: 5704870829521946681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_16
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 286
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4be67e33641319400800000000000000
+      internalID: 329098425363033780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_17
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 286
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9ee1bfa48f940650800000000000000
+      internalID: 6198254379400818333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_18
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 245
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77ac60528995cae90800000000000000
+      internalID: -7013132009731601801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_19
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 245
+        width: 23
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f0801b6e240872f0800000000000000
+      internalID: -975024721914461966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_20
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 245
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23cfe4ed4bfc24920800000000000000
+      internalID: 2973167079748729906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_21
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 245
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57d699fbb6a21cd40800000000000000
+      internalID: 5602806053689978229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_22
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 245
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29148f16c49407c10800000000000000
+      internalID: 2049218422863577490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_23
+      rect:
+        serializedVersion: 2
+        x: 174
+        y: 245
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9effe7bf1fe2df980800000000000000
+      internalID: -8503588904564228119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_24
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 245
+        width: 23
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb922591574629bf0800000000000000
+      internalID: -319082169491117633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_25
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 245
+        width: 23
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbd9cc238188dcbb0800000000000000
+      internalID: -4914121980878479939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_26
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 245
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f010f26f3fc489600800000000000000
+      internalID: 475214371378626831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_27
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 204
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45a6dfdbcfb6dd1e0800000000000000
+      internalID: -2171460712059278764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_28
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 204
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8e81d857785d98c0800000000000000
+      internalID: -3990936425165910390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_29
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 204
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d3db6774d4011c90800000000000000
+      internalID: -7200969018605579310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_30
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 204
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b827de7cc89bf3cd0800000000000000
+      internalID: -2576136447531847029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_31
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 204
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f756fdabf04a968a0800000000000000
+      internalID: -6311333015316372097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_32
+      rect:
+        serializedVersion: 2
+        x: 174
+        y: 204
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ba1363580d980b30800000000000000
+      internalID: 4253822507135736502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_33
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 204
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5799ac475e7a5b80800000000000000
+      internalID: -8405266841120172194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_34
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 204
+        width: 25
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47f9d36db8cf0a980800000000000000
+      internalID: -8529540016714702988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_35
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 204
+        width: 21
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89610a33b1ea33c40800000000000000
+      internalID: 5490923802548246168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_36
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 164
+        width: 21
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 255a6451c4fbe0c10800000000000000
+      internalID: 2021763616231302482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_37
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 167
+        width: 25
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37be8ea9463c03fb0800000000000000
+      internalID: -4670017976720102541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_38
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 167
+        width: 28
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f36d39b37d6da6d0800000000000000
+      internalID: -2977603434825554958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_39
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 166
+        width: 25
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9996f092089bb300800000000000000
+      internalID: 268975739548113307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_40
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 164
+        width: 21
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b510cde42be7722e0800000000000000
+      internalID: -2150610992753802917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_41
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 167
+        width: 28
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f24200092666ab80800000000000000
+      internalID: -8383901330023759119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_42
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 164
+        width: 25
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d596e914f6e623cb0800000000000000
+      internalID: -4885721221622240931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_43
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 164
+        width: 21
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57b2513fed7f7b420800000000000000
+      internalID: 2645855843036506997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_44
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 164
+        width: 21
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cf0e11be29970c70800000000000000
+      internalID: 8937280411359121352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_45
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 126
+        width: 25
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03a525a94eb1bfa20800000000000000
+      internalID: 3097099837402929712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_46
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 126
+        width: 28
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f83a0ea6904a9cfa0800000000000000
+      internalID: -5779908286398553201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_47
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 125
+        width: 25
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 581addba7165b1890800000000000000
+      internalID: -7486295295905652347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_48
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 123
+        width: 21
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b669c810f7359a60800000000000000
+      internalID: 7680106243897779889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_49
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 126
+        width: 28
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74a8c798880e480c0800000000000000
+      internalID: -4574284444474766777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_50
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 123
+        width: 23
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 741898d3a2f1f3a90800000000000000
+      internalID: -7332107402054368953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_51
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 123
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 405a62450ca7b1190800000000000000
+      internalID: -7990658147374684924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_52
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 123
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c25fe4656f15f540800000000000000
+      internalID: 5040969878256702145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_53
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 123
+        width: 23
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5234f3118f4d6ef0800000000000000
+      internalID: -113346999810248097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_54
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 82
+        width: 23
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0714884275c7d820800000000000000
+      internalID: 2943037976143468299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_55
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 82
+        width: 29
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f076374009cf17d0800000000000000
+      internalID: -2945414628245081870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_56
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 82
+        width: 32
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60e3fecd7860870f0800000000000000
+      internalID: -1119137326804550138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_57
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 82
+        width: 33
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c6f531b6586eb9c0800000000000000
+      internalID: -3909572704961431871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_58
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 82
+        width: 32
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a42ffc01b7e3e5b0800000000000000
+      internalID: -5340169985518000987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_59
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 82
+        width: 30
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83a0745ca9960c080800000000000000
+      internalID: -9169212727870682568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_60
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 82
+        width: 23
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4065d73bfd9ef800800000000000000
+      internalID: 648129098687012940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_61
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 82
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a6370861067beac0800000000000000
+      internalID: -3824833710108756315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_62
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 82
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7a5df5a5a90e9920800000000000000
+      internalID: 2998845008934427262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_63
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 41
+        width: 23
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d649eac2465c2ee0800000000000000
+      internalID: -1284556948835318064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_64
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 41
+        width: 23
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9da493b667f10bb80800000000000000
+      internalID: -8381164313070974247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_65
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 41
+        width: 29
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04cf82d3236977a40800000000000000
+      internalID: 5365922623553862720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_66
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 41
+        width: 32
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83c6838f1f7c4d680800000000000000
+      internalID: -8731133935499056072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_67
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 41
+        width: 32
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca86ab3e2398cb0d0800000000000000
+      internalID: -3405696366536922964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_68
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 41
+        width: 33
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c09aaf28c3037c60800000000000000
+      internalID: 7814593936745992390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_69
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 41
+        width: 30
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 454bf6d52f1d86860800000000000000
+      internalID: 7523494016402306132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_70
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 41
+        width: 23
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 231eebfe41b4bdf50800000000000000
+      internalID: 6907197006796480818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_71
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 41
+        width: 28
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bb6d727a5d1e6df0800000000000000
+      internalID: -185178260370527307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_72
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 0
+        width: 27
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f62f5a94d19faf540800000000000000
+      internalID: 5042616636979671663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_73
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 0
+        width: 27
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ee29074b3cbac6d0800000000000000
+      internalID: -2969354041516544287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_74
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 0
+        width: 28
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36367e23d32e34fe0800000000000000
+      internalID: -1205871522730253469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_75
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 0
+        width: 27
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6be2bdee227259770800000000000000
+      internalID: 8616836493033025206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_76
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 0
+        width: 27
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb5ad54c7519fd280800000000000000
+      internalID: -9016328122829789764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_77
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 0
+        width: 24
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb498cfde6d33c110800000000000000
+      internalID: 1279934265513514174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_78
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 0
+        width: 24
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6315453ea4677ac00800000000000000
+      internalID: 911827513579426102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blackplayer_2_79
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 0
+        width: 24
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48ea2e05e2b0bb880800000000000000
+      internalID: -8594263170353025404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 3a7f3e240dbf52b46a3ccb93bfe60c7e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":9.0,"y":9.0},"gridSpriteSize":{"x":1.0,"y":1.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":1,"slicingType":3,"keepEmptyRects":false,"isAlternate":false}'
+      - key: SpriteEditor.SliceOnImport
+        value: False
+    nameFileIdTable:
+      blackplayer_2_0: -2774876185433246851
+      blackplayer_2_1: -3041879637653192560
+      blackplayer_2_10: -6057436568847870484
+      blackplayer_2_11: -5886367922178009814
+      blackplayer_2_12: 9123046986833548461
+      blackplayer_2_13: 1635614150257469741
+      blackplayer_2_14: -578598833162869448
+      blackplayer_2_15: 5704870829521946681
+      blackplayer_2_16: 329098425363033780
+      blackplayer_2_17: 6198254379400818333
+      blackplayer_2_18: -7013132009731601801
+      blackplayer_2_19: -975024721914461966
+      blackplayer_2_2: -1647540684632504923
+      blackplayer_2_20: 2973167079748729906
+      blackplayer_2_21: 5602806053689978229
+      blackplayer_2_22: 2049218422863577490
+      blackplayer_2_23: -8503588904564228119
+      blackplayer_2_24: -319082169491117633
+      blackplayer_2_25: -4914121980878479939
+      blackplayer_2_26: 475214371378626831
+      blackplayer_2_27: -2171460712059278764
+      blackplayer_2_28: -3990936425165910390
+      blackplayer_2_29: -7200969018605579310
+      blackplayer_2_3: 8320943549571750837
+      blackplayer_2_30: -2576136447531847029
+      blackplayer_2_31: -6311333015316372097
+      blackplayer_2_32: 4253822507135736502
+      blackplayer_2_33: -8405266841120172194
+      blackplayer_2_34: -8529540016714702988
+      blackplayer_2_35: 5490923802548246168
+      blackplayer_2_36: 2021763616231302482
+      blackplayer_2_37: -4670017976720102541
+      blackplayer_2_38: -2977603434825554958
+      blackplayer_2_39: 268975739548113307
+      blackplayer_2_4: -3272122447457884801
+      blackplayer_2_40: -2150610992753802917
+      blackplayer_2_41: -8383901330023759119
+      blackplayer_2_42: -4885721221622240931
+      blackplayer_2_43: 2645855843036506997
+      blackplayer_2_44: 8937280411359121352
+      blackplayer_2_45: 3097099837402929712
+      blackplayer_2_46: -5779908286398553201
+      blackplayer_2_47: -7486295295905652347
+      blackplayer_2_48: 7680106243897779889
+      blackplayer_2_49: -4574284444474766777
+      blackplayer_2_5: -5481988137466395569
+      blackplayer_2_50: -7332107402054368953
+      blackplayer_2_51: -7990658147374684924
+      blackplayer_2_52: 5040969878256702145
+      blackplayer_2_53: -113346999810248097
+      blackplayer_2_54: 2943037976143468299
+      blackplayer_2_55: -2945414628245081870
+      blackplayer_2_56: -1119137326804550138
+      blackplayer_2_57: -3909572704961431871
+      blackplayer_2_58: -5340169985518000987
+      blackplayer_2_59: -9169212727870682568
+      blackplayer_2_6: 8374285423349961668
+      blackplayer_2_60: 648129098687012940
+      blackplayer_2_61: -3824833710108756315
+      blackplayer_2_62: 2998845008934427262
+      blackplayer_2_63: -1284556948835318064
+      blackplayer_2_64: -8381164313070974247
+      blackplayer_2_65: 5365922623553862720
+      blackplayer_2_66: -8731133935499056072
+      blackplayer_2_67: -3405696366536922964
+      blackplayer_2_68: 7814593936745992390
+      blackplayer_2_69: 7523494016402306132
+      blackplayer_2_7: 8055455708797151361
+      blackplayer_2_70: 6907197006796480818
+      blackplayer_2_71: -185178260370527307
+      blackplayer_2_72: 5042616636979671663
+      blackplayer_2_73: -2969354041516544287
+      blackplayer_2_74: -1205871522730253469
+      blackplayer_2_75: 8616836493033025206
+      blackplayer_2_76: -9016328122829789764
+      blackplayer_2_77: 1279934265513514174
+      blackplayer_2_78: 911827513579426102
+      blackplayer_2_79: -8594263170353025404
+      blackplayer_2_8: 7768574411963606830
+      blackplayer_2_9: -4528126707670841015
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
