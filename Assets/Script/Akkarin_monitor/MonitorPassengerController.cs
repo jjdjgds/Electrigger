@@ -64,6 +64,12 @@ public class MonitorPassengerController : MonoBehaviour
         if (shouldFreeze == isPowerFreezeActive)
             return;
 
+        Debug.Log(
+    $"[PowerFreeze] {gameObject.name} " +
+    $"Powered:{isPowered} Inside:{IsPlayerInside()} " +
+    $"Result:{shouldFreeze}"
+);
+
         isPowerFreezeActive = shouldFreeze;
 
         UpdateFreezeState();
