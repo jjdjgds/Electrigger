@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3207804222767476168}
   - component: {fileID: 7507082821560512442}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PowerOff_Layer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8590001986367421111}
   - component: {fileID: 1112994194242417571}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 7282735577670005662}
   - component: {fileID: 1551377550188014779}
   - component: {fileID: 7047075828528047045}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 6641013246721229027}
   - component: {fileID: 3768704463515701529}
   - component: {fileID: 7711265724544320073}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall_Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -530,7 +530,7 @@ GameObject:
   - component: {fileID: 8294943019939931974}
   - component: {fileID: 4881467912934530167}
   - component: {fileID: 6346225621285904255}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Monitor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -659,6 +659,12 @@ MonoBehaviour:
   portalLeftTarget: {fileID: 0}
   portalUpTarget: {fileID: 0}
   portalDownTarget: {fileID: 0}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  blockTeleportLayer:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!114 &8294943019939931974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -732,7 +738,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7872975362934425882}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -770,7 +776,7 @@ GameObject:
   - component: {fileID: 7697803153562653053}
   - component: {fileID: 3358791980424348148}
   - component: {fileID: 8771004154658196413}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -936,7 +942,7 @@ GameObject:
   - component: {fileID: 7580224350262399098}
   - component: {fileID: 8394577220058502927}
   - component: {fileID: 2452997820293231486}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall_Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1099,7 +1105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2782174984163949446}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Monitor_Obj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1133,7 +1139,7 @@ GameObject:
   - component: {fileID: 5817470096706884193}
   - component: {fileID: 9174345735317550581}
   - component: {fileID: 2809187200168086203}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
