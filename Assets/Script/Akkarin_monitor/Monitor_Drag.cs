@@ -61,7 +61,7 @@ public class Monitor_Drag : MonoBehaviour
             MonitorPassengerController.RegisterPlayer(sharedPlayer);
         }
 
-        Debug.Log($"{gameObject.name} player found: {sharedPlayer != null}");
+        //Debug.Log($"{gameObject.name} player found: {sharedPlayer != null}");
 
         myPowerNode = GetComponent<PowerNode>();
         plugCollisions = GetComponentsInChildren<plugCollision>();

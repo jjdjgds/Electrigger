@@ -1008,7 +1008,6 @@ MonoBehaviour:
   wallLeft: {fileID: 0}
   wallTop: {fileID: 0}
   wallBottom: {fileID: 0}
-  teleportCooldown: 0
   portalRightTarget: {fileID: 0}
   portalLeftTarget: {fileID: 0}
   portalUpTarget: {fileID: 0}
@@ -1986,7 +1985,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: -482365525
+  m_SortingLayerID: -921685421
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
