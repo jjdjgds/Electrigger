@@ -17,26 +17,37 @@ public class Monitor_Rotate : MonoBehaviour
     private MonitorPassengerController passengerController;
     private bool passengerStartedByRotate = false;
 
+    private Collider2D[] allMonitorColliders;
+    private Collider2D playerCollider;
+    private bool isIgnoringPlayerCollision = false;
+    private bool isRotationInProgress = false;
+
     void Awake()
     {
         col = GetComponent<Collider2D>();
 
         player = FindFirstObjectByType<Player2DController>();
-
-        if (player == null)
-            ///Debug.LogError("Playerが見つからない");
+        if (player != null)
+            playerCollider = player.GetComponent<Collider2D>();
 
         targetRotation = Mathf.Round(transform.eulerAngles.z / 90f) * 90f;
 
         passengerController = GetComponent<MonitorPassengerController>();
-
         if (passengerController == null)
             passengerController = gameObject.AddComponent<MonitorPassengerController>();
+
+        allMonitorColliders = GetComponentsInChildren<Collider2D>(true);
     }
 
     void Update()
     {
         if (!canScroll) return;
+
+        if (isRotationInProgress)
+        {
+            UpdateRotatePlayerCollisionState();
+        }
+
         if (!IsRotateHeld()) return;
 
         float scroll = Mouse.current.scroll.ReadValue().y;
@@ -52,20 +63,12 @@ public class Monitor_Rotate : MonoBehaviour
 
         lastScroll = scroll;
 
-        transform.rotation = Quaternion.Lerp(
-            transform.rotation,
-            Quaternion.Euler(0, 0, targetRotation),
-            Time.deltaTime * smoothSpeed
-        );
-
         if (passengerStartedByRotate && Mouse.current != null && Mouse.current.leftButton.wasReleasedThisFrame)
         {
             if (passengerController != null && passengerController.IsPassengerActive())
                 passengerController.EndPassenger();
 
             passengerStartedByRotate = false;
-            isRotatingAnyMonitor = false;
-            return;
         }
     }
 
@@ -74,7 +77,6 @@ public class Monitor_Rotate : MonoBehaviour
         if (Mouse.current == null) return false;
         if (!Mouse.current.leftButton.isPressed) return false;
 
-        // 他のモニターをドラッグ中なら回転しない
         Monitor_Drag myDrag = GetComponent<Monitor_Drag>();
         if (Monitor_Drag.IsDraggingAny() && !Monitor_Drag.IsDraggingThis(myDrag))
             return false;
@@ -90,59 +92,34 @@ public class Monitor_Rotate : MonoBehaviour
         );
         world.z = transform.position.z;
 
-        Collider2D hit = Physics2D.OverlapPoint(world);
+        Collider2D[] hits = Physics2D.OverlapPointAll(world);
+        if (hits == null || hits.Length == 0) return false;
 
-        if (hit == null) return false;
+        foreach (Collider2D hit in hits)
+        {
+            if (hit != null && (hit.transform == transform || hit.transform.IsChildOf(transform)))
+                return true;
+        }
 
-        return hit.transform == transform || hit.transform.IsChildOf(transform);
+        return false;
     }
-
-    //System.Collections.IEnumerator RotateStep(float amount)
-    //{
-    //    canScroll = false;
-    //    isRotatingAnyMonitor = true;
-
-    //    targetRotation += amount;
-
-    //    Quaternion start = transform.rotation;
-    //    Quaternion end = Quaternion.Euler(0, 0, targetRotation);
-
-    //    float t = 0f;
-
-    //    while (t < 1f)
-    //    {
-    //        t += Time.deltaTime * smoothSpeed;
-    //        transform.rotation = Quaternion.Lerp(start, end, t);
-    //        yield return null;
-    //    }
-
-    //    transform.rotation = end;
-
-    //    Monitor_Drag drag = GetComponent<Monitor_Drag>();
-    //    if (drag != null)
-    //    {
-    //        drag.RecheckAllConnections();
-    //    }
-
-    //    yield return new WaitForSeconds(scrollCooldown);
-
-    //    isRotatingAnyMonitor = false;
-    //    foreach (var plug in GetComponentsInChildren<plugCollision>())
-    //        plug.RecheckConnections();
-
-    //    canScroll = true;
-    //}
 
     System.Collections.IEnumerator RotateStep(float amount)
     {
         canScroll = false;
         isRotatingAnyMonitor = true;
+        isRotationInProgress = true;
 
-        if (passengerController != null && passengerController.IsPlayerInside())
+        bool ownsPlayer = passengerController != null && passengerController.IsPlayerInside();
+
+        if (ownsPlayer)
         {
             passengerController.BeginPassenger(true);
             passengerStartedByRotate = true;
         }
+
+        // IMPORTANT: ignore collision before any rotation happens
+        UpdateRotatePlayerCollisionState();
 
         targetRotation += amount;
 
@@ -154,6 +131,8 @@ public class Monitor_Rotate : MonoBehaviour
         while (t < 1f)
         {
             t += Time.deltaTime * smoothSpeed;
+
+            UpdateRotatePlayerCollisionState();
 
             transform.rotation = Quaternion.Lerp(start, end, t);
 
@@ -176,14 +155,64 @@ public class Monitor_Rotate : MonoBehaviour
         if (collision != null)
             collision.ForceRefreshWalls();
 
-        yield return new WaitForSeconds(scrollCooldown);
-
-        isRotatingAnyMonitor = false;
-
         foreach (var plug in GetComponentsInChildren<plugCollision>())
             plug.RecheckConnections();
 
+        yield return new WaitForFixedUpdate();
+        yield return new WaitForSeconds(scrollCooldown);
 
+        isRotationInProgress = false;
+        isRotatingAnyMonitor = false;
+
+        RestorePlayerCollision();
         canScroll = true;
+    }
+
+    void UpdateRotatePlayerCollisionState()
+    {
+        if (playerCollider == null)
+            return;
+
+        bool ownsPlayer =
+            passengerController != null &&
+            passengerController.IsPassengerActive();
+
+        bool shouldIgnore = isRotationInProgress && !ownsPlayer;
+
+        if (shouldIgnore == isIgnoringPlayerCollision)
+            return;
+
+        if (allMonitorColliders != null)
+        {
+            foreach (Collider2D monitorCol in allMonitorColliders)
+            {
+                if (monitorCol != null)
+                    Physics2D.IgnoreCollision(monitorCol, playerCollider, shouldIgnore);
+            }
+        }
+
+        isIgnoringPlayerCollision = shouldIgnore;
+    }
+
+    void RestorePlayerCollision()
+    {
+        if (playerCollider == null)
+            return;
+
+        if (allMonitorColliders != null)
+        {
+            foreach (Collider2D monitorCol in allMonitorColliders)
+            {
+                if (monitorCol != null)
+                    Physics2D.IgnoreCollision(monitorCol, playerCollider, false);
+            }
+        }
+
+        isIgnoringPlayerCollision = false;
+    }
+
+    void OnDestroy()
+    {
+        RestorePlayerCollision();
     }
 }

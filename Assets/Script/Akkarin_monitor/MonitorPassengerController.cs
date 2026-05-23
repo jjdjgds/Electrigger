@@ -130,9 +130,9 @@ public class MonitorPassengerController : MonoBehaviour
             return false;
 
         if (sharedPlayerCollider != null)
-            return monitorCollider.bounds.Intersects(sharedPlayerCollider.bounds);
+            return monitorCollider.IsTouching(sharedPlayerCollider);
 
-        return monitorCollider.bounds.Contains(sharedPlayer.position);
+        return monitorCollider.OverlapPoint(sharedPlayer.position);
     }
 
     // モニター追従開始
