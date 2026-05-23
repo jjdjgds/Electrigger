@@ -373,6 +373,22 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 868984380589302298, guid: a2ee0b330bbd8ec4a89c99d48773b091, type: 3}
+      propertyPath: m_Size.x
+      value: 1.120847
+      objectReference: {fileID: 0}
+    - target: {fileID: 868984380589302298, guid: a2ee0b330bbd8ec4a89c99d48773b091, type: 3}
+      propertyPath: m_Size.y
+      value: 1.3555322
+      objectReference: {fileID: 0}
+    - target: {fileID: 868984380589302298, guid: a2ee0b330bbd8ec4a89c99d48773b091, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.010032058
+      objectReference: {fileID: 0}
+    - target: {fileID: 868984380589302298, guid: a2ee0b330bbd8ec4a89c99d48773b091, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.010456681
+      objectReference: {fileID: 0}
     - target: {fileID: 2085374452328812869, guid: a2ee0b330bbd8ec4a89c99d48773b091, type: 3}
       propertyPath: gridGenerator
       value: 
@@ -456,6 +472,22 @@ PrefabInstance:
     - target: {fileID: 8302583433061178932, guid: a2ee0b330bbd8ec4a89c99d48773b091, type: 3}
       propertyPath: m_SortingLayerID
       value: -777011831
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431858298920628196, guid: a2ee0b330bbd8ec4a89c99d48773b091, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0538685
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431858298920628196, guid: a2ee0b330bbd8ec4a89c99d48773b091, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431858298920628196, guid: a2ee0b330bbd8ec4a89c99d48773b091, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.024545163
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431858298920628196, guid: a2ee0b330bbd8ec4a89c99d48773b091, type: 3}
+      propertyPath: m_Offset.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -625,6 +657,14 @@ PrefabInstance:
     - target: {fileID: 62912161535028630, guid: 1388709279d51814fab43ed9091881c6, type: 3}
       propertyPath: m_Name
       value: Type_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1148376997524391987, guid: 1388709279d51814fab43ed9091881c6, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0090114
+      objectReference: {fileID: 0}
+    - target: {fileID: 1148376997524391987, guid: 1388709279d51814fab43ed9091881c6, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.0040367246
       objectReference: {fileID: 0}
     - target: {fileID: 1637890100464843927, guid: 1388709279d51814fab43ed9091881c6, type: 3}
       propertyPath: m_Layer
@@ -798,6 +838,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5012476736451209848, guid: 0a3069bb55f32744d933ccd4ac399866, type: 3}
+      propertyPath: m_Size.x
+      value: 1.1489654
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012476736451209848, guid: 0a3069bb55f32744d933ccd4ac399866, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.008449465
+      objectReference: {fileID: 0}
     - target: {fileID: 5304843925877726205, guid: 0a3069bb55f32744d933ccd4ac399866, type: 3}
       propertyPath: gridGenerator
       value: 
@@ -817,6 +865,14 @@ PrefabInstance:
     - target: {fileID: 6812503580660621484, guid: 0a3069bb55f32744d933ccd4ac399866, type: 3}
       propertyPath: m_SortingLayerID
       value: -777011831
+      objectReference: {fileID: 0}
+    - target: {fileID: 6889939363341031277, guid: 0a3069bb55f32744d933ccd4ac399866, type: 3}
+      propertyPath: m_Size.x
+      value: 1.1602454
+      objectReference: {fileID: 0}
+    - target: {fileID: 6889939363341031277, guid: 0a3069bb55f32744d933ccd4ac399866, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.019079
       objectReference: {fileID: 0}
     - target: {fileID: 7965668339546668525, guid: 0a3069bb55f32744d933ccd4ac399866, type: 3}
       propertyPath: m_SortingLayer

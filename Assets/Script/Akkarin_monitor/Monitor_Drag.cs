@@ -14,12 +14,8 @@ public class Monitor_Drag : MonoBehaviour
     private static Transform sharedPlayer;
     private static Player2DController sharedPlayerMovement;
     public bool playerInside = false;
-    private Vector2 playerDragOffset;
     private bool playerShouldFollowDrag = false;
-    private bool lastFrozenState = false;
-    private static HashSet<Monitor_Drag> freezeRequesters = new HashSet<Monitor_Drag>();
     private static Monitor_Drag currentlyDragging = null;
-    private Vector3 playerOffsetFromMonitor;
 
     private float dragDelay = 0.15f;
     private float dragDelayTimer = 0f;
@@ -40,33 +36,29 @@ public class Monitor_Drag : MonoBehaviour
     [SerializeField] private AudioMixerGroup sfxMixerGroup;
     public bool isPlaced = false;
 
-    private plugCollision[] plugCollisions;
-    private socketCollision[] socketCollisions;
-
     private bool wasScreenOn = false;
 
     private MonitorPassengerController passengerController;
-
-    //private bool frozePlayerForDrag = false;
+    private Collider2D monitorCollider;
+    private Collider2D[] allMonitorColliders;
+    private bool isIgnoringPlayerCollision = false;
 
     void Start()
     {
         cam = Camera.main;
+
         var found = GameObject.FindGameObjectWithTag("Player");
         if (found != null)
         {
             sharedPlayer = found.transform;
             sharedPlayerMovement = found.GetComponent<Player2DController>();
-
             MonitorPassengerController.RegisterPlayer(sharedPlayer);
         }
 
-        Debug.Log($"{gameObject.name} player found: {sharedPlayer != null}");
-
         myPowerNode = GetComponent<PowerNode>();
-        plugCollisions = GetComponentsInChildren<plugCollision>();
-        socketCollisions = GetComponentsInChildren<socketCollision>();
         clickAnimation = GetComponent<Monitor_ClickAnimation>();
+        monitorCollider = GetComponent<Collider2D>();
+        allMonitorColliders = GetComponentsInChildren<Collider2D>(true);
 
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
@@ -100,7 +92,7 @@ public class Monitor_Drag : MonoBehaviour
             );
             worldPos.z = transform.position.z;
 
-            if (GetComponent<Collider2D>().OverlapPoint(worldPos))
+            if (monitorCollider != null && monitorCollider.OverlapPoint(worldPos))
             {
                 isDragging = true;
                 dragReady = false;
@@ -113,8 +105,6 @@ public class Monitor_Drag : MonoBehaviour
 
                 if (myPowerNode != null)
                     myPowerNode.SetForcePowerDisabled(true);
-
-                //FreezePlayerForDrag();
 
                 if (clickAnimation != null)
                 {
@@ -130,23 +120,18 @@ public class Monitor_Drag : MonoBehaviour
                     passengerController.BeginPassenger(true);
                 }
 
+                UpdateDragPlayerCollisionState();
                 PlayPickupSE();
-                //RecheckAllConnections();  ¥É¥é¥Ã¥°é_Ê¼•r¤Ï½Ó¾A¥Á¥§¥Ã¥¯¤·¤Ê¤¤
             }
         }
         else if (Mouse.current.leftButton.wasReleasedThisFrame && isDragging)
         {
             isDragging = false;
             currentlyDragging = null;
+            RestorePlayerCollision();
 
             if (clickAnimation != null)
                 clickAnimation.OnDragEnd();
-
-            Vector2 mousePos = Mouse.current.position.ReadValue();
-            Vector3 worldPos = cam.ScreenToWorldPoint(
-                new Vector3(mousePos.x, mousePos.y, Mathf.Abs(cam.transform.position.z))
-            );
-            worldPos.z = transform.position.z;
 
             if (gridGenerator != null)
             {
@@ -164,7 +149,13 @@ public class Monitor_Drag : MonoBehaviour
                             otherMonitor.transform.position.z
                         );
 
-                        if (sharedPlayer != null && otherMonitor.playerInside)
+                        MonitorPassengerController otherPassengerController =
+                            otherMonitor.GetComponent<MonitorPassengerController>();
+
+                        if (
+                            sharedPlayer != null &&
+                            MonitorPassengerController.ActivePassengerMonitor == otherPassengerController
+                        )
                         {
                             Vector3 otherDelta = otherMonitor.transform.position - otherOldPos;
                             sharedPlayer.position += otherDelta;
@@ -196,10 +187,11 @@ public class Monitor_Drag : MonoBehaviour
             }
 
             StartCoroutine(EndDragAfterPowerCheck());
-            //UnfreezePlayerForDrag();
         }
         else if (isDragging && currentlyDragging == this)
         {
+            UpdateDragPlayerCollisionState();
+
             if (!dragReady)
             {
                 dragDelayTimer += Time.deltaTime;
@@ -229,7 +221,7 @@ public class Monitor_Drag : MonoBehaviour
 
     void OnDestroy()
     {
-        freezeRequesters.Remove(this);
+        RestorePlayerCollision();
 
         if (myPowerNode != null)
             myPowerNode.SetForcePowerDisabled(false);
@@ -240,22 +232,56 @@ public class Monitor_Drag : MonoBehaviour
             passengerController.CancelPassengerImmediate();
     }
 
-    /*void FreezePlayerForDrag()
+    void UpdateDragPlayerCollisionState()
     {
-        if (sharedPlayerMovement == null || frozePlayerForDrag) return;
+        if (sharedPlayer == null)
+            return;
 
-        sharedPlayerMovement.SetFrozen(true);
-        frozePlayerForDrag = true;
+        Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
+        if (playerCol == null)
+            return;
+
+        bool ownsPlayer =
+            passengerController != null &&
+            passengerController.IsPassengerActive();
+
+        bool shouldIgnore = isDragging && !ownsPlayer;
+
+        if (shouldIgnore == isIgnoringPlayerCollision)
+            return;
+
+        if (allMonitorColliders != null)
+        {
+            foreach (Collider2D col in allMonitorColliders)
+            {
+                if (col != null)
+                    Physics2D.IgnoreCollision(col, playerCol, shouldIgnore);
+            }
+        }
+
+        isIgnoringPlayerCollision = shouldIgnore;
     }
 
-    void UnfreezePlayerForDrag()
+    void RestorePlayerCollision()
     {
-        if (sharedPlayerMovement == null || !frozePlayerForDrag) return;
+        if (!isIgnoringPlayerCollision || sharedPlayer == null)
+            return;
 
-        sharedPlayerMovement.SetFrozen(false, true);
-        frozePlayerForDrag = false;
+        Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
+        if (playerCol == null)
+            return;
+
+        if (allMonitorColliders != null)
+        {
+            foreach (Collider2D col in allMonitorColliders)
+            {
+                if (col != null)
+                    Physics2D.IgnoreCollision(col, playerCol, false);
+            }
+        }
+
+        isIgnoringPlayerCollision = false;
     }
-    */
 
     void PlayPickupSE()
     {
@@ -329,13 +355,12 @@ public class Monitor_Drag : MonoBehaviour
 
     void CheckIfPlayerInside()
     {
-        if (sharedPlayer == null) return;
+        if (sharedPlayer == null || monitorCollider == null) return;
 
-        Collider2D monitorCol = GetComponent<Collider2D>();
         Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
 
         bool isPowered = myPowerNode != null && myPowerNode.IsPowered();
-        Bounds monitorBounds = monitorCol.bounds;
+        Bounds monitorBounds = monitorCollider.bounds;
 
         if (isPowered)
             monitorBounds.Expand(new Vector3(1.5f, 1.5f, 100f));
@@ -357,8 +382,11 @@ public class Monitor_Drag : MonoBehaviour
         float camHeight = cam.orthographicSize;
         float camWidth = camHeight * cam.aspect;
         Vector3 camPos = cam.transform.position;
-        Collider2D col = GetComponent<Collider2D>();
-        Vector2 halfSize = col.bounds.extents;
+
+        if (monitorCollider == null)
+            return targetPos;
+
+        Vector2 halfSize = monitorCollider.bounds.extents;
 
         float minX = camPos.x - camWidth + halfSize.x;
         float maxX = camPos.x + camWidth - halfSize.x;
