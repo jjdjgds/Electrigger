@@ -355,20 +355,23 @@ public class Monitor_Drag : MonoBehaviour
 
     void CheckIfPlayerInside()
     {
-        if (sharedPlayer == null || monitorCollider == null) return;
+        if (sharedPlayer == null || monitorCollider == null)
+        {
+            playerInside = false;
+            return;
+        }
 
         Collider2D playerCol = sharedPlayer.GetComponent<Collider2D>();
 
-        bool isPowered = myPowerNode != null && myPowerNode.IsPowered();
-        Bounds monitorBounds = monitorCollider.bounds;
-
-        if (isPowered)
-            monitorBounds.Expand(new Vector3(1.5f, 1.5f, 100f));
-
         if (playerCol != null)
-            playerInside = monitorBounds.Intersects(playerCol.bounds);
+        {
+            ColliderDistance2D dist = monitorCollider.Distance(playerCol);
+            playerInside = dist.isOverlapped;
+        }
         else
-            playerInside = monitorBounds.Contains(sharedPlayer.position);
+        {
+            playerInside = monitorCollider.OverlapPoint(sharedPlayer.position);
+        }
     }
 
     public void SetPlayer(Transform newPlayer)
