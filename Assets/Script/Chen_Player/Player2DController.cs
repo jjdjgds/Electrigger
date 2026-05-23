@@ -27,7 +27,7 @@ public class Player2DController : MonoBehaviour
 
     [Header("Wall Check")]
     public Vector2 wallCheckOffset = new Vector2(0f, -0.2f);   // 壁判定位置の補正
-    public float wallCheckWidth = 0.06f; // 壁判定ボックスのサイズ
+    public float wallCheckWidth = 0.03f; // 壁判定ボックスのサイズ
 
     [Header("Ground Check")]
     public Vector2 groundCheckSize = new Vector2(0.6f, 0.1f); // 地面判定ボックスのサイズ
@@ -392,7 +392,7 @@ public class Player2DController : MonoBehaviour
 
         float boxWidth = wallCheckWidth;
 
-        float boxHeight = bounds.size.y * 0.65f;
+        float boxHeight = bounds.size.y * 0.5f;
 
         float centerY = bounds.center.y + bounds.size.y * 0.08f + wallCheckOffset.y;
 

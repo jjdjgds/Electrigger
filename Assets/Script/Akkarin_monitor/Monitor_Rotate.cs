@@ -172,12 +172,17 @@ public class Monitor_Rotate : MonoBehaviour
         if (drag != null)
             drag.RecheckAllConnections();
 
+        Monitor_Collision collision = GetComponent<Monitor_Collision>();
+        if (collision != null)
+            collision.ForceRefreshWalls();
+
         yield return new WaitForSeconds(scrollCooldown);
 
         isRotatingAnyMonitor = false;
 
         foreach (var plug in GetComponentsInChildren<plugCollision>())
             plug.RecheckConnections();
+
 
         canScroll = true;
     }
