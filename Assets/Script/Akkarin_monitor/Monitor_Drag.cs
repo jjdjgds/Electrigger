@@ -243,7 +243,7 @@ public class Monitor_Drag : MonoBehaviour
 
         bool ownsPlayer =
             passengerController != null &&
-            passengerController.IsPassengerActive();
+            passengerController.IsPlayerOwner();
 
         bool shouldIgnore = isDragging && !ownsPlayer;
 

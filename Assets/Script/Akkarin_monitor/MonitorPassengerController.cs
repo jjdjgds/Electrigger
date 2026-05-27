@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.ComponentModel;
+using UnityEngine;
 
 /// <summary>
 /// モニター内のプレイヤー追従を管理する
@@ -27,6 +28,8 @@ public class MonitorPassengerController : MonoBehaviour
 
     public static MonitorPassengerController ActivePassengerMonitor { get; private set; }
 
+    public static MonitorPassengerController PlayerOwnerMonitor { get; private set; }
+
     private bool ignoreInsideCheckWhileMoving = false;
 
 
@@ -49,29 +52,31 @@ public class MonitorPassengerController : MonoBehaviour
         if (ActivePassengerMonitor != null && ActivePassengerMonitor != this)
             return;
 
-        Monitor_Drag drag = GetComponent<Monitor_Drag>();
-        if (drag != null && drag.IsDragging())
-            return;
-
         if (powerNode == null || sharedPlayer == null)
             return;
 
-        bool isPowered = powerNode.IsPowered();
+        bool inside = IsPlayerInside();
 
-        bool shouldFreeze =
-            !isPowered && IsPlayerInside();
+        if (inside)
+            PlayerOwnerMonitor = this;
+        else if (PlayerOwnerMonitor == this)
+            PlayerOwnerMonitor = null;
+
+        if (PlayerOwnerMonitor != this)
+            return;
+
+        bool shouldFreeze = !powerNode.IsPowered();
 
         if (shouldFreeze == isPowerFreezeActive)
             return;
 
-    //    Debug.Log(
-    //$"[PowerFreeze] {gameObject.name} " +
-    //$"Powered:{isPowered} Inside:{IsPlayerInside()} " +
-    //$"Result:{shouldFreeze}"
-    //);
+        //    Debug.Log(
+        //$"[PowerFreeze] {gameObject.name} " +
+        //$"Powered:{isPowered} Inside:{IsPlayerInside()} " +
+        //$"Result:{shouldFreeze}"
+        //);
 
         isPowerFreezeActive = shouldFreeze;
-
         UpdateFreezeState();
     }
 
@@ -130,7 +135,10 @@ public class MonitorPassengerController : MonoBehaviour
             return false;
 
         if (sharedPlayerCollider != null)
-            return monitorCollider.IsTouching(sharedPlayerCollider);
+        {
+            ColliderDistance2D dist = monitorCollider.Distance(sharedPlayerCollider);
+            return dist.isOverlapped;
+        }
 
         return monitorCollider.OverlapPoint(sharedPlayer.position);
     }
@@ -251,8 +259,19 @@ public class MonitorPassengerController : MonoBehaviour
 
             if (powerNode != null)
             {
-                isPowerFreezeActive = !powerNode.IsPowered() && IsPlayerInside();
+                bool isPowered = powerNode.IsPowered();
+
+                if (!isPowered)
+                {
+                    isPowerFreezeActive = true;
+                }
+                else
+                {
+                    isPowerFreezeActive = IsPlayerInside() ? false : false;
+                }
             }
+
+            UpdateFreezeState();
 
             UpdateFreezeState();
         }
@@ -296,6 +315,16 @@ public class MonitorPassengerController : MonoBehaviour
     public bool IsPassengerActive()
     {
         return isPassengerActive;
+    }
+
+    public static bool HasPlayerOwner()
+    {
+        return PlayerOwnerMonitor != null;
+    }
+
+    public bool IsPlayerOwner()
+    {
+        return PlayerOwnerMonitor == this;
     }
 
 }
