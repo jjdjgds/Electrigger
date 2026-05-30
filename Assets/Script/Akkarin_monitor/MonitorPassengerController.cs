@@ -26,6 +26,8 @@ public class MonitorPassengerController : MonoBehaviour
     private bool isPowerFreezeActive = false;
     private bool lastFrozenState = false;
 
+    private static bool isAnyMonitorDragFreezeActive = false;
+
     public static MonitorPassengerController ActivePassengerMonitor { get; private set; }
 
     public static MonitorPassengerController PlayerOwnerMonitor { get; private set; }
@@ -45,6 +47,7 @@ public class MonitorPassengerController : MonoBehaviour
             return;
 
         UpdatePowerFreeze();
+        UpdateFreezeState();
     }
 
     private void UpdatePowerFreeze()
@@ -84,7 +87,8 @@ public class MonitorPassengerController : MonoBehaviour
     {
         bool shouldFreeze =
             isPassengerFreezeActive
-            || isPowerFreezeActive;
+            || isPowerFreezeActive
+            || isAnyMonitorDragFreezeActive;
 
         if (shouldFreeze == lastFrozenState)
             return;
@@ -102,6 +106,11 @@ public class MonitorPassengerController : MonoBehaviour
                 sharedPlayerController.SetFrozen(false, true);
             }
         }
+    }
+
+    public static void SetAnyMonitorDragFreeze(bool shouldFreeze)
+    {
+        isAnyMonitorDragFreezeActive = shouldFreeze;
     }
 
     public static void RegisterPlayer(Transform playerTransform)

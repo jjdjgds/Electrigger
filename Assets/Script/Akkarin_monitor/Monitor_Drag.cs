@@ -95,6 +95,7 @@ public class Monitor_Drag : MonoBehaviour
             if (monitorCollider != null && monitorCollider.OverlapPoint(worldPos))
             {
                 isDragging = true;
+                MonitorPassengerController.SetAnyMonitorDragFreeze(true);
                 dragReady = false;
                 dragDelayTimer = 0f;
                 currentlyDragging = this;
@@ -127,6 +128,7 @@ public class Monitor_Drag : MonoBehaviour
         else if (Mouse.current.leftButton.wasReleasedThisFrame && isDragging)
         {
             isDragging = false;
+            MonitorPassengerController.SetAnyMonitorDragFreeze(false);
             currentlyDragging = null;
             RestorePlayerCollision();
 
