@@ -65,7 +65,7 @@ public class Monitor_Rotate : MonoBehaviour
 
         if (passengerStartedByRotate && Mouse.current != null && Mouse.current.leftButton.wasReleasedThisFrame)
         {
-            if (passengerController != null && passengerController.IsPassengerActive())
+            if (passengerController != null && passengerController.IsPassengerActive() && passengerController.IsPlayerOwner())
                 passengerController.EndPassenger();
 
             passengerStartedByRotate = false;
@@ -110,7 +110,7 @@ public class Monitor_Rotate : MonoBehaviour
         isRotatingAnyMonitor = true;
         isRotationInProgress = true;
 
-        bool ownsPlayer = passengerController != null && passengerController.IsPlayerInside();
+        bool ownsPlayer = passengerController != null && passengerController.IsPlayerOwner();
 
         if (ownsPlayer)
         {
@@ -175,7 +175,7 @@ public class Monitor_Rotate : MonoBehaviour
 
         bool ownsPlayer =
             passengerController != null &&
-            passengerController.IsPassengerActive();
+            passengerController.IsPlayerOwner();
 
         bool shouldIgnore = isRotationInProgress && !ownsPlayer;
 
