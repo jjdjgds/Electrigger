@@ -156,11 +156,14 @@ public class Monitor_Drag : MonoBehaviour
 
                         if (
                             sharedPlayer != null &&
-                            MonitorPassengerController.ActivePassengerMonitor == otherPassengerController
+                            otherPassengerController != null &&
+                            MonitorPassengerController.PlayerOwnerMonitor == otherPassengerController
                         )
                         {
                             Vector3 otherDelta = otherMonitor.transform.position - otherOldPos;
                             sharedPlayer.position += otherDelta;
+
+                            otherPassengerController.RefreshFreezeState();
                         }
 
                         otherMonitor.lastValidPosition = otherMonitor.transform.position;
@@ -333,6 +336,11 @@ public class Monitor_Drag : MonoBehaviour
         }
 
         playerShouldFollowDrag = false;
+
+        if(MonitorPassengerController.PlayerOwnerMonitor != null)
+        {
+            MonitorPassengerController.PlayerOwnerMonitor.RefreshFreezeState();
+        }
 
         Cursor.lockState = CursorLockMode.None;
     }
