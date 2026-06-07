@@ -873,6 +873,22 @@ PrefabInstance:
       propertyPath: blockTeleportLayer.m_Bits
       value: 2048
       objectReference: {fileID: 0}
+    - target: {fileID: 4803146584711389737, guid: b77e829e86db2f9409fa87fdf240b849, type: 3}
+      propertyPath: m_Size.x
+      value: 1.005427
+      objectReference: {fileID: 0}
+    - target: {fileID: 4803146584711389737, guid: b77e829e86db2f9409fa87fdf240b849, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0705733
+      objectReference: {fileID: 0}
+    - target: {fileID: 4803146584711389737, guid: b77e829e86db2f9409fa87fdf240b849, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.0027135015
+      objectReference: {fileID: 0}
+    - target: {fileID: 4803146584711389737, guid: b77e829e86db2f9409fa87fdf240b849, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.035286844
+      objectReference: {fileID: 0}
     - target: {fileID: 5238439155520460314, guid: b77e829e86db2f9409fa87fdf240b849, type: 3}
       propertyPath: m_Layer
       value: 11
@@ -1091,6 +1107,22 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 753922286207235935, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0227699
+      objectReference: {fileID: 0}
+    - target: {fileID: 753922286207235935, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
+      propertyPath: m_Size.y
+      value: 1.2292023
+      objectReference: {fileID: 0}
+    - target: {fileID: 753922286207235935, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.0011384487
+      objectReference: {fileID: 0}
+    - target: {fileID: 753922286207235935, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.10111904
+      objectReference: {fileID: 0}
     - target: {fileID: 1265758650816497915, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
       propertyPath: m_Layer
       value: 11
@@ -1138,6 +1170,22 @@ PrefabInstance:
     - target: {fileID: 6504493725091242615, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
       propertyPath: blockTeleportLayer.m_Bits
       value: 2048
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597180303374326757, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0307393
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597180303374326757, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0862255
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597180303374326757, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.0051232874
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597180303374326757, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.02395153
       objectReference: {fileID: 0}
     - target: {fileID: 7130258757787745921, guid: f9bce661373ee8b4bad3daeb76282575, type: 3}
       propertyPath: m_Name

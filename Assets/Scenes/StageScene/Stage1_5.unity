@@ -930,6 +930,14 @@ PrefabInstance:
       propertyPath: clearMenuManager
       value: 
       objectReference: {fileID: 70555873}
+    - target: {fileID: 2565706960772240074, guid: baad826ba466a974d8d196f4e77715a9, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0892848
+      objectReference: {fileID: 0}
+    - target: {fileID: 2565706960772240074, guid: baad826ba466a974d8d196f4e77715a9, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.04464239
+      objectReference: {fileID: 0}
     - target: {fileID: 5571991457299813349, guid: baad826ba466a974d8d196f4e77715a9, type: 3}
       propertyPath: m_Name
       value: Type_4
