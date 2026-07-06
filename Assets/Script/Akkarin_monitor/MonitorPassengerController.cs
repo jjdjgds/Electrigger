@@ -1,5 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
 using UnityEngine;
+
 
 /// <summary>
 /// モニター内のプレイヤー追従を管理する
@@ -14,23 +15,24 @@ public class MonitorPassengerController : MonoBehaviour
     private static Rigidbody2D sharedPlayerRb;
     private static Collider2D sharedPlayerCollider;
 
-    private Collider2D monitorCollider;
+    private static readonly List<MonitorPassengerController> instances = new();
 
-    private bool isPassengerActive;
+    private static bool isAnyMonitorDragFreezeActive = false;
+    private static bool lastSharedFrozenState = false;
+
+    private Collider2D monitorCollider;
+    private PowerNode powerNode;
+
+    private bool isPassengerActive = false;
+    private bool isPassengerFreezeActive = false;
+    private bool isPowerFreezeActive = false;
+    private bool ignoreInsideCheckWhileMoving = false;
+
     private Vector3 playerLocalPosition;
     private Quaternion playerWorldRotation;
 
-    private PowerNode powerNode;
-
-    private bool isPassengerFreezeActive = false;
-    private bool isPowerFreezeActive = false;
-    private bool lastFrozenState = false;
-
     public static MonitorPassengerController ActivePassengerMonitor { get; private set; }
-
     public static MonitorPassengerController PlayerOwnerMonitor { get; private set; }
-
-    private bool ignoreInsideCheckWhileMoving = false;
 
 
     private void Awake()
@@ -39,96 +41,77 @@ public class MonitorPassengerController : MonoBehaviour
         powerNode = GetComponent<PowerNode>();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (isPassengerActive)
-            return;
-
-        UpdatePowerFreeze();
+        if (!instances.Contains(this))
+            instances.Add(this);
     }
 
-    private void UpdatePowerFreeze()
+    private void OnDisable()
     {
-        if (ActivePassengerMonitor != null && ActivePassengerMonitor != this)
-            return;
+        instances.Remove(this);
 
-        if (powerNode == null || sharedPlayer == null)
-            return;
+        if (ActivePassengerMonitor == this)
+            ActivePassengerMonitor = null;
 
-        bool inside = IsPlayerInside();
-
-        if (inside)
-            PlayerOwnerMonitor = this;
-        else if (PlayerOwnerMonitor == this)
+        if (PlayerOwnerMonitor == this)
             PlayerOwnerMonitor = null;
+    }
 
-        if (PlayerOwnerMonitor != this)
-            return;
+    private void Update()
+    {
+        if (!isPassengerActive)
+        {
+            UpdateOwnerByInsideCheck();
+            UpdatePowerFreeze();
+        }
 
-        bool shouldFreeze = !powerNode.IsPowered();
-
-        if (shouldFreeze == isPowerFreezeActive)
-            return;
-
-        //    Debug.Log(
-        //$"[PowerFreeze] {gameObject.name} " +
-        //$"Powered:{isPowered} Inside:{IsPlayerInside()} " +
-        //$"Result:{shouldFreeze}"
-        //);
-
-        isPowerFreezeActive = shouldFreeze;
         UpdateFreezeState();
     }
 
-    private void UpdateFreezeState()
-    {
-        bool shouldFreeze =
-            isPassengerFreezeActive
-            || isPowerFreezeActive;
 
-        if (shouldFreeze == lastFrozenState)
-            return;
 
-        lastFrozenState = shouldFreeze;
-
-        if (sharedPlayerController != null)
-        {
-            if (shouldFreeze)
-            {
-                sharedPlayerController.SetFrozen(true);
-            }
-            else
-            {
-                sharedPlayerController.SetFrozen(false, true);
-            }
-        }
-    }
-
+    // 全モニターで共有するプレイヤー参照を登録する。
     public static void RegisterPlayer(Transform playerTransform)
     {
         sharedPlayer = playerTransform;
 
-        if (sharedPlayer != null)
-        {
-            sharedPlayerController =
-                sharedPlayer.GetComponent<Player2DController>();
+        sharedPlayerController = null;
+        sharedPlayerRb = null;
+        sharedPlayerCollider = null;
 
-            sharedPlayerRb =
-                sharedPlayer.GetComponent<Rigidbody2D>();
+        if (sharedPlayer == null)
+            return;
 
-            sharedPlayerCollider =
-                sharedPlayer.GetComponent<Collider2D>();
-        }
-    }
-
-    public void SetPlayer(Transform newPlayer)
-    {
-        sharedPlayer = newPlayer;
         sharedPlayerController = sharedPlayer.GetComponent<Player2DController>();
         sharedPlayerRb = sharedPlayer.GetComponent<Rigidbody2D>();
         sharedPlayerCollider = sharedPlayer.GetComponent<Collider2D>();
     }
 
+    // プレイヤー参照を更新する。
+    public void SetPlayer(Transform newPlayer)
+    {
+        RegisterPlayer(newPlayer);
+    }
+
+
+
+    public static bool HasPlayerOwner()
+    {
+        return PlayerOwnerMonitor != null;
+    }
+
+    public bool IsPlayerOwner()
+    {
+        return PlayerOwnerMonitor == this;
+    }
+
+    public bool IsPassengerActive()
+    {
+        return isPassengerActive;
+    }
+
+    // プレイヤーがこのモニター内にいるかを判定する。
     public bool IsPlayerInside()
     {
         if (sharedPlayer == null || monitorCollider == null)
@@ -143,13 +126,35 @@ public class MonitorPassengerController : MonoBehaviour
         return monitorCollider.OverlapPoint(sharedPlayer.position);
     }
 
-    // モニター追従開始
+    // 任意のモニターがドラッグ中かどうかを全体凍結状態に反映する
+    public static void SetAnyMonitorDragFreeze(bool shouldFreeze)
+    {
+        if (isAnyMonitorDragFreezeActive == shouldFreeze)
+            return;
+
+        isAnyMonitorDragFreezeActive = shouldFreeze;
+        RefreshAllFreezeStates();
+    }
+
+    // 所有判定・電源判定・凍結状態を即時更新する。
+    public void RefreshFreezeState()
+    {
+        UpdateOwnerByInsideCheck();
+        UpdatePowerFreeze();
+        UpdateFreezeState();
+    }
+
+
+
+    // モニター移動・回転中のプレイヤー追従を開始する。
     public void BeginPassenger(bool ignoreInsideCheck = true)
     {
         if (sharedPlayer == null || isPassengerActive)
             return;
 
         ActivePassengerMonitor = this;
+        PlayerOwnerMonitor = this;
+
         ignoreInsideCheckWhileMoving = ignoreInsideCheck;
 
         isPassengerActive = true;
@@ -160,15 +165,10 @@ public class MonitorPassengerController : MonoBehaviour
         isPassengerFreezeActive = true;
         UpdateFreezeState();
 
-        if (sharedPlayerRb != null)
-        {
-            sharedPlayerRb.linearVelocity = Vector2.zero;
-            sharedPlayerRb.angularVelocity = 0f;
-            sharedPlayerRb.interpolation = RigidbodyInterpolation2D.None;
-        }
+        StopPlayerPhysicsForPassenger();
     }
 
-    // モニター移動・回転中の追従更新
+    // モニター移動・回転中にプレイヤー位置を追従更新する。
     public void UpdatePassenger()
     {
         if (!isPassengerActive || sharedPlayer == null)
@@ -193,12 +193,7 @@ public class MonitorPassengerController : MonoBehaviour
         if (sharedPlayerRb != null)
         {
             sharedPlayerRb.rotation = playerWorldRotation.eulerAngles.z;
-        }
-
-        if (sharedPlayerRb != null)
-        {
-            sharedPlayerRb.linearVelocity = Vector2.zero;
-            sharedPlayerRb.angularVelocity = 0f;
+            ClearPlayerVelocity();
         }
     }
 
@@ -213,21 +208,11 @@ public class MonitorPassengerController : MonoBehaviour
         isPassengerActive = false;
         ignoreInsideCheckWhileMoving = false;
 
-        if (sharedPlayerRb != null)
-        {
-            sharedPlayerRb.linearVelocity = Vector2.zero;
-            sharedPlayerRb.angularVelocity = 0f;
-            sharedPlayerRb.interpolation = RigidbodyInterpolation2D.Interpolate;
-        }
-
+        RestorePlayerInterpolation();
         StartCoroutine(RestorePhysicsNextFrame());
-
-        if (!isPowerFreezeActive && ActivePassengerMonitor == this)
-        {
-            ActivePassengerMonitor = null;
-        }
     }
 
+    // 追従状態を即時解除する。
     public void CancelPassengerImmediate()
     {
         isPassengerActive = false;
@@ -236,51 +221,22 @@ public class MonitorPassengerController : MonoBehaviour
         if (ActivePassengerMonitor == this)
             ActivePassengerMonitor = null;
 
-        isPassengerFreezeActive = false;
-        UpdateFreezeState();
+        if (PlayerOwnerMonitor == this)
+            PlayerOwnerMonitor = null;
 
-        if (sharedPlayerRb != null)
-        {
-            sharedPlayerRb.linearVelocity = Vector2.zero;
-            sharedPlayerRb.angularVelocity = 0f;
-            sharedPlayerRb.interpolation = RigidbodyInterpolation2D.Interpolate;
-        }
+        isPassengerFreezeActive = false;
+        isPowerFreezeActive = false;
+
+        UpdateFreezeState();
+        RestorePlayerInterpolation();
     }
 
-    private System.Collections.IEnumerator RestorePhysicsNextFrame()
+
+
+    // 指定座標をモニター内に収める。
+    public Vector3 ClampWorldPositionInside(Vector3 worldPos)
     {
-        yield return null;
-
-        yield return new WaitForFixedUpdate();
-
-        if (sharedPlayerController != null)
-        {
-            isPassengerFreezeActive = false;
-
-            if (powerNode != null)
-            {
-                bool isPowered = powerNode.IsPowered();
-
-                if (!isPowered)
-                {
-                    isPowerFreezeActive = true;
-                }
-                else
-                {
-                    isPowerFreezeActive = IsPlayerInside() ? false : false;
-                }
-            }
-
-            UpdateFreezeState();
-
-            UpdateFreezeState();
-        }
-
-        if (sharedPlayerRb != null)
-        {
-            sharedPlayerRb.linearVelocity = Vector2.zero;
-            sharedPlayerRb.angularVelocity = 0f;
-        }
+        return ClampInsideMonitor(worldPos);
     }
 
     private Vector3 ClampInsideMonitor(Vector3 worldPos)
@@ -289,7 +245,16 @@ public class MonitorPassengerController : MonoBehaviour
             return worldPos;
 
         Bounds b = monitorCollider.bounds;
+        float padding = GetPlayerClampPadding();
 
+        worldPos.x = Mathf.Clamp(worldPos.x, b.min.x + padding, b.max.x - padding);
+        worldPos.y = Mathf.Clamp(worldPos.y, b.min.y + padding, b.max.y - padding);
+
+        return worldPos;
+    }
+
+    private float GetPlayerClampPadding()
+    {
         float padding = insidePadding;
 
         if (sharedPlayerCollider != null)
@@ -300,31 +265,160 @@ public class MonitorPassengerController : MonoBehaviour
             );
         }
 
-        worldPos.x = Mathf.Clamp(worldPos.x, b.min.x + padding, b.max.x - padding);
-        worldPos.y = Mathf.Clamp(worldPos.y, b.min.y + padding, b.max.y - padding);
-
-        return worldPos;
+        return padding;
     }
 
-    public Vector3 ClampWorldPositionInside(Vector3 worldPos)
+
+
+    // プレイヤーの現在位置から所有モニターを更新する。
+    private void UpdateOwnerByInsideCheck()
     {
-        return ClampInsideMonitor(worldPos);
+        if (sharedPlayer == null || monitorCollider == null)
+            return;
+
+        if (ActivePassengerMonitor != null && ActivePassengerMonitor != this)
+            return;
+
+        bool inside = IsPlayerInside();
+
+        if (inside)
+        {
+            PlayerOwnerMonitor = this;
+        }
+        else if (PlayerOwnerMonitor == this && !lastSharedFrozenState)
+        {
+            PlayerOwnerMonitor = null;
+        }
+
+        if (ActivePassengerMonitor == this)
+        {
+            ActivePassengerMonitor = null;
+        }
     }
 
-
-    public bool IsPassengerActive()
+    // 所有モニターの電源状態から凍結フラグを更新する。
+    private void UpdatePowerFreeze()
     {
-        return isPassengerActive;
+        if (PlayerOwnerMonitor != this || powerNode == null)
+        {
+            isPowerFreezeActive = false;
+            return;
+        }
+
+        isPowerFreezeActive = !powerNode.IsPowered();
+
+        //    Debug.Log(
+        //$"[PowerFreeze] {gameObject.name} " +
+        //$"Powered:{isPowered} Inside:{IsPlayerInside()} " +
+        //$"Result:{shouldFreeze}"
+        //);
     }
 
-    public static bool HasPlayerOwner()
+    // 全体状態からプレイヤーの最終凍結状態を適用する。
+    private void UpdateFreezeState()
     {
-        return PlayerOwnerMonitor != null;
+        bool shouldFreeze = ShouldFreezeSharedPlayer();
+
+        if (shouldFreeze == lastSharedFrozenState)
+            return;
+
+        lastSharedFrozenState = shouldFreeze;
+
+        if (sharedPlayerController == null)
+            return;
+
+        if (shouldFreeze)
+        {
+            sharedPlayerController.SetFrozen(true);
+        }
+        else
+        {
+            sharedPlayerController.SetFrozen(false, true);
+        }
     }
 
-    public bool IsPlayerOwner()
+    // プレイヤーを凍結すべきかを全体状態から判定する。
+    private static bool ShouldFreezeSharedPlayer()
     {
-        return PlayerOwnerMonitor == this;
+        if (isAnyMonitorDragFreezeActive)
+            return true;
+
+        if (
+            ActivePassengerMonitor != null &&
+            ActivePassengerMonitor.isPassengerFreezeActive
+        )
+        {
+            return true;
+        }
+
+        if (PlayerOwnerMonitor != null)
+        {
+            PowerNode ownerPowerNode = PlayerOwnerMonitor.powerNode;
+
+            if (ownerPowerNode != null && !ownerPowerNode.IsPowered())
+                return true;
+        }
+
+        return false;
     }
 
+    private static void RefreshAllFreezeStates()
+    {
+        foreach (var instance in instances)
+        {
+            if (instance != null)
+                instance.RefreshFreezeState();
+        }
+    }
+
+
+
+    // 追従開始時にプレイヤーの物理速度と補間を停止する。
+    private void StopPlayerPhysicsForPassenger()
+    {
+        if (sharedPlayerRb == null)
+            return;
+
+        ClearPlayerVelocity();
+        sharedPlayerRb.interpolation = RigidbodyInterpolation2D.None;
+    }
+
+    // 追従終了時にプレイヤーの物理補間を戻す。
+    private void RestorePlayerInterpolation()
+    {
+        if (sharedPlayerRb == null)
+            return;
+
+        ClearPlayerVelocity();
+        sharedPlayerRb.interpolation = RigidbodyInterpolation2D.Interpolate;
+    }
+
+    // プレイヤーの速度をゼロにする。
+    private static void ClearPlayerVelocity()
+    {
+        if (sharedPlayerRb == null)
+            return;
+
+        sharedPlayerRb.linearVelocity = Vector2.zero;
+        sharedPlayerRb.angularVelocity = 0f;
+    }
+
+    private System.Collections.IEnumerator RestorePhysicsNextFrame()
+    {
+        yield return null;
+        yield return new WaitForFixedUpdate();
+
+        isPassengerFreezeActive = false;
+
+        UpdateOwnerByInsideCheck();
+        UpdatePowerFreeze();
+        UpdateFreezeState();
+
+        ClearPlayerVelocity();
+
+        if (!isPowerFreezeActive && ActivePassengerMonitor == this)
+        {
+            ActivePassengerMonitor = null;
+        }
+    }
 }

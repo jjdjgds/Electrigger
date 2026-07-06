@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 
@@ -7,13 +8,13 @@ public class TilescriptObjEditor : Editor
     public override void OnInspectorGUI()
     {
         var data = (TilescriptObj)target;
-        // ÉTÉCÉYÇ™çáÇ¡ÇƒÇ»ÇØÇÍÇŒçÏÇËíºÇ∑
         int expectedSize = TilescriptObj.width * TilescriptObj.height;
         if (data.tiles == null || data.tiles.Length != expectedSize)
         {
             data.tiles = new bool[expectedSize];
             EditorUtility.SetDirty(data);
         }
+
         for (int y = 0; y < TilescriptObj.height; y++)
         {
             EditorGUILayout.BeginHorizontal();
@@ -31,3 +32,4 @@ public class TilescriptObjEditor : Editor
         if (GUI.changed) EditorUtility.SetDirty(data);
     }
 }
+#endif

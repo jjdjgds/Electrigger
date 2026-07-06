@@ -161,14 +161,22 @@ public class Player2DController : MonoBehaviour
 
         int jumpState = 0;
 
-        if (!isGrounded)
+        if (isGrounded)
         {
-            if (yVel > 0.1f)
-                jumpState = 1; // JumpStart
-            else if (Mathf.Abs(yVel) <= apexVelocityThreshold)
-                jumpState = 2; // JumpApex
-            else if (yVel < fallThreshold)
-                jumpState = 3; // Fall
+            jumpState = 0;
+            yVel = 0f;
+        }
+        else if (yVel > 0.1f)
+        {
+            jumpState = 1; // JumpStart
+        }
+        else if (Mathf.Abs(yVel) <= apexVelocityThreshold)
+        {
+            jumpState = 2; // JumpApex
+        }
+        else if (yVel < fallThreshold)
+        {
+            jumpState = 3; // Fall
         }
 
         animator.SetFloat("Speed", animSpeed);
@@ -265,6 +273,7 @@ public class Player2DController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpStartSpeed);
 
+            isGrounded = false;
             isJumping = true;
             isJumpHolding = true;
             jumpHoldTimer = 0f;
@@ -320,10 +329,6 @@ public class Player2DController : MonoBehaviour
             rb.gravityScale = normalGravityScale;
             isJumping = false;
             isJumpHolding = false;
-
-            if (animator != null)
-                animator.SetInteger("JumpState", 0);
-
             return;
         }
 
@@ -357,21 +362,55 @@ public class Player2DController : MonoBehaviour
 
         Bounds bounds = playerCollider.bounds;
 
-        Vector2 boxCenter = new Vector2(bounds.center.x, bounds.min.y);
-        Vector2 boxSize = new Vector2(bounds.size.x * 0.85f, 0.08f);
+        Vector2 boxCenter = new Vector2(
+            bounds.center.x,
+            bounds.min.y);
 
-        LayerMask checkLayer = groundLayer | oneWayPlatformLayer;
+        Vector2 boxSize = new Vector2(
+            bounds.size.x * 0.85f,
+            0.08f);
 
-        RaycastHit2D hit = Physics2D.BoxCast(
-            boxCenter,
-            boxSize,
-            0f,
-            Vector2.down,
-            0.05f,
-            checkLayer
-        );
+        RaycastHit2D groundHit = Physics2D.BoxCast(
+        boxCenter,
+        boxSize,
+        0f,
+        Vector2.down,
+        groundCheckDistance,
+        groundLayer
+    );
 
-        isGrounded = hit.collider != null;
+        if (groundHit.collider != null)
+        {
+            isGrounded = true;
+            return;
+        }
+
+        RaycastHit2D oneWayHit = Physics2D.BoxCast(
+        boxCenter,
+        boxSize,
+        0f,
+        Vector2.down,
+        groundCheckDistance,
+        oneWayPlatformLayer
+    );
+
+        isGrounded = IsValidOneWayGround(oneWayHit, bounds);
+    }
+
+    private bool IsValidOneWayGround(RaycastHit2D hit, Bounds playerBounds)
+    {
+        if (hit.collider == null)
+            return false;
+
+        // 上昇中は一方通行足場を接地扱いにしない
+        if (rb.linearVelocity.y > 0.05f)
+            return false;
+
+        float playerFootY = playerBounds.min.y;
+        float platformTopY = hit.collider.bounds.max.y;
+
+        // 足元が足場の上面付近にある場合のみ接地扱い
+        return playerFootY >= platformTopY - groundCheckDistance;
     }
 
     // 壁判定
@@ -530,6 +569,14 @@ public class Player2DController : MonoBehaviour
             rb.angularVelocity = 0f;
             rb.gravityScale = 0f;
             rb.simulated = false;
+
+            if (animator == null)
+                return;
+
+            animator.SetFloat("Speed", 0f);
+            animator.SetBool("IsGrounded", true);
+            animator.SetFloat("YVelocity", 0f);
+            animator.SetInteger("JumpState", 0);
         }
         else
         {
