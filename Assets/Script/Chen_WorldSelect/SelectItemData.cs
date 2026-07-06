@@ -1,11 +1,7 @@
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 
 [System.Serializable]
-/// <summary>
-/// •∑©`•Ûﬂxík•¢•§•∆•‡§Œ•«©`•ø•Ø•È•π
-/// </summary>
 public class SelectItemData
 {
     [Header("Basic")]
@@ -21,9 +17,6 @@ public class SelectItemData
     public int collectItemTotal;
 }
 
-/// <summary>
-/// •∑©`•Ûﬂw“∆··§À•π•∆©`•∏ﬂxík§Àë¯§Î§ø§·§Œ•«©`•øπ‹¿Ì•Ø•È•π
-/// </summary>
 public static class LevelSelectReturnData
 {
     public static int currentWorldIndex = 0;

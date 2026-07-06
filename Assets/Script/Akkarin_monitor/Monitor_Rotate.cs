@@ -4,25 +4,26 @@ using UnityEngine.InputSystem;
 public class Monitor_Rotate : MonoBehaviour
 {
     private Player2DController player;
+    private Collider2D playerCollider;
+    private Collider2D col;
+    private Collider2D[] allMonitorColliders;
+
     public float smoothSpeed = 5f;
     public float scrollCooldown = 0.15f;
 
     private float targetRotation;
     private float lastScroll;
     private bool canScroll = true;
-    public static bool isRotatingAnyMonitor = false;
 
-    private Collider2D col;
+    public static bool isRotatingAnyMonitor = false;
 
     private MonitorPassengerController passengerController;
     private bool passengerStartedByRotate = false;
 
-    private Collider2D[] allMonitorColliders;
-    private Collider2D playerCollider;
     private bool isIgnoringPlayerCollision = false;
     private bool isRotationInProgress = false;
 
-    void Awake()
+    private void Awake()
     {
         col = GetComponent<Collider2D>();
 
@@ -39,16 +40,16 @@ public class Monitor_Rotate : MonoBehaviour
         allMonitorColliders = GetComponentsInChildren<Collider2D>(true);
     }
 
-    void Update()
+    private void Update()
     {
-        if (!canScroll) return;
+        if (!canScroll)
+            return;
 
         if (isRotationInProgress)
-        {
             UpdateRotatePlayerCollisionState();
-        }
 
-        if (!IsRotateHeld()) return;
+        if (!IsRotateHeld())
+            return;
 
         float scroll = Mouse.current.scroll.ReadValue().y;
 
@@ -65,17 +66,29 @@ public class Monitor_Rotate : MonoBehaviour
 
         if (passengerStartedByRotate && Mouse.current != null && Mouse.current.leftButton.wasReleasedThisFrame)
         {
-            if (passengerController != null && passengerController.IsPassengerActive() && passengerController.IsPlayerOwner())
+            if (
+                passengerController != null &&
+                passengerController.IsPassengerActive() &&
+                passengerController.IsPlayerOwner()
+            )
+            {
                 passengerController.EndPassenger();
+            }
 
             passengerStartedByRotate = false;
         }
     }
 
-    bool IsRotateHeld()
+
+    // Returns true while the rotate input condition is being held.
+    // 左クリックを押したまま、このモニター上で回転入力可能な状態なら true を返します。
+    private bool IsRotateHeld()
     {
-        if (Mouse.current == null) return false;
-        if (!Mouse.current.leftButton.isPressed) return false;
+        if (Mouse.current == null)
+            return false;
+
+        if (!Mouse.current.leftButton.isPressed)
+            return false;
 
         Monitor_Drag myDrag = GetComponent<Monitor_Drag>();
         if (Monitor_Drag.IsDraggingAny() && !Monitor_Drag.IsDraggingThis(myDrag))
@@ -84,7 +97,10 @@ public class Monitor_Rotate : MonoBehaviour
         return IsMouseOver();
     }
 
-    bool IsMouseOver()
+
+    // Returns true if the mouse is currently over this monitor or one of its children.
+    // マウスがこのモニター、またはその子オブジェクト上にある場合 true を返します。
+    private bool IsMouseOver()
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Vector3 world = Camera.main.ScreenToWorldPoint(
@@ -93,7 +109,8 @@ public class Monitor_Rotate : MonoBehaviour
         world.z = transform.position.z;
 
         Collider2D[] hits = Physics2D.OverlapPointAll(world);
-        if (hits == null || hits.Length == 0) return false;
+        if (hits == null || hits.Length == 0)
+            return false;
 
         foreach (Collider2D hit in hits)
         {
@@ -104,7 +121,11 @@ public class Monitor_Rotate : MonoBehaviour
         return false;
     }
 
-    System.Collections.IEnumerator RotateStep(float amount)
+
+    // Rotates the monitor smoothly in 90-degree steps.
+    // プレイヤー追従や衝突無視状態を維持しながら、
+    // モニターを90度単位で滑らかに回転させます。
+    private System.Collections.IEnumerator RotateStep(float amount)
     {
         canScroll = false;
         isRotatingAnyMonitor = true;
@@ -118,7 +139,8 @@ public class Monitor_Rotate : MonoBehaviour
             passengerStartedByRotate = true;
         }
 
-        // IMPORTANT: ignore collision before any rotation happens
+        // Ignore collision before rotation starts.
+        // 回転開始前にプレイヤーとの衝突を無視します。
         UpdateRotatePlayerCollisionState();
 
         targetRotation += amount;
@@ -127,13 +149,11 @@ public class Monitor_Rotate : MonoBehaviour
         Quaternion end = Quaternion.Euler(0, 0, targetRotation);
 
         float t = 0f;
-
         while (t < 1f)
         {
             t += Time.deltaTime * smoothSpeed;
 
             UpdateRotatePlayerCollisionState();
-
             transform.rotation = Quaternion.Lerp(start, end, t);
 
             if (passengerController != null && passengerController.IsPassengerActive())
@@ -155,7 +175,7 @@ public class Monitor_Rotate : MonoBehaviour
         if (collision != null)
             collision.ForceRefreshWalls();
 
-        foreach (var plug in GetComponentsInChildren<plugCollision>())
+        foreach (plugCollision plug in GetComponentsInChildren<plugCollision>())
             plug.RecheckConnections();
 
         yield return new WaitForFixedUpdate();
@@ -168,15 +188,15 @@ public class Monitor_Rotate : MonoBehaviour
         canScroll = true;
     }
 
-    void UpdateRotatePlayerCollisionState()
+
+    // Updates collision ignore state during rotation.
+    // 回転中のプレイヤーとの衝突無視状態を更新します。
+    private void UpdateRotatePlayerCollisionState()
     {
         if (playerCollider == null)
             return;
 
-        bool ownsPlayer =
-            passengerController != null &&
-            passengerController.IsPlayerOwner();
-
+        bool ownsPlayer = passengerController != null && passengerController.IsPlayerOwner();
         bool shouldIgnore = isRotationInProgress && !ownsPlayer;
 
         if (shouldIgnore == isIgnoringPlayerCollision)
@@ -194,7 +214,10 @@ public class Monitor_Rotate : MonoBehaviour
         isIgnoringPlayerCollision = shouldIgnore;
     }
 
-    void RestorePlayerCollision()
+
+    // Restores collision between the monitor and the player.
+    // モニターとプレイヤーの衝突判定を元に戻します。
+    private void RestorePlayerCollision()
     {
         if (playerCollider == null)
             return;
@@ -211,7 +234,7 @@ public class Monitor_Rotate : MonoBehaviour
         isIgnoringPlayerCollision = false;
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         RestorePlayerCollision();
     }

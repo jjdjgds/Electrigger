@@ -215,7 +215,10 @@ PrefabInstance:
       value: Casoru
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2952929236855461262, guid: 5d2df3302c22d134ca8939874fe6d230, type: 3}
+    - {fileID: 2516522424435581183, guid: 5d2df3302c22d134ca8939874fe6d230, type: 3}
+    - {fileID: 748861797261697579, guid: 5d2df3302c22d134ca8939874fe6d230, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d2df3302c22d134ca8939874fe6d230, type: 3}
